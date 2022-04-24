@@ -1,0 +1,52 @@
+@NAME(userProfileFields)
+  up.id, up.first_name, up.last_name, up.email, up.web_role_id, up.insert_date_utc, up.last_login_date_utc
+
+@NAME(userFilters)
+  @WHERE
+    @AND(:id)
+      up.id IN (:id)
+    @AND(:excludedUserIds)
+      up.id NOT IN (:excludedUserIds)
+    @AND(:email)
+      up.email IN (:email)
+    @AND(:web_role_text_id)
+      wr.text_id IN (:web_role_text_id)
+    @AND(:searchEnabled = true)
+      @INCLUDE(search)
+
+@NAME(getUsers)
+  SELECT @INCLUDE(userProfileFields)
+  FROM
+    user_profile up
+    JOIN web_role wr ON up.web_role_id = wr.id
+  @INCLUDE(userFilters)
+  ORDER BY up.web_role_id DESC
+
+@NAME(insertUser)
+  INSERT INTO user_profile (`first_name`,`last_name`,`email`,`web_role_id`)
+  VALUES (:first_name, :last_name, :email, :web_role_id)
+
+@NAME(deleteUser)
+  DELETE FROM user_profile
+  WHERE
+    id = :id
+
+@NAME(updateUserProfile)
+  UPDATE user_profile 
+  SET
+    email = :email,
+    first_name = :first_name,
+    last_name = :last_name,
+    web_role_id = :web_role_id,
+  WHERE
+    id = :id
+
+@NAME(updateUserLastLoginToNow)
+  UPDATE user_profile 
+  SET
+    last_login_date_utc = :last_login_date_utc
+  WHERE
+    id = :id
+
+@NAME(search)
+  (@VALUE(:searchContent))

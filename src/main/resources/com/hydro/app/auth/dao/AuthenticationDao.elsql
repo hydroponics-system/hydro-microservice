@@ -1,0 +1,9 @@
+@NAME(getUserHashedPassword)
+  SELECT
+    uc.password
+  FROM
+    user_profile up
+      JOIN
+    user_credentials uc ON up.id = uc.user_id
+  WHERE
+    up.email = :email

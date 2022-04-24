@@ -1,0 +1,38 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.14'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-web-services'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'io.jsonwebtoken:jjwt:0.2'
+	implementation 'com.google.guava:guava:r05'
+	implementation 'org.aspectj:aspectjtools:1.9.7'
+	implementation 'mysql:mysql-connector-java:8.0.15'
+	implementation 'com.google.code.findbugs:jsr305:3.0.2'
+	implementation 'com.opengamma:elsql:1.2'
+	implementation 'com.sendgrid:sendgrid-java:4.0.1'
+	implementation 'org.apache.commons:commons-csv:1.5'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.junit.platform:junit-platform-launcher:1.5.2'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
