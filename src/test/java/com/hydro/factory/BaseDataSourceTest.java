@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import javax.annotation.PostConstruct;
 
-import com.hydro.factory.config.DataSourceTestConfig;
+import com.hydro.factory.config.DataSourceTestConfiguration;
 import com.hydro.factory.resolver.ActiveProfileTestResolver;
 
 import org.junit.jupiter.api.AfterAll;
@@ -25,7 +25,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  * @since April 25, 2022
  */
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = { DataSourceTestConfig.class })
+@SpringBootTest(classes = { DataSourceTestConfiguration.class })
 @ActiveProfiles(resolver = ActiveProfileTestResolver.class)
 public abstract class BaseDataSourceTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseDataSourceTest.class);
@@ -44,7 +44,6 @@ public abstract class BaseDataSourceTest {
     public static void cleanUp() {
         LOGGER.info("Dropping test schema...");
         dropSchema();
-
     }
 
     /**

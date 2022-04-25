@@ -1,4 +1,4 @@
-package com.hydro.factory.config;
+package com.hydro.factory.config.test;
 
 import org.springframework.context.annotation.ComponentScan;
 

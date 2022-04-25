@@ -28,9 +28,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-public class DataSourceTestConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceTestConfig.class);
+public class DataSourceTestConfiguration {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceTestConfiguration.class);
     private static final String PRODUCTION_TEST = "test";
+
+    @Autowired
+    Environment ENV;
 
     @Value("${spring.datasource.url}")
     private String dbUrl;
@@ -40,9 +43,6 @@ public class DataSourceTestConfig {
 
     @Value("${spring.datasource.password}")
     private String dbPassword;
-
-    @Autowired
-    Environment ENV;
 
     /**
      * Default datasource when running test. This will get called anywhere a
@@ -58,12 +58,19 @@ public class DataSourceTestConfig {
         dataSource.setUrl(dbUrl);
         dataSource.setUsername(getEnvironmentValue("MYSQL_TEST_USERNAME", dbUsername));
         dataSource.setPassword(getEnvironmentValue("MYSQL_TEST_PASSWORD", dbPassword));
-
-        DataSource testDataSource = generateTestSchema(dataSource);
-        return buildDbTables(testDataSource);
+        return buildDbTables(generateTestDatasource(dataSource));
     }
 
-    private DataSource generateTestSchema(DriverManagerDataSource source) {
+    /**
+     * This is used to generate a test datasource to used both on a local
+     * environment and production test environment based on the set active profile.
+     * It will create a unique test schema to insert the data into instead of using
+     * the production db.
+     * 
+     * @param source The active datasource to the database.
+     * @return {@link DataSource} test object.
+     */
+    private DataSource generateTestDatasource(DriverManagerDataSource source) {
         LOGGER.info("Generating test schema...");
         String testSchema = createSchema(source);
         source.setUrl(dbUrl.replace("?", String.format("/%s?", testSchema)));
@@ -71,6 +78,14 @@ public class DataSourceTestConfig {
         return source;
     }
 
+    /**
+     * Method that will create the test schema to be used. It will generate a random
+     * 10 digit number to append to the db schema name to keep it unique. Once the
+     * schema is created it will return the name to be set on the datasource.
+     * 
+     * @param source The source used to create the test database.
+     * @return {@link String} of the test schema name.
+     */
     private String createSchema(DataSource source) {
         String schemaName = String.format("hydro_db_test__%d",
                 (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L);
@@ -80,10 +95,18 @@ public class DataSourceTestConfig {
         return schemaName;
     }
 
+    /**
+     * Method that will take all the db scripts in the src/main/resources/db folder
+     * and apply them to the test schema. If the script can not be run it will move
+     * onto the next one without haulting the rest. Once the scripts are all ran, it
+     * will than return the active test resource that was used.
+     * 
+     * @param source The test {@link DataSource}.
+     * @return {@link DataSource} of the test environment being used.
+     */
     private DataSource buildDbTables(DataSource source) {
         NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(source);
-        File[] files = new File("./src/main/resources/db").listFiles();
-        for (File file : files) {
+        for (File file : new File("./src/main/resources/db").listFiles()) {
             try {
                 String content = Files.readString(file.toPath());
                 LOGGER.info("Executing SQL:\n{}", content);

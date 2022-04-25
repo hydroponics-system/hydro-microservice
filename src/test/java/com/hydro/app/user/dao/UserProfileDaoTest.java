@@ -6,7 +6,7 @@ import com.hydro.app.user.client.domain.User;
 import com.hydro.common.enums.WebRole;
 import com.hydro.factory.BaseDataSourceTest;
 import com.hydro.factory.annotations.HydroDaoTest;
-import com.hydro.factory.config.UserProfileDaoTestConfig;
+import com.hydro.factory.config.test.UserProfileDaoTestConfig;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
