@@ -23,7 +23,7 @@ CREATE TABLE user_profile (
   KEY user_profile_IDX1 (web_role_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-ALTER TABLE user_profile ADD CONSTRAINT web_role__user_profile__FK2 
+ALTER TABLE user_profile ADD CONSTRAINT web_role__user_profile__FK1 
 FOREIGN KEY (web_role_id) REFERENCES web_role (id) ON UPDATE CASCADE;
 
 -- ---------------------------------------------------------------------------------
