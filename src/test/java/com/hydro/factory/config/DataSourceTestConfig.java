@@ -39,6 +39,8 @@ public class DataSourceTestConfig {
         dataSource.setUsername(dbUsername);
         dataSource.setPassword(dbPassword);
 
+        LOGGER.info("Logging in with user '{}'", dbUsername);
+
         DataSource testDataSource = generateTestSchema(dataSource);
         return buildDbTables(testDataSource);
     }
