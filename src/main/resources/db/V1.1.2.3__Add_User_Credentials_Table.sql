@@ -18,6 +18,10 @@ CREATE TABLE user_credentials (
 
 ALTER TABLE user_credentials ADD CONSTRAINT user_profile__user_credentials__FK1 
 FOREIGN KEY (user_id) REFERENCES user_profile (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE user_profile ADD CONSTRAINT web_role__user_profile__FK1 
+FOREIGN KEY (web_role_id) REFERENCES web_role (id) ON UPDATE CASCADE;
+
 -- ---------------------------------------------------------------------------------
 -- HYDRO-3: END
 -- ---------------------------------------------------------------------------------
