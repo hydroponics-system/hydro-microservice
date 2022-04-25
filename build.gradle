@@ -6,7 +6,6 @@ plugins {
 }
 
 group = 'com.hydro'
-version = '1.1.5'
 sourceCompatibility = '11'
 
 repositories {
