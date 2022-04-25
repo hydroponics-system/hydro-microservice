@@ -66,8 +66,10 @@ public class DataSourceTestConfig {
         File[] files = new File("./src/main/resources/db").listFiles();
         for (File file : files) {
             try {
+                String content = Files.readString(file.toPath());
+                LOGGER.info("Executing SQL:\n{}", content);
                 NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(source);
-                template.update(Files.readString(file.toPath()), new MapSqlParameterSource());
+                template.update(content, new MapSqlParameterSource());
             } catch (Exception e) {
                 LOGGER.warn("Could not run Sql script '{}' {}", file.getName(), e);
             }
