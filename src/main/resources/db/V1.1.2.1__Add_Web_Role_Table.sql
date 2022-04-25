@@ -14,7 +14,12 @@ CREATE TABLE web_role (
   id                   int(10)      unsigned NOT NULL AUTO_INCREMENT,
   text_id              varchar(128)          DEFAULT NULL,
   PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+;
+
+INSERT INTO web_role (id, text_id)
+VALUES (1, 'USER'), (2, 'ADMIN');
+
 
 
 -- ---------------------------------------------------------------------------------

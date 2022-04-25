@@ -43,12 +43,9 @@ public class UserProfileDao extends BaseDao {
 	 * @throws Exception
 	 */
 	public List<User> getUsers(UserGetRequest request) throws Exception {
-		MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams()
-				.withParam(ID, request.getId())
-				.withParam(EMAIL, request.getEmail())
-				.withParam(FIRST_NAME, request.getFirstName())
-				.withParam(LAST_NAME, request.getLastName())
-				.withParam("excludedUserIds", request.getExcludedUserIds())
+		MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().withParam(ID, request.getId())
+				.withParam(EMAIL, request.getEmail()).withParam(FIRST_NAME, request.getFirstName())
+				.withParam(LAST_NAME, request.getLastName()).withParam("excludedUserIds", request.getExcludedUserIds())
 				.withParamTextEnumCollection(WEB_ROLE_TEXT_ID, request.getWebRole()).build();
 
 		return getPage(getSql("getUsers", params), params, USER_MAPPER);
@@ -81,12 +78,9 @@ public class UserProfileDao extends BaseDao {
 	 */
 	public User insertUser(User user) throws Exception {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		MapSqlParameterSource params = SqlParamBuilder.with().useAllParams()
-				.withParam(FIRST_NAME, user.getFirstName())
-				.withParam(LAST_NAME, user.getLastName())
-				.withParam(EMAIL, user.getEmail())
-				.withParam(WEB_ROLE_ID, user.getWebRole().getRank())
-				.build();
+		MapSqlParameterSource params = SqlParamBuilder.with().useAllParams().withParam(FIRST_NAME, user.getFirstName())
+				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
+				.withParam(WEB_ROLE_ID, user.getWebRole() != null ? user.getWebRole().getRank() : 1).build();
 
 		post(getSql("insertUser", params), params, keyHolder);
 		user.setId(keyHolder.getKey().intValue());
@@ -107,12 +101,9 @@ public class UserProfileDao extends BaseDao {
 		user.setPassword(null);
 		user = mapNonNullUserFields(user, userProfile);
 
-		MapSqlParameterSource params = SqlParamBuilder.with()
-				.withParam(FIRST_NAME, user.getFirstName())
-				.withParam(LAST_NAME, user.getLastName())
-				.withParam(EMAIL, user.getEmail())
-				.withParam(WEB_ROLE_ID, user.getWebRole().getRank())
-				.withParam(ID, userId).build();
+		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
+				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
+				.withParam(WEB_ROLE_ID, user.getWebRole().getRank()).withParam(ID, userId).build();
 
 		update(getSql("updateUserProfile", params), params);
 
