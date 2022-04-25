@@ -5,7 +5,6 @@ plugins {
 }
 
 group = 'com.hydro'
-version = '1.2.0'
 sourceCompatibility = '11'
 
 repositories {
@@ -35,19 +34,4 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
-}
-
-tasks.register("setVersion") {
-	doLast {
-		def ver = version
-		println("Current Project Version '$version'")
-
-		if(newVersion) {
-			println("Updating project version too: '$newVersion'")
-			String result = buildFile.getText().replaceFirst("version = '$version'","version = '$newVersion'")
-			buildFile.setText(result)
-		} else {
-			println("No version given. Rolling back too version '$version'")
-		}
-	}
 }
