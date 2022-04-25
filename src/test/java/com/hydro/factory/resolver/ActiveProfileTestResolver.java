@@ -2,6 +2,8 @@ package com.hydro.factory.resolver;
 
 import java.util.Map;
 
+import com.hydro.factory.globals.GlobalsTest;
+
 import org.springframework.test.context.ActiveProfilesResolver;
 
 /**
@@ -15,13 +17,6 @@ public class ActiveProfileTestResolver implements ActiveProfilesResolver {
     @Override
     public String[] resolve(Class<?> testClass) {
         Map<String, String> env = System.getenv();
-        String profile;
-        if (env.containsKey("TEST_ENV")) {
-            profile = "test";
-        } else {
-            profile = "test-local";
-        }
-        return new String[] { profile };
+        return new String[] { env.containsKey("TEST_ENV") ? GlobalsTest.PRODUCTION_TEST : GlobalsTest.LOCAL_TEST };
     }
-
 }
