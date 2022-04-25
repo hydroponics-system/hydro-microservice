@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.hydro.app.user.client.domain.User;
 import com.hydro.common.enums.WebRole;
 import com.hydro.factory.BaseDataSourceTest;
+import com.hydro.factory.annotations.HydroDaoTest;
 import com.hydro.factory.config.UserProfileDaoTestConfig;
 
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 @Sql("classpath:scripts/UserProfileDaoTest__data.sql")
 @Sql(scripts = { "classpath:scripts/UserProfileDaoTest__clean.sql" }, executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
 @ContextConfiguration(classes = UserProfileDaoTestConfig.class)
+@HydroDaoTest
 public class UserProfileDaoTest extends BaseDataSourceTest {
 
     @Autowired
