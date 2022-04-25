@@ -2,15 +2,19 @@ package com.hydro.factory.config;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -20,6 +24,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class DataSourceTestConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceTestConfig.class);
+    private static final String PRODUCTION_TEST = "test";
 
     @Value("${spring.datasource.url}")
     private String dbUrl;
@@ -30,16 +35,19 @@ public class DataSourceTestConfig {
     @Value("${spring.datasource.password}")
     private String dbPassword;
 
+    @Autowired
+    Environment ENV;
+
     @Bean
     @Profile(value = { "test", "test-local" })
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl(dbUrl);
-        dataSource.setUsername(dbUsername);
-        dataSource.setPassword(dbPassword);
+        dataSource.setUsername(getEnvironmentValue("MYSQL_USERNAME", dbUsername));
+        dataSource.setPassword(getEnvironmentValue("MYSQL_PASSWORD", dbPassword));
 
-        LOGGER.info("Logging in with user '{}'", dbUsername);
+        LOGGER.info("Logging in with user '{}'", dataSource.getUsername());
 
         DataSource testDataSource = generateTestSchema(dataSource);
         return buildDbTables(testDataSource);
@@ -75,6 +83,25 @@ public class DataSourceTestConfig {
             }
         }
         return source;
+    }
+
+    /**
+     * This will get the environment value for the given key. If there is no active
+     * profile it will return the default value passed in. If the key does not exist
+     * then it will return the default value.
+     * 
+     * @param key          The key to search for in the properties.
+     * @param defaultValue The default value to be returned if the key can't be
+     *                     found
+     * @return {@link String} of the value to use.
+     */
+    private String getEnvironmentValue(String key, String defaultValue) {
+        List<String> profiles = Arrays.asList(ENV.getActiveProfiles());
+        if (profiles.size() > 0 && profiles.contains(PRODUCTION_TEST)) {
+            return System.getenv().get(key);
+        } else {
+            return defaultValue;
+        }
     }
 
 }
