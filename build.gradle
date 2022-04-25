@@ -33,8 +33,6 @@ dependencies {
 	testImplementation 'org.junit.platform:junit-platform-launcher:1.5.2'
 }
 
-
 tasks.named('test') {
 	useJUnitPlatform()
 }
-sourceSets.test.resources.srcDir 'src/test/resources'
