@@ -22,11 +22,11 @@ import org.springframework.test.context.jdbc.Sql;
 public class AuthenticationDaoTest extends BaseDataSourceTest {
 
     @Autowired
-    private AuthenticationDao authDao;
+    private AuthenticationDao dao;
 
     @Test
     public void testGetUserAuthPasswordValidEmail() throws Exception {
-        String hashedPass = authDao.getUserAuthPassword("test@mail.com");
+        String hashedPass = dao.getUserAuthPassword("test@mail.com");
 
         assertNotNull(hashedPass, "Hashed Password not null");
         assertTrue(BCrypt.checkpw("testPassword", hashedPass), "Passwords should match");
@@ -35,7 +35,7 @@ public class AuthenticationDaoTest extends BaseDataSourceTest {
     @Test
     public void testGetUserAuthPasswordEmailNotFound() {
         UserNotFoundException e = assertThrows(UserNotFoundException.class,
-                () -> authDao.getUserAuthPassword("notFound@mail.com"));
+                () -> dao.getUserAuthPassword("notFound@mail.com"));
 
         assertEquals("User not found for email: 'notFound@mail.com'", e.getMessage(), "Message should match");
     }

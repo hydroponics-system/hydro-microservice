@@ -65,7 +65,7 @@ public class UserProfileDao extends BaseDao {
 			request.setId(Sets.newHashSet(id));
 			return getUsers(request).get(0);
 		} catch (Exception e) {
-			throw new UserNotFoundException(String.format("User not found for id: %d", id));
+			throw new UserNotFoundException(String.format("User not found for id: '%d'", id));
 		}
 	}
 
