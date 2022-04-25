@@ -20,9 +20,11 @@ CREATE TABLE user_profile (
   insert_date_utc          datetime              NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (id),
   UNIQUE KEY user_profile_AK1 (email),
-  KEY user_profile_IDX1 (web_role_id),
-  CONSTRAINT web_role__user_profile__FK2 FOREIGN KEY (web_role_id) REFERENCES web_role (id) ON UPDATE CASCADE
+  KEY user_profile_IDX1 (web_role_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE user_profile ADD CONSTRAINT web_role__user_profile__FK2 
+FOREIGN KEY (web_role_id) REFERENCES web_role (id) ON UPDATE CASCADE;
 
 -- ---------------------------------------------------------------------------------
 -- HYDRO-2: END
