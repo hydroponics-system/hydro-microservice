@@ -6,6 +6,7 @@ import com.hydro.common.abstracts.BaseDao;
 import com.hydro.common.exceptions.UserNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -23,17 +24,17 @@ public class AuthenticationDao extends BaseDao {
     }
 
     /**
-     * Get the hashed password and salt value associated to the user.
+     * Get the {@link BCrypt} hashed password for the given email.
      * 
      * @param email The email assocaited with the user.
-     * @return {@link long} of the 10 digit salt value.
+     * @return {@link String} of the hashed password.
      * @throws Exception If there is not user for the given email.
      */
     public String getUserAuthPassword(String email) throws Exception {
         try {
             return get(getSql("getUserHashedPassword"), parameterSource(EMAIL, email), String.class);
         } catch (Exception e) {
-            throw new UserNotFoundException(String.format("User not found for email: %s", email));
+            throw new UserNotFoundException(String.format("User not found for email: '%s'", email));
         }
     }
 }

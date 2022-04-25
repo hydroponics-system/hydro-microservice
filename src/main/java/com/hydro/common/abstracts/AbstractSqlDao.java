@@ -42,7 +42,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
      * 
      * @return {@link NamedParameterJdbcTemplate} object.
      */
-    public NamedParameterJdbcTemplate getTemplate() {
+    protected NamedParameterJdbcTemplate getTemplate() {
         return template;
     }
 
@@ -56,7 +56,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
      * @param mapper The mapper to return the data as.
      * @return Object of the returned data.
      */
-    public <T> T get(String sql, MapSqlParameterSource params, RowMapper<T> mapper) {
+    protected <T> T get(String sql, MapSqlParameterSource params, RowMapper<T> mapper) {
         return getTemplate().queryForObject(sql, params, mapper);
     }
 
@@ -71,7 +71,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
      * @param clazz  The class to map the data as.
      * @return Object of the returned data.
      */
-    public <T> T get(String sql, MapSqlParameterSource params, Class<T> clazz) {
+    protected <T> T get(String sql, MapSqlParameterSource params, Class<T> clazz) {
         return getTemplate().queryForObject(sql, params, clazz);
     }
 
@@ -85,7 +85,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
      * @param mapper The mapper to return the data as.
      * @return List of the returned data.
      */
-    public <T> List<T> getPage(String sql, MapSqlParameterSource params, RowMapper<T> mapper) {
+    protected <T> List<T> getPage(String sql, MapSqlParameterSource params, RowMapper<T> mapper) {
         return getTemplate().query(sql, params, mapper);
     }
 
@@ -97,7 +97,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
      * @param params    Params to be inserted into the query.
      * @param keyHolder used to get the auto increment id.
      */
-    public int post(String sql, MapSqlParameterSource params, KeyHolder keyHolder) {
+    protected int post(String sql, MapSqlParameterSource params, KeyHolder keyHolder) {
         return getTemplate().update(sql, params, keyHolder);
     }
 
@@ -107,7 +107,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
      * @param sql    The sql to run against the database.
      * @param params Params to be inserted into the query.
      */
-    public int post(String sql, MapSqlParameterSource params) {
+    protected int post(String sql, MapSqlParameterSource params) {
         return getTemplate().update(sql, params);
     }
 
@@ -117,7 +117,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
      * @param sql    The sql to run against the database.
      * @param params Params to be inserted into the query.
      */
-    public int delete(String sql, MapSqlParameterSource params) {
+    protected int delete(String sql, MapSqlParameterSource params) {
         return getTemplate().update(sql, params);
     }
 
@@ -127,7 +127,7 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
      * @param sql    The sql to run against the database.
      * @param params Params to be inserted into the query.
      */
-    public int update(String sql, MapSqlParameterSource params) {
+    protected int update(String sql, MapSqlParameterSource params) {
         return getTemplate().update(sql, params);
     }
 
