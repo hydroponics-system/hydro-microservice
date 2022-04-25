@@ -26,7 +26,7 @@ CREATE UNIQUE INDEX user_profile_AK1 ON user_profile(email);
 CREATE INDEX user_profile_IDX1 ON user_profile(web_role_id);
 
 ALTER TABLE user_profile ADD CONSTRAINT web_role__user_profile__FK1
-  FOREIGN KEY web_role_id REFERENCES web_role (id) 
+  FOREIGN KEY (web_role_id) REFERENCES web_role (id) 
     ON DELETE RESTRICT 
     ON UPDATE CASCADE;
 

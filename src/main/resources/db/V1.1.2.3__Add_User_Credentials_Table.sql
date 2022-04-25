@@ -17,7 +17,7 @@ CREATE TABLE user_credentials (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 ALTER TABLE user_credentials ADD CONSTRAINT user_profile__user_credentials__FK1 
-  FOREIGN KEY user_id REFERENCES user_profile (id) 
+  FOREIGN KEY (user_id) REFERENCES user_profile (id) 
     ON DELETE CASCADE 
     ON UPDATE CASCADE;
 
