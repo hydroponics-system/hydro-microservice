@@ -20,6 +20,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * Datasouce config for the test environment.
+ * 
+ * @author Sam Butler
+ * @since April 25, 2022
+ */
 @Configuration
 @EnableTransactionManagement
 public class DataSourceTestConfig {
@@ -38,6 +44,12 @@ public class DataSourceTestConfig {
     @Autowired
     Environment ENV;
 
+    /**
+     * Default datasource when running test. This will get called anywhere a
+     * {@link DataSource} is autowired into the class.
+     * 
+     * @return {@link DataSource} test object.
+     */
     @Bean
     @Profile(value = { "test", "test-local" })
     public DataSource dataSource() {
