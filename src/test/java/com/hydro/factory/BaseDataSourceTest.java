@@ -42,7 +42,7 @@ public abstract class BaseDataSourceTest {
     @AfterAll
     public static void cleanUp() {
         LOGGER.info("Dropping test schema...");
-        dropSchema();
+        // dropSchema();
 
     }
 
