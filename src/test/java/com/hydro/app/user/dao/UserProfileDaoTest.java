@@ -14,7 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 
 @ContextConfiguration(classes = UserProfileDaoTestConfig.class)
-@Sql({ "/scripts/user/userProfileDao/clean-up.sql", "/scripts/user/userProfileDao/init.sql", })
+@Sql("/scripts/user/userProfileDao/init.sql")
 @HydroDaoTest
 public class UserProfileDaoTest extends BaseDataSourceTest {
 
