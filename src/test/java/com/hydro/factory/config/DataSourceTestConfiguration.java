@@ -1,11 +1,15 @@
 package com.hydro.factory.config;
 
+import static com.hydro.common.util.CommonUtil.generateRandomNumber;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.sql.DataSource;
+
+import com.hydro.factory.globals.GlobalsTest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +34,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class DataSourceTestConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceTestConfiguration.class);
-    private static final String PRODUCTION_TEST = "test";
 
     @Autowired
     Environment ENV;
@@ -87,8 +90,7 @@ public class DataSourceTestConfiguration {
      * @return {@link String} of the test schema name.
      */
     private String createSchema(DataSource source) {
-        String schemaName = String.format("hydro_db_test__%d",
-                (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L);
+        String schemaName = String.format("hydro_db_test__%d", generateRandomNumber());
         NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(source);
         template.update(String.format("CREATE SCHEMA `%s`;", schemaName), new MapSqlParameterSource());
         LOGGER.info("Schema '{}' created successfully...", schemaName);
@@ -130,7 +132,7 @@ public class DataSourceTestConfiguration {
      */
     private String getEnvironmentValue(String key, String defaultValue) {
         List<String> profiles = Arrays.asList(ENV.getActiveProfiles());
-        if (profiles.size() > 0 && profiles.contains(PRODUCTION_TEST)) {
+        if (profiles.size() > 0 && profiles.contains(GlobalsTest.PRODUCTION_TEST)) {
             return System.getenv().get(key);
         } else {
             return defaultValue;

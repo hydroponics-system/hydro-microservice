@@ -12,11 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
-@Sql("classpath:scripts/UserProfileDaoTest__data.sql")
-@Sql(scripts = { "classpath:scripts/UserProfileDaoTest__clean.sql" }, executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
 @ContextConfiguration(classes = UserProfileDaoTestConfig.class)
+@Sql({ "/scripts/user/userProfileDao/clean-up.sql", "/scripts/user/userProfileDao/init.sql", })
 @HydroDaoTest
 public class UserProfileDaoTest extends BaseDataSourceTest {
 

@@ -51,4 +51,14 @@ public class CommonUtil {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         return dt.format(formatter);
     }
+
+    /**
+     * Method that will simply generate a random 10 digit number based on the local
+     * time.
+     * 
+     * @return {@link Long} of the random number.
+     */
+    public static long generateRandomNumber() {
+        return (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L;
+    }
 }
