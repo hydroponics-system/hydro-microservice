@@ -14,12 +14,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@ActiveProfiles("test")
 public class DataSourceTestConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceTestConfig.class);
 
@@ -33,7 +31,7 @@ public class DataSourceTestConfig {
     private String dbPassword;
 
     @Bean
-    @Profile("test")
+    @Profile(value = { "test", "test-local" })
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
@@ -63,12 +61,12 @@ public class DataSourceTestConfig {
     }
 
     private DataSource buildDbTables(DataSource source) {
+        NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(source);
         File[] files = new File("./src/main/resources/db").listFiles();
         for (File file : files) {
             try {
                 String content = Files.readString(file.toPath());
                 LOGGER.info("Executing SQL:\n{}", content);
-                NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(source);
                 template.update(content, new MapSqlParameterSource());
             } catch (Exception e) {
                 LOGGER.warn("Could not run Sql script '{}' {}", file.getName(), e);

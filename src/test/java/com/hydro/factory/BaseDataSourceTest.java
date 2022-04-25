@@ -5,6 +5,7 @@ import java.util.HashMap;
 import javax.annotation.PostConstruct;
 
 import com.hydro.factory.config.DataSourceTestConfig;
+import com.hydro.factory.resolver.ActiveProfileTestResolver;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +26,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = { DataSourceTestConfig.class })
-@ActiveProfiles("test")
+@ActiveProfiles(resolver = ActiveProfileTestResolver.class)
 public abstract class BaseDataSourceTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseDataSourceTest.class);
 
