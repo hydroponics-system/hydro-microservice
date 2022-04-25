@@ -1,11 +1,11 @@
 plugins {
 	id 'org.springframework.boot' version '2.2.6.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-	id 'nebula.release' version '15.0.0'
 	id 'java'
 }
 
 group = 'com.hydro'
+version = '1.2.0'
 sourceCompatibility = '11'
 
 repositories {
@@ -35,4 +35,19 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.register("setVersion") {
+	doLast {
+		def ver = version
+		println("Current Project Version '$version'")
+
+		if(newVersion) {
+			println("Updating project version too: '$newVersion'")
+			String result = buildFile.getText().replaceFirst("version = '$version'","version = '$newVersion'")
+			buildFile.setText(result)
+		} else {
+			println("No version given. Rolling back too version '$version'")
+		}
+	}
 }
