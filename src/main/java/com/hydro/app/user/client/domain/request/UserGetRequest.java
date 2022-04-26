@@ -10,26 +10,37 @@ import com.hydro.common.search.SearchField;
 import com.hydro.common.search.SearchFieldParams;
 import com.hydro.common.search.SearchParam;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * This class handles lookups passed to the DAO.
  *
  * @author Sam Butler
  * @since September 9, 2021
  */
+@ApiModel(description = "User get request object for filtering users.")
 public class UserGetRequest implements SearchParam, SearchFieldParams<UserProfileSearchFields> {
 
+    @ApiModelProperty(value = "List of user ids.")
     private Set<Integer> id;
 
+    @ApiModelProperty(value = "List of user first names.")
     private Set<String> firstName;
 
+    @ApiModelProperty(value = "List of user last names.")
     private Set<String> lastName;
 
+    @ApiModelProperty(value = "List of emails.")
     private Set<String> email;
 
+    @ApiModelProperty(value = "List of user web roles.", allowableValues = "USER,ADMIN")
     private Set<WebRole> webRole;
 
+    @ApiModelProperty(value = "List of user ids to exclude.")
     private Set<Integer> excludedUserIds;
 
+    @ApiModelProperty(value = "Search field to search for on the users. Defined in the UserProfileSearchFields class")
     private String search;
 
     public Set<Integer> getId() {

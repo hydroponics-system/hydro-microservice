@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("api/user-app/user-credentials")
+import io.swagger.annotations.Api;
+
+@RequestMapping("/api/user-app/user-credentials")
 @RestController
+@Api(tags = { "User Credentials Controller" }, description = "Endpoint for managing a users credentials.")
 public class UserCredentialsController {
 
     @Autowired

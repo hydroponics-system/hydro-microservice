@@ -4,6 +4,7 @@ import static com.hydro.jwt.config.JwtGlobals.VOID_ENDPOINTS;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -40,10 +41,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        List<HttpMethod> voidEndpointMethodList = VOID_ENDPOINTS.get(request.getRequestURI());
+        List<List<HttpMethod>> voidList = VOID_ENDPOINTS.entrySet().stream()
+                .filter(res -> request.getRequestURI().contains(res.getKey())).map(res -> res.getValue())
+                .collect(Collectors.toList());
         HttpMethod requestMethodType = HttpMethod.valueOf(request.getMethod());
 
-        return voidEndpointMethodList != null && voidEndpointMethodList.contains(requestMethodType);
+        return voidList.size() > 0 && (voidList.size() > 1 || voidList.get(0).contains(requestMethodType));
     }
 
 }

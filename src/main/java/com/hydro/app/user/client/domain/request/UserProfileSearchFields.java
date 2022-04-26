@@ -2,12 +2,15 @@ package com.hydro.app.user.client.domain.request;
 
 import com.hydro.common.search.SearchField;
 
+import io.swagger.annotations.ApiModel;
+
 /**
  * Defines search fields for a user.
  * 
  * @author Sam Butler
  * @since February 2, 2022
  */
+@ApiModel
 public enum UserProfileSearchFields implements SearchField {
     FIRST_NAME("up.first_name"), LAST_NAME("up.last_name");
 

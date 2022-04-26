@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import io.swagger.annotations.Api;
 
 /**
  * Generates a JWT after being passed a request
@@ -22,7 +25,9 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @author Sam Butler
  * @since August 1, 2021
  */
+@RequestMapping("/authenticate")
 @RestApiController
+@Api(tags = { "Authentication Controller" }, description = "Endpoints for authentication.")
 public class AuthenticationController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -37,7 +42,7 @@ public class AuthenticationController {
      * @return a new JWT.
      * @throws Exception - if authentication request does not match a user.
      */
-    @PostMapping(path = "/authenticate", produces = APPLICATION_JSON_VALUE)
+    @PostMapping(produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthToken> authenticateUser(@RequestBody AuthenticationRequest authenticationRequest)
             throws Exception {
         User user = authService.verifyUser(authenticationRequest.getEmail(), authenticationRequest.getPassword());

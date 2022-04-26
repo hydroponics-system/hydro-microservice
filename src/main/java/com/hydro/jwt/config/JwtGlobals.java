@@ -38,6 +38,12 @@ public class JwtGlobals {
             // POST -> Create User Endpoint
             put("/api/user-app/user-profile", List.of(HttpMethod.POST));
 
+            // ===================
+            // Swagger
+            // ===================
+            put("/swagger-ui", List.of(HttpMethod.GET));
+            put("/swagger-resources", List.of(HttpMethod.GET));
+            put("/v2/api-docs", List.of(HttpMethod.GET));
         }
     };
 }

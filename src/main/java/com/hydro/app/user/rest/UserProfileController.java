@@ -20,8 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("api/user-app/user-profile")
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+@RequestMapping("/api/user-app/user-profile")
 @RestController
+@Api(tags = { "User Profile Controller" }, description = "Endpoint for managing users.")
 public class UserProfileController {
 
 	@Autowired
@@ -37,6 +42,7 @@ public class UserProfileController {
 	 * @return list of user objects
 	 * @throws Exception
 	 */
+	@ApiOperation(value = "Get list of users", notes = "Given a UserGetRequest, a list of users will be returned that match the request")
 	@GetMapping(produces = APPLICATION_JSON_VALUE)
 	public List<User> getUsers(UserGetRequest request) throws Exception {
 		return userProfileService.getUsers(request);
@@ -61,7 +67,7 @@ public class UserProfileController {
 	 * @throws Exception
 	 */
 	@GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
-	public User getUserById(@PathVariable int id) throws Exception {
+	public User getUserById(@ApiParam(value = "Id of a user", required = true) @PathVariable int id) throws Exception {
 		return userProfileService.getUserById(id);
 	}
 
@@ -111,7 +117,9 @@ public class UserProfileController {
 	 * @throws Exception
 	 */
 	@PutMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
-	public User updateUserProfileById(@PathVariable int id, @RequestBody User user) throws Exception {
+	public User updateUserProfileById(
+			@ApiParam(value = "User Request to filter on.", required = true) @PathVariable int id,
+			@RequestBody User user) throws Exception {
 		return manageUserProfileService.updateUserProfileById(id, user);
 	}
 
@@ -123,7 +131,8 @@ public class UserProfileController {
 	 * @throws Exception
 	 */
 	@PutMapping(path = "/{id}/last-login", produces = APPLICATION_JSON_VALUE)
-	public User updateUserLastLoginToNow(@PathVariable int id) throws Exception {
+	public User updateUserLastLoginToNow(
+			@ApiParam(value = "User Request to filter on.", required = true) @PathVariable int id) throws Exception {
 		return manageUserProfileService.updateUserLastLoginToNow(id);
 	}
 
@@ -134,7 +143,8 @@ public class UserProfileController {
 	 * @throws Exception
 	 */
 	@DeleteMapping("/{id}")
-	public void deleteUser(@PathVariable int id) throws Exception {
+	public void deleteUser(@ApiParam(value = "User Request to filter on.", required = true) @PathVariable int id)
+			throws Exception {
 		manageUserProfileService.deleteUser(id);
 	}
 }

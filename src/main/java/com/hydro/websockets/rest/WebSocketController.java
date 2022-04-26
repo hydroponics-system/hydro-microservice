@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import io.swagger.annotations.Api;
+
 /**
  * WebSocketController for notifications
  * 
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @RestApiController
 @RequestMapping("/api/web-socket/notifications")
+@Api(tags = { "Websocket Controller" }, description = "Endpoints for websocket integration.")
 public class WebSocketController {
 
     @Autowired
