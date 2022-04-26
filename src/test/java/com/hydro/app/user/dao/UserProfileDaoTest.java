@@ -34,8 +34,8 @@ public class UserProfileDaoTest extends BaseDataSourceTest {
 
         assertEquals(3, user.size(), "User Size should be 3");
         assertEquals("Fake", user.get(0).getFirstName(), "User 1 first name");
-        assertEquals("Test", user.get(1).getFirstName(), "User 2 first name");
-        assertEquals("Bill", user.get(2).getFirstName(), "User 3 first name");
+        assertEquals("Bill", user.get(1).getFirstName(), "User 2 first name");
+        assertEquals("Test", user.get(2).getFirstName(), "User 3 first name");
     }
 
     @Test
