@@ -29,4 +29,4 @@ jobs:
           sudo systemctl enable mysql.service
           sudo systemctl start mysql.service
           sudo systemctl status mysql.service
-          mysql -e 'SELECT * FROM hydro_db.user_profile;' -uroot -p100698Sb!
+          mysql -e 'SELECT * FROM hydro_db.user_profile;'
