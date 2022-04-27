@@ -7,26 +7,16 @@ on:
     branches: [ master ]
 
 jobs:
-  cypress_testing:
+  deployment:
     runs-on: ubuntu-latest
-    
-    services:
-      mysql:
-          image: mysql:5.7
-          env:
-              MYSQL_DATABASE: hydro_db
-              MYSQL_USER: sambutler1017
-              MYSQL_PASSWORD: password
-              MYSQL_ROOT_PASSWORD: 100698Sb!
-          ports:
-              - 3306
-          options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
-
     steps:
-      - name: Create DB structure
-        run: |
-          sudo /lib/systemd/systemd-sysv-install enable mysql
-          sudo systemctl enable mysql.service
-          sudo systemctl start mysql.service
-          sudo systemctl status mysql.service
-          mysql -e 'SELECT * FROM hydro_db.user_profile;'
+    - name: Deploy Stage
+      id: myRequest
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: 'https://marcs-microservice.herokuapp.com/authenticate'
+        method: 'POST'
+        username: sambutler1017@icloud.com
+        password: 78e05bf74fad284798a195ec2ff3ae6D!
+    - name: Show Response
+      run: echo ${{ steps.myRequest.outputs.response }}
