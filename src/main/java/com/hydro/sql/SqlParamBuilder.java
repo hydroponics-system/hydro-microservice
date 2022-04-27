@@ -1,14 +1,9 @@
 package com.hydro.sql;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import com.hydro.common.enums.TextEnum;
-import com.hydro.common.search.CommonParam;
-import com.hydro.common.search.SearchField;
-import com.hydro.common.search.SearchFieldParams;
-import com.hydro.common.search.SearchParam;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
@@ -21,10 +16,8 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
  */
 public class SqlParamBuilder {
     private MapSqlParameterSource sqlParams;
-    private CommonParam commonParam;
 
-    private SqlParamBuilder(CommonParam commonParam, MapSqlParameterSource sqlParams) {
-        this.commonParam = commonParam;
+    private SqlParamBuilder(MapSqlParameterSource sqlParams) {
         if (sqlParams == null) {
             this.sqlParams = new MapSqlParameterSource();
         } else {
@@ -38,26 +31,7 @@ public class SqlParamBuilder {
      * @return {@link SqlParamBuilder} for an empty object.
      */
     public static SqlParamBuilder with() {
-        return new SqlParamBuilder(null, null);
-    }
-
-    /**
-     * Initialize the {@link SqlParamBuilder} with no starting params.
-     * 
-     * @return {@link SqlParamBuilder} for an empty object.
-     */
-    public static SqlParamBuilder with(CommonParam commonParam) {
-        return new SqlParamBuilder(commonParam, null);
-    }
-
-    /**
-     * Initialize the {@link SqlParamBuilder} with the given starting params.
-     * 
-     * @param params {@link MapSqlParameterSource} used for adding extra parameters.
-     * @return {@link SqlParamBuilder} with the starting parameters
-     */
-    public static SqlParamBuilder with(CommonParam commonParam, MapSqlParameterSource params) {
-        return new SqlParamBuilder(commonParam, params);
+        return new SqlParamBuilder(null);
     }
 
     /**
@@ -107,64 +81,6 @@ public class SqlParamBuilder {
     public SqlParamBuilder withParamTextEnumCollection(String name, Collection<? extends TextEnum> values) {
         return withParam(name,
                 values == null ? null : values.stream().map(TextEnum::getTextId).collect(Collectors.toList()));
-    }
-
-    /**
-     * Adds search capabilities to the query. If it has an instance of a
-     * {@link SearchParam} then it will enable search and add the search if the
-     * value exists.
-     * 
-     * @return {@link SqlParamBuilder} with the search ability.
-     */
-    public SqlParamBuilder useSearch() {
-        if (!(commonParam instanceof SearchParam)) {
-            return this;
-        }
-
-        SearchParam searchParam = (SearchParam) commonParam;
-
-        if (searchParam.getSearch() == null) {
-            return this;
-        }
-
-        this.sqlParams.addValue("searchEnabled", true);
-        this.sqlParams.addValue("searchValue", String.format("%%%s%%", searchParam.getSearch()));
-        return this;
-    }
-
-    /**
-     * These are what fields the query will search on. If search is enabled,
-     * {@link SearchField} has to be on the object.
-     * 
-     * @return {@link SqlParamBuilder} with the search fields.
-     */
-    public SqlParamBuilder useSearchField() {
-        if (!(commonParam instanceof SearchFieldParams)) {
-            return this;
-        }
-
-        SearchFieldParams<? extends SearchField> searchFieldParams = (SearchFieldParams<?>) commonParam;
-
-        String searchFieldSql = "";
-
-        List<SearchField> fieldList = searchFieldParams.getSearchFields();
-        for (int i = 0; i < fieldList.size(); i++) {
-            searchFieldSql += String.format("%s LIKE :searchValue", fieldList.get(i).getColumn());
-            searchFieldSql += i == fieldList.size() - 1 ? "" : " OR ";
-        }
-
-        this.sqlParams.addValue("searchContent", searchFieldSql.trim());
-        return this;
-    }
-
-    /**
-     * Will add all search field capabilities to the sql builder.
-     * 
-     * @return {@link SqlParamBuilder} object.
-     */
-    public SqlParamBuilder useAllParams() {
-        useSearch();
-        return useSearchField();
     }
 
     /**

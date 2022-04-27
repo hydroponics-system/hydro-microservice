@@ -42,8 +42,8 @@ public class UserProfileDao extends BaseDao {
 	 * @return User profile object {@link User}
 	 * @throws Exception
 	 */
-	public List<User> getUsers(UserGetRequest request) throws Exception {
-		MapSqlParameterSource params = SqlParamBuilder.with(request).useAllParams().withParam(ID, request.getId())
+	public List<User> getUsers(UserGetRequest request) {
+		MapSqlParameterSource params = SqlParamBuilder.with().withParam(ID, request.getId())
 				.withParam(EMAIL, request.getEmail()).withParam(FIRST_NAME, request.getFirstName())
 				.withParam(LAST_NAME, request.getLastName()).withParam("excludedUserIds", request.getExcludedUserIds())
 				.withParamTextEnumCollection(WEB_ROLE_TEXT_ID, request.getWebRole()).build();
@@ -76,9 +76,9 @@ public class UserProfileDao extends BaseDao {
 	 * @return {@link User} object of the users data.
 	 * @throws Exception
 	 */
-	public User insertUser(User user) throws Exception {
+	public User insertUser(User user) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		MapSqlParameterSource params = SqlParamBuilder.with().useAllParams().withParam(FIRST_NAME, user.getFirstName())
+		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
 				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
 				.withParam(WEB_ROLE_ID, user.getWebRole() != null ? user.getWebRole().getRank() : 1).build();
 
@@ -98,7 +98,6 @@ public class UserProfileDao extends BaseDao {
 	 */
 	public User updateUserProfile(int userId, User user) throws Exception {
 		User userProfile = getUserById(userId);
-		user.setPassword(null);
 		user = mapNonNullUserFields(user, userProfile);
 
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
@@ -132,7 +131,7 @@ public class UserProfileDao extends BaseDao {
 	 * 
 	 * @param id The id of the user being deleted
 	 */
-	public void deleteUser(int id) throws Exception {
+	public void deleteUser(int id) {
 		delete(getSql("deleteUser"), parameterSource(ID, id));
 	}
 

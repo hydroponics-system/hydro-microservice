@@ -11,8 +11,6 @@
       up.email IN (:email)
     @AND(:web_role_text_id)
       wr.text_id IN (:web_role_text_id)
-    @AND(:searchEnabled = true)
-      @INCLUDE(search)
 
 @NAME(getUsers)
   SELECT @INCLUDE(userProfileFields)
@@ -20,7 +18,7 @@
     user_profile up
     JOIN web_role wr ON up.web_role_id = wr.id
   @INCLUDE(userFilters)
-  ORDER BY up.id DESC, up.web_role_id DESC
+  ORDER BY up.id ASC
 
 @NAME(insertUser)
   INSERT INTO user_profile (`first_name`,`last_name`,`email`,`web_role_id`)
@@ -47,6 +45,3 @@
     last_login_date_utc = :last_login_date_utc
   WHERE
     id = :id
-
-@NAME(search)
-  (@VALUE(:searchContent))
