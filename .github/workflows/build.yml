@@ -33,6 +33,7 @@ jobs:
           TEST_ENV: ${{ secrets.TEST_ENV }}
           MYSQL_TEST_USERNAME: ${{ secrets.MYSQL_TEST_USERNAME }}
           MYSQL_TEST_PASSWORD: ${{ secrets.MYSQL_TEST_PASSWORD }}
+          MYSQL_TEST_URL: ${{ secrets.MYSQL_TEST_URL }}
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
         with:
           arguments: build

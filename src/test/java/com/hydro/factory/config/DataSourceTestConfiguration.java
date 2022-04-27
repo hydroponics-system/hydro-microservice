@@ -62,7 +62,7 @@ public class DataSourceTestConfiguration {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl(dbUrl);
+        dataSource.setUrl(getEnvironmentValue("MYSQL_TEST_URL", dbUrl));
         dataSource.setUsername(getEnvironmentValue("MYSQL_TEST_USERNAME", dbUsername));
         dataSource.setPassword(getEnvironmentValue("MYSQL_TEST_PASSWORD", dbPassword));
         activeDataSource = buildDbTables(generateTestDatasource(dataSource));
