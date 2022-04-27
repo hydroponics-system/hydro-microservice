@@ -24,11 +24,6 @@ jobs:
           options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
 
     steps:
-      - uses: actions/checkout@v2
-    
-      - name: Install dependencies
-        run: npm install --save-dev
-        
       - name: Create DB structure
         run: |
           sudo /lib/systemd/systemd-sysv-install enable mysql
