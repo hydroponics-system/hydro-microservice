@@ -1,0 +1,17 @@
+name: Sql Script Update
+
+on:
+  pull_request:
+    branches: [ master ]
+
+permissions:
+  contents: read
+ 
+ mysql: 
+    image: mariadb:10.3 
+    env:    
+      MYSQL_USER: sambutler1017
+      MYSQL_PASSWORD: password
+    ports:  
+    - 3306:3306 
+    options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
