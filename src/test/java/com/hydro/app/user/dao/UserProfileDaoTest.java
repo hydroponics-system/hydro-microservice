@@ -11,19 +11,18 @@ import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
 import com.hydro.common.enums.WebRole;
 import com.hydro.common.exceptions.UserNotFoundException;
-import com.hydro.factory.BaseDataSourceTest;
 import com.hydro.factory.annotations.HydroDaoTest;
-import com.hydro.factory.config.test.UserProfileDaoTestConfig;
+import com.hydro.factory.config.test.UserDaoTestConfig;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 
-@ContextConfiguration(classes = UserProfileDaoTestConfig.class)
+@ContextConfiguration(classes = UserDaoTestConfig.class)
 @Sql("/scripts/user/userProfileDao/init.sql")
 @HydroDaoTest
-public class UserProfileDaoTest extends BaseDataSourceTest {
+public class UserProfileDaoTest {
 
     @Autowired
     private UserProfileDao dao;

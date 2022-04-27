@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.hydro.common.exceptions.UserNotFoundException;
-import com.hydro.factory.BaseDataSourceTest;
 import com.hydro.factory.annotations.HydroDaoTest;
 import com.hydro.factory.config.test.AuthenticationDaoTestConfig;
 
@@ -19,7 +18,7 @@ import org.springframework.test.context.jdbc.Sql;
 @ContextConfiguration(classes = AuthenticationDaoTestConfig.class)
 @Sql("/scripts/auth/init.sql")
 @HydroDaoTest
-public class AuthenticationDaoTest extends BaseDataSourceTest {
+public class AuthenticationDaoTest {
 
     @Autowired
     private AuthenticationDao dao;

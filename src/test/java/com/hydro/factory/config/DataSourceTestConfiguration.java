@@ -5,8 +5,10 @@ import static com.hydro.common.util.CommonUtil.generateRandomNumber;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
 
 import com.hydro.factory.globals.GlobalsTest;
@@ -47,6 +49,8 @@ public class DataSourceTestConfiguration {
     @Value("${spring.datasource.password}")
     private String dbPassword;
 
+    private DriverManagerDataSource activeDataSource;
+
     /**
      * Default datasource when running test. This will get called anywhere a
      * {@link DataSource} is autowired into the class.
@@ -61,7 +65,17 @@ public class DataSourceTestConfiguration {
         dataSource.setUrl(dbUrl);
         dataSource.setUsername(getEnvironmentValue("MYSQL_TEST_USERNAME", dbUsername));
         dataSource.setPassword(getEnvironmentValue("MYSQL_TEST_PASSWORD", dbPassword));
-        return buildDbTables(generateTestDatasource(dataSource));
+        activeDataSource = buildDbTables(generateTestDatasource(dataSource));
+        return activeDataSource;
+    }
+
+    /**
+     * Method for cleaning up the database when the active bean is destroyed. This
+     * will drop the schema in the active config from the database.
+     */
+    @PreDestroy
+    public void destroy() {
+        dropSchema();
     }
 
     /**
@@ -73,7 +87,7 @@ public class DataSourceTestConfiguration {
      * @param source The active datasource to the database.
      * @return {@link DataSource} test object.
      */
-    private DataSource generateTestDatasource(DriverManagerDataSource source) {
+    private DriverManagerDataSource generateTestDatasource(DriverManagerDataSource source) {
         LOGGER.info("Generating test schema...");
         String testSchema = createSchema(source);
         source.setUrl(dbUrl.replace("?", String.format("/%s?", testSchema)));
@@ -98,6 +112,15 @@ public class DataSourceTestConfiguration {
     }
 
     /**
+     * This will drop the test schema that was created for the datasource.
+     */
+    private void dropSchema() {
+        NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(activeDataSource);
+        template.update(String.format("DROP SCHEMA IF EXISTS %s", activeDataSource.getSchema()), new HashMap<>());
+        LOGGER.info("Schema '{}' successfully dropped!", activeDataSource.getSchema());
+    }
+
+    /**
      * Method that will take all the db scripts in the src/main/resources/db folder
      * and apply them to the test schema. If the script can not be run it will move
      * onto the next one without haulting the rest. Once the scripts are all ran, it
@@ -106,7 +129,7 @@ public class DataSourceTestConfiguration {
      * @param source The test {@link DataSource}.
      * @return {@link DataSource} of the test environment being used.
      */
-    private DataSource buildDbTables(DataSource source) {
+    private DriverManagerDataSource buildDbTables(DriverManagerDataSource source) {
         NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(source);
         for (File file : new File("./src/main/resources/db").listFiles()) {
             try {
