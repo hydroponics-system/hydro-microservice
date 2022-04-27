@@ -16,7 +16,6 @@ jobs:
       with:
         url: 'https://marcs-microservice.herokuapp.com/authenticate'
         method: 'POST'
-        username: sambutler1017@icloud.com
-        password: 78e05bf74fad284798a195ec2ff3ae6D!
+        data: '{"email": "sambutler1017@icloud.com","password": "78e05bf74fad284798a195ec2ff3ae6D!"}'
     - name: Show Response
       run: echo ${{ steps.myRequest.outputs.response }}
