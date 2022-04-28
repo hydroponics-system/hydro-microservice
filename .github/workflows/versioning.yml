@@ -1,7 +1,7 @@
 name: Release Version
 on:
   workflow_run:
-    workflows: [Build]
+    workflows: [Build-Production]
     types: [completed]
     
 jobs:
