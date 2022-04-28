@@ -1,17 +1,28 @@
 # Hydroponics API
-The backend for the Digital Receipt Reader. This exposes endpoints to the mobile app in order to access and modify data in the database. This is a Senior Design project for a class at the University of Toledo Ridge Campus. The following memebers of the group are `Seth Hancock`, `Luke Lengel`, `Sam Butler`, and `Miah Hale`.
+- @JosueVanDyke add description
+   - Explain what hydroponics are
+   - The purpose of this repository
 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+- Explain what the goal of doing this project is
+- How to contribute
+- Guidlines to follow
+   - Standards, pull request, commit messages, etc.
+
+
+## Commit Message Guide:
+- Commit message should have a purpose and link to the ticket you are working on so blind commits aren't added to the repository.
+- An Example would be, say the ticket being worked on as an issue id of 1 that was adding a table to the database. The format would be as follows:
+   - `HYDRO-1: Added new table to hydro_db_dev table`
+- It should be prefixed with `HYDRO` (Project is hydroponics) followed by the issue number and then the message
 
 ### Built With
 
 * Java
 * Gradle
 * Spring Boot framework
-
-
 
 
 <!-- GETTING STARTED -->
@@ -69,7 +80,7 @@ To get a local copy up and running follow these simple steps.
     spring.datasource.password=<MYSQL_PASSWORD>
     ```
     - Note: These values are your own database information. You will need to have your own database for this. Either one that is local on your machine or hosted.
-    - For example:
+    - For example, for the datasource url:
        - `jdbc:mysql://<IP OR DOMAIN>/<SCHEMA>`
 4. Finally, everything is set up and you can run the following command to start a local instance of the project.
     ```sh
@@ -87,10 +98,8 @@ Samuel Butler - sambutler1017@icloud.com
 Project Link: [https://github.com/hydroponics-system/hydro-microservice](https://github.com/hydroponics-system/hydro-microservice)
 
 
-### Commit Messages:
-1. New Feature (Minor) -> `feat(<topic>): <message>`
-2. Fix (Patch)         -> `fix(<topic>): <message>`
-3. Documentation (Patch) -> `docs(<topic>): <message>`
-4. Refactoring (Patch) -> `refactor(<topic>): <message>`
-5. Test (Patch) -> `test(<topic>): <message>`
-6. Performance Change (Major)-> `perf(<topic>): <message>`
+<!-- ACKNOWLEDGEMENTS -->
+## Acknowledgements
+
+* Sam Butler
+* Josue Van Dyke
