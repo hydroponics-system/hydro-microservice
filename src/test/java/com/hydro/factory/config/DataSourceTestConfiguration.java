@@ -75,7 +75,9 @@ public class DataSourceTestConfiguration {
      */
     @PreDestroy
     public void destroy() {
-        dropSchema();
+        NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(activeDataSource);
+        template.update(String.format("DROP SCHEMA IF EXISTS %s", activeDataSource.getSchema()), new HashMap<>());
+        LOGGER.info("Schema '{}' successfully dropped!", activeDataSource.getSchema());
     }
 
     /**
@@ -109,15 +111,6 @@ public class DataSourceTestConfiguration {
         template.update(String.format("CREATE SCHEMA `%s`;", schemaName), new MapSqlParameterSource());
         LOGGER.info("Schema '{}' created successfully...", schemaName);
         return schemaName;
-    }
-
-    /**
-     * This will drop the test schema that was created for the datasource.
-     */
-    private void dropSchema() {
-        NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(activeDataSource);
-        template.update(String.format("DROP SCHEMA IF EXISTS %s", activeDataSource.getSchema()), new HashMap<>());
-        LOGGER.info("Schema '{}' successfully dropped!", activeDataSource.getSchema());
     }
 
     /**

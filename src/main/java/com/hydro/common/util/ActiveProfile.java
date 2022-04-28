@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ActiveProfile {
-    private static final String PROD_ENV_PATH = "/app/src/main";
+    private static final String HEROKU_ENV_PATH = "/app/src/main";
     private static final String LOCAL_ENV_PATH = "src/main";
     private static final String SEND_GRID_KEY = "SENDGRID_API_KEY";
 
@@ -57,7 +57,11 @@ public class ActiveProfile {
      * @return String of the application file name
      */
     public String getAppPropertiesName() {
-        return isLocalEnvironment() ? "application-local.properties" : "application-production.properties";
+        if (isLocalEnvironment()) {
+            return "application-local.properties";
+        } else {
+            return String.format("application-%s.properties", getEnvironment().toString().toLowerCase());
+        }
     }
 
     /**
@@ -66,10 +70,10 @@ public class ActiveProfile {
      * @return string of the environment url
      */
     public String getEnvironmentUrl() {
-        if (getEnvironment().equals(Environment.PRODUCTION)) {
-            return PROD_ENV_PATH;
-        } else {
+        if (getEnvironment().equals(Environment.LOCAL)) {
             return LOCAL_ENV_PATH;
+        } else {
+            return HEROKU_ENV_PATH;
         }
     }
 
@@ -93,15 +97,6 @@ public class ActiveProfile {
      */
     public boolean isLocalEnvironment() {
         return getEnvironment().equals(Environment.LOCAL);
-    }
-
-    /**
-     * Gets the URI path for the current environment
-     * 
-     * @return {@link String} of the environment uri.
-     */
-    public String getUriPath() {
-        return isLocalEnvironment() ? Environment.LOCAL.getUri() : Environment.PRODUCTION.getUri();
     }
 
     /**
