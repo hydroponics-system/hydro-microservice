@@ -7,11 +7,10 @@ import javax.annotation.Nonnull;
 /**
  * AuthenticationRequest for authenticating and updating user credentials.
  *
- * @author Seth Hancock
+ * @author Sam Butler
  * @since August 1, 2020
  */
 public class AuthenticationRequest implements Serializable {
-    private static final long serialVersionUID = 5926468583005169420L;
 
     @Nonnull
     private String email;
