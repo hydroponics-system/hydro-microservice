@@ -1,4 +1,4 @@
-package com.hydro.jwt.config;
+package com.hydro.jwt.security;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  * @since March 4, 2022
  */
 @Service
-public class JwtUserDetailsService implements UserDetailsService {
+public class SecurityUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) {

@@ -29,6 +29,7 @@ import io.swagger.annotations.Api;
 @RestApiController
 @Api(tags = { "Authentication Controller" }, description = "Endpoints for authentication.")
 public class AuthenticationController {
+
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
