@@ -7,8 +7,8 @@
 
 # Any SQL changes or elsql changes require a data dev approval
 *.sql               @hydroponics-system/data-dev
-*.elsql
+*.elsql             @hydroponics-system/data-dev
 
 # Require devops approval for any files dealing with the github actions or properties files.
 *.yml               @hydroponics-system/devops-dev
-*.properties
+*.properties        @hydroponics-system/devops-dev
