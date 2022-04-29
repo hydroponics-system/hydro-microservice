@@ -45,7 +45,7 @@ public class UserProfileDao extends BaseDao {
 	public List<User> getUsers(UserGetRequest request) {
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(ID, request.getId())
 				.withParam(EMAIL, request.getEmail()).withParam(FIRST_NAME, request.getFirstName())
-				.withParam(LAST_NAME, request.getLastName()).withParam("excludedUserIds", request.getExcludedUserIds())
+				.withParam(LAST_NAME, request.getLastName())
 				.withParamTextEnumCollection(WEB_ROLE_TEXT_ID, request.getWebRole()).build();
 
 		return getPage(getSql("getUsers", params), params, USER_MAPPER);

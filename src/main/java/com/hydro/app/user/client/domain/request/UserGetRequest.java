@@ -31,9 +31,6 @@ public class UserGetRequest {
     @ApiModelProperty(value = "List of user web roles.", allowableValues = "USER,ADMIN")
     private Set<WebRole> webRole;
 
-    @ApiModelProperty(value = "List of user ids to exclude.")
-    private Set<Integer> excludedUserIds;
-
     public Set<Integer> getId() {
         return id;
     }
@@ -72,13 +69,5 @@ public class UserGetRequest {
 
     public void setWebRole(Set<WebRole> webRole) {
         this.webRole = webRole;
-    }
-
-    public Set<Integer> getExcludedUserIds() {
-        return excludedUserIds;
-    }
-
-    public void setExcludedUserIds(Set<Integer> excludedUserIds) {
-        this.excludedUserIds = excludedUserIds;
     }
 }

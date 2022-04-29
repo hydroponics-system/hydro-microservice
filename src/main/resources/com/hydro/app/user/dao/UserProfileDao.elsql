@@ -5,8 +5,6 @@
   @WHERE
     @AND(:id)
       up.id IN (:id)
-    @AND(:excludedUserIds)
-      up.id NOT IN (:excludedUserIds)
     @AND(:email)
       up.email IN (:email)
     @AND(:web_role_text_id)
