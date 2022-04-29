@@ -14,6 +14,8 @@ jobs:
       - name: Create Tag and Release
         id: versionBump
         uses: hydroponics-system/version-release@v1.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish Release
         id: create_release
         uses: actions/create-release@v1
