@@ -10,6 +10,7 @@ import com.hydro.common.exceptions.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Authorization Service takes a user request and checks the values entered for
@@ -19,13 +20,14 @@ import org.springframework.stereotype.Service;
  * @author Sam Butler
  * @since August 2, 2021
  */
+@Transactional
 @Service
 public class AuthenticationService {
     @Autowired
-    private AuthenticationDao authDao;
+    private AuthenticationDao dao;
 
     @Autowired
-    private UserProfileClient userClient;
+    private UserProfileClient userProfileClient;
 
     /**
      * Verifies user credentials.
@@ -35,9 +37,9 @@ public class AuthenticationService {
      * @throws Exception Throw an exception if the credentials do not match.
      */
     public User verifyUser(String email, String password) throws Exception {
-        if (BCrypt.checkpw(password, authDao.getUserAuthPassword(email))) {
+        if (BCrypt.checkpw(password, dao.getUserAuthPassword(email))) {
             User authUser = getAuthenticatedUser(email);
-            return userClient.updateUserLastLoginToNow(authUser.getId());
+            return userProfileClient.updateUserLastLoginToNow(authUser.getId());
         } else {
             throw new InvalidCredentialsException("Invalid Credentials!");
         }
@@ -54,6 +56,6 @@ public class AuthenticationService {
     private User getAuthenticatedUser(String email) throws Exception {
         UserGetRequest request = new UserGetRequest();
         request.setEmail(Sets.newHashSet(email));
-        return userClient.getUsers(request).get(0);
+        return userProfileClient.getUsers(request).get(0);
     }
 }

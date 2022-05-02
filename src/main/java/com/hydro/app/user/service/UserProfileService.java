@@ -9,7 +9,7 @@ import com.hydro.app.user.dao.UserProfileDao;
 import com.hydro.jwt.utility.JwtHolder;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * User Service class that handles all service calls to the dao
@@ -17,14 +17,14 @@ import org.springframework.stereotype.Component;
  * @author Sam Butler
  * @since June 25, 2020
  */
-@Component
+@Service
 public class UserProfileService {
 
 	@Autowired
-	private UserProfileDao dao;
+	private JwtHolder jwtHolder;
 
 	@Autowired
-	private JwtHolder jwtHolder;
+	private UserProfileDao dao;
 
 	/**
 	 * Get users based on given request filter

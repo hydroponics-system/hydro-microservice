@@ -7,7 +7,8 @@ import com.hydro.common.exceptions.InsufficientPermissionsException;
 import com.hydro.jwt.utility.JwtHolder;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * User Service class that handles all service calls to the dao
@@ -15,12 +16,9 @@ import org.springframework.stereotype.Component;
  * @author Sam Butler
  * @since June 25, 2020
  */
-@Component
+@Transactional
+@Service
 public class ManageUserProfileService {
-
-	@Autowired
-	private UserProfileDao dao;
-
 	@Autowired
 	private JwtHolder jwtHolder;
 
@@ -28,7 +26,7 @@ public class ManageUserProfileService {
 	private UserCredentialsClient userCredentialsClient;
 
 	@Autowired
-	private UserProfileService userProfileService;
+	private UserProfileDao dao;
 
 	/**
 	 * Creates a new user for the given user object.
@@ -41,7 +39,7 @@ public class ManageUserProfileService {
 		User newUser = dao.insertUser(user);
 
 		userCredentialsClient.insertUserPassword(newUser.getId(), user.getPassword());
-		return userProfileService.getUserById(newUser.getId());
+		return dao.getUserById(newUser.getId());
 	}
 
 	/**
@@ -63,7 +61,7 @@ public class ManageUserProfileService {
 	 * @throws Exception
 	 */
 	public User updateUserProfileById(int id, User user) throws Exception {
-		User updatingUser = userProfileService.getUserById(id);
+		User updatingUser = dao.getUserById(id);
 		if (id != updatingUser.getId() && jwtHolder.getWebRole().getRank() <= updatingUser.getWebRole().getRank()) {
 			throw new InsufficientPermissionsException(
 					String.format("Your role of '%s' can not update a user of role '%s'", jwtHolder.getWebRole(),
@@ -91,7 +89,7 @@ public class ManageUserProfileService {
 	 * @throws Exception
 	 */
 	public void deleteUser(int id) throws Exception {
-		userProfileService.getUserById(id);
+		dao.getUserById(id);
 		dao.deleteUser(id);
 	}
 

@@ -13,7 +13,8 @@ import com.hydro.jwt.utility.JwtHolder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * User Service class that handles all service calls to the
@@ -22,11 +23,9 @@ import org.springframework.stereotype.Component;
  * @author Sam Butler
  * @since June 25, 2020
  */
-@Component
+@Transactional
+@Service
 public class UserCredentialsService {
-
-    @Autowired
-    private UserCredentialsDao dao;
 
     @Autowired
     private JwtHolder jwtHolder;
@@ -36,6 +35,9 @@ public class UserCredentialsService {
 
     @Autowired
     private UserProfileClient userProfileClient;
+
+    @Autowired
+    private UserCredentialsDao dao;
 
     /**
      * This will be called when new users are created so that they have default
