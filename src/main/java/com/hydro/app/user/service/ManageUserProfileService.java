@@ -89,7 +89,12 @@ public class ManageUserProfileService {
 	 * @throws Exception
 	 */
 	public void deleteUser(int id) throws Exception {
-		dao.getUserById(id);
+		User deletingUser = dao.getUserById(id);
+		if (id != deletingUser.getId() && jwtHolder.getWebRole().getRank() <= deletingUser.getWebRole().getRank()) {
+			throw new InsufficientPermissionsException(
+					String.format("Your role of '%s' can not delete a user of role '%s'", jwtHolder.getWebRole(),
+							deletingUser.getWebRole()));
+		}
 		dao.deleteUser(id);
 	}
 
