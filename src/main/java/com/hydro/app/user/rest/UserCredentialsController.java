@@ -2,9 +2,11 @@ package com.hydro.app.user.rest;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import com.hydro.annotations.interfaces.HasAccess;
 import com.hydro.app.user.client.domain.PasswordUpdate;
 import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.service.UserCredentialsService;
+import com.hydro.common.enums.WebRole;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,19 +24,6 @@ public class UserCredentialsController {
 
     @Autowired
     private UserCredentialsService service;
-
-    /**
-     * This will create a new row in the user_credentails database with the given
-     * auth password and the id of the user to assign it too. This method will only
-     * be called when creating a new user.
-     * 
-     * @param id       The id of the new user.
-     * @param authPass The password and salt that was created.
-     * @throws Exception If the password can not be stored.
-     */
-    public void insertUserPassword(@PathVariable int id, @RequestBody String pass) throws Exception {
-        service.insertUserPassword(id, pass);
-    }
 
     /**
      * This will take in a {@link PasswordUpdate} object that will confirm that the
@@ -61,6 +50,7 @@ public class UserCredentialsController {
      * @return {@link User} object of the user that was updated.
      */
     @PutMapping(path = "/password/{id}", produces = APPLICATION_JSON_VALUE)
+    @HasAccess(WebRole.ADMIN)
     public User updateUserPasswordById(@PathVariable int id, @RequestBody PasswordUpdate passUpdate) throws Exception {
         return service.updateUserPasswordById(id, passUpdate);
     }

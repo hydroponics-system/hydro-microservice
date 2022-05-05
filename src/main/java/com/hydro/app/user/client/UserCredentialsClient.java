@@ -3,7 +3,7 @@ package com.hydro.app.user.client;
 import com.hydro.annotations.interfaces.Client;
 import com.hydro.app.user.client.domain.PasswordUpdate;
 import com.hydro.app.user.client.domain.User;
-import com.hydro.app.user.rest.UserCredentialsController;
+import com.hydro.app.user.service.UserCredentialsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UserCredentialsClient {
 
     @Autowired
-    private UserCredentialsController controller;
+    private UserCredentialsService service;
 
     /**
      * This will create a new row in the user_credentails database with the given
@@ -30,7 +30,7 @@ public class UserCredentialsClient {
      * @throws Exception If the password can not be stored.
      */
     public void insertUserPassword(int id, String pass) throws Exception {
-        controller.insertUserPassword(id, pass);
+        service.insertUserPassword(id, pass);
     }
 
     /**
@@ -45,7 +45,7 @@ public class UserCredentialsClient {
      *                   the new password.
      */
     public User updateUserPassword(PasswordUpdate passUpdate) throws Exception {
-        return controller.updateUserPassword(passUpdate);
+        return service.updateUserPassword(passUpdate);
     }
 
     /**
@@ -57,7 +57,7 @@ public class UserCredentialsClient {
      * @return {@link User} object of the user that was updated.
      */
     public User updateUserPasswordById(int id, PasswordUpdate passUpdate) throws Exception {
-        return controller.updateUserPasswordById(id, passUpdate);
+        return service.updateUserPasswordById(id, passUpdate);
     }
 
     /**
@@ -71,6 +71,6 @@ public class UserCredentialsClient {
      *                   the new password.
      */
     public User resetUserPassword(PasswordUpdate passUpdate) throws Exception {
-        return controller.resetUserPassword(passUpdate);
+        return service.resetUserPassword(passUpdate.getNewPassword());
     }
 }

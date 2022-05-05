@@ -4,10 +4,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.util.List;
 
+import com.hydro.annotations.interfaces.HasAccess;
 import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
 import com.hydro.app.user.service.ManageUserProfileService;
 import com.hydro.app.user.service.UserProfileService;
+import com.hydro.common.enums.WebRole;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,6 +46,7 @@ public class UserProfileController {
 	 */
 	@ApiOperation(value = "Get list of users", notes = "Given a UserGetRequest, a list of users will be returned that match the request")
 	@GetMapping(produces = APPLICATION_JSON_VALUE)
+	@HasAccess(WebRole.ADMIN)
 	public List<User> getUsers(UserGetRequest request) throws Exception {
 		return userProfileService.getUsers(request);
 	}
@@ -67,6 +70,7 @@ public class UserProfileController {
 	 * @throws Exception
 	 */
 	@GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
+	@HasAccess(WebRole.ADMIN)
 	public User getUserById(@ApiParam(value = "Id of a user", required = true) @PathVariable int id) throws Exception {
 		return userProfileService.getUserById(id);
 	}
@@ -117,23 +121,11 @@ public class UserProfileController {
 	 * @throws Exception
 	 */
 	@PutMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
+	@HasAccess(WebRole.ADMIN)
 	public User updateUserProfileById(
 			@ApiParam(value = "User Request to filter on.", required = true) @PathVariable int id,
 			@RequestBody User user) throws Exception {
 		return manageUserProfileService.updateUserProfileById(id, user);
-	}
-
-	/**
-	 * Method that will update the user's last login time to current date and time;
-	 * 
-	 * @param userId The user Id to be updated.
-	 * @return The user object with the updated information.
-	 * @throws Exception
-	 */
-	@PutMapping(path = "/{id}/last-login", produces = APPLICATION_JSON_VALUE)
-	public User updateUserLastLoginToNow(
-			@ApiParam(value = "User Request to filter on.", required = true) @PathVariable int id) throws Exception {
-		return manageUserProfileService.updateUserLastLoginToNow(id);
 	}
 
 	/**
@@ -143,6 +135,7 @@ public class UserProfileController {
 	 * @throws Exception
 	 */
 	@DeleteMapping("/{id}")
+	@HasAccess(WebRole.ADMIN)
 	public void deleteUser(@ApiParam(value = "User Request to filter on.", required = true) @PathVariable int id)
 			throws Exception {
 		manageUserProfileService.deleteUser(id);

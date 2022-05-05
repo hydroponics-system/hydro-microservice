@@ -5,7 +5,8 @@ import java.util.List;
 import com.hydro.annotations.interfaces.Client;
 import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
-import com.hydro.app.user.rest.UserProfileController;
+import com.hydro.app.user.service.ManageUserProfileService;
+import com.hydro.app.user.service.UserProfileService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,7 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UserProfileClient {
 
 	@Autowired
-	private UserProfileController controller;
+	private UserProfileService userProfileService;
+
+	@Autowired
+	private ManageUserProfileService manageUserProfileService;
 
 	/**
 	 * Get users with no filters.
@@ -30,7 +34,7 @@ public class UserProfileClient {
 	 * @throws Exception
 	 */
 	public List<User> getUsers() throws Exception {
-		return controller.getUsers(new UserGetRequest());
+		return userProfileService.getUsers(new UserGetRequest());
 	}
 
 	/**
@@ -41,7 +45,7 @@ public class UserProfileClient {
 	 * @throws Exception
 	 */
 	public List<User> getUsers(UserGetRequest request) throws Exception {
-		return controller.getUsers(request);
+		return userProfileService.getUsers(request);
 	}
 
 	/**
@@ -51,7 +55,7 @@ public class UserProfileClient {
 	 * @throws Exception
 	 */
 	public User getCurrentUser() throws Exception {
-		return controller.getCurrentUser();
+		return userProfileService.getCurrentUser();
 	}
 
 	/**
@@ -62,7 +66,7 @@ public class UserProfileClient {
 	 * @throws Exception
 	 */
 	public User getUserById(int id) throws Exception {
-		return controller.getUserById(id);
+		return userProfileService.getUserById(id);
 	}
 
 	/**
@@ -73,7 +77,7 @@ public class UserProfileClient {
 	 * @throws Exception
 	 */
 	public User createUser(User user) throws Exception {
-		return controller.createUser(user);
+		return manageUserProfileService.createUser(user);
 	}
 
 	/**
@@ -85,7 +89,7 @@ public class UserProfileClient {
 	 * @throws Exception
 	 */
 	public User updateUserProfile(User user) throws Exception {
-		return controller.updateUserProfile(user);
+		return manageUserProfileService.updateUserProfile(user);
 	}
 
 	/**
@@ -96,7 +100,7 @@ public class UserProfileClient {
 	 * @throws Exception
 	 */
 	public User updateUserProfileById(int id, User user) throws Exception {
-		return controller.updateUserProfileById(id, user);
+		return manageUserProfileService.updateUserProfileById(id, user);
 	}
 
 	/**
@@ -107,7 +111,7 @@ public class UserProfileClient {
 	 * @throws Exception
 	 */
 	public User updateUserLastLoginToNow(int id) throws Exception {
-		return controller.updateUserLastLoginToNow(id);
+		return manageUserProfileService.updateUserLastLoginToNow(id);
 	}
 
 	/**
@@ -116,6 +120,6 @@ public class UserProfileClient {
 	 * @param id The id of the user being deleted
 	 */
 	public void deleteUser(int id) throws Exception {
-		controller.deleteUser(id);
+		manageUserProfileService.deleteUser(id);
 	}
 }

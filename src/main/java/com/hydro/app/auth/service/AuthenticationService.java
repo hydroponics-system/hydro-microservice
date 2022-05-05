@@ -1,11 +1,16 @@
 package com.hydro.app.auth.service;
 
+import java.util.Date;
+
 import com.google.common.collect.Sets;
+import com.hydro.app.auth.client.domain.AuthToken;
 import com.hydro.app.auth.dao.AuthenticationDao;
 import com.hydro.app.user.client.UserProfileClient;
 import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
 import com.hydro.common.exceptions.InvalidCredentialsException;
+import com.hydro.jwt.model.AuthenticationRequest;
+import com.hydro.jwt.utility.JwtTokenUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -27,7 +32,24 @@ public class AuthenticationService {
     private AuthenticationDao dao;
 
     @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
     private UserProfileClient userProfileClient;
+
+    /**
+     * Generates a JWT token from a request
+     *
+     * @param authenticationRequest A email and password request.
+     * @return a new JWT.
+     * @throws Exception - if authentication request does not match a user.
+     */
+    public AuthToken authenticate(AuthenticationRequest request) throws Exception {
+        User user = verifyUser(request.getEmail(), request.getPassword());
+
+        final String token = jwtTokenUtil.generateToken(user);
+        return new AuthToken(token, new Date(), jwtTokenUtil.getExpirationDateFromToken(token), user);
+    }
 
     /**
      * Verifies user credentials.
@@ -36,7 +58,7 @@ public class AuthenticationService {
      * @param password Password entered at login.
      * @throws Exception Throw an exception if the credentials do not match.
      */
-    public User verifyUser(String email, String password) throws Exception {
+    private User verifyUser(String email, String password) throws Exception {
         if (BCrypt.checkpw(password, dao.getUserAuthPassword(email))) {
             User authUser = getAuthenticatedUser(email);
             return userProfileClient.updateUserLastLoginToNow(authUser.getId());

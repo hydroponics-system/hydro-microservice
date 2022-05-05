@@ -64,7 +64,7 @@ public class UserCredentialsService {
      *                   not able to hash the new password.
      */
     public User updateUserPassword(PasswordUpdate passUpdate) throws Exception {
-        authClient.authenticateUser(jwtHolder.getRequiredEmail(), passUpdate.getCurrentPassword()).getBody();
+        authClient.authenticate(jwtHolder.getRequiredEmail(), passUpdate.getCurrentPassword());
         return passwordUpdate(jwtHolder.getRequiredUserId(), passUpdate.getNewPassword());
     }
 

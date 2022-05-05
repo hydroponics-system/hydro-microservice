@@ -2,11 +2,10 @@ package com.hydro.app.auth.client;
 
 import com.hydro.annotations.interfaces.Client;
 import com.hydro.app.auth.client.domain.AuthToken;
-import com.hydro.app.auth.rest.AuthenticationController;
+import com.hydro.app.auth.service.AuthenticationService;
 import com.hydro.jwt.model.AuthenticationRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 
 /**
  * Client method for authentication of a user.
@@ -18,16 +17,16 @@ import org.springframework.http.ResponseEntity;
 public class AuthenticationClient {
 
     @Autowired
-    private AuthenticationController controller;
+    private AuthenticationService service;
 
     /**
-     * Verifies user credentials passed as a JWTRequest
+     * Verifies user credentials passed as a JWT Request
      *
      * @param email    - Entered email at login.
      * @param password - Password entered at login.
      * @throws Exception
      */
-    public ResponseEntity<AuthToken> authenticateUser(String email, String password) throws Exception {
-        return controller.authenticateUser(new AuthenticationRequest(email, password));
+    public AuthToken authenticate(String email, String password) throws Exception {
+        return service.authenticate(new AuthenticationRequest(email, password));
     }
 }

@@ -2,14 +2,10 @@ package com.hydro.app.auth.rest;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import java.util.Date;
-
 import com.hydro.annotations.interfaces.RestApiController;
 import com.hydro.app.auth.client.domain.AuthToken;
 import com.hydro.app.auth.service.AuthenticationService;
-import com.hydro.app.user.client.domain.User;
 import com.hydro.jwt.model.AuthenticationRequest;
-import com.hydro.jwt.utility.JwtTokenUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +27,7 @@ import io.swagger.annotations.Api;
 public class AuthenticationController {
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    private AuthenticationService authService;
+    private AuthenticationService service;
 
     /**
      * Generates a JWT token from a request
@@ -46,11 +39,7 @@ public class AuthenticationController {
     @PostMapping(produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthToken> authenticateUser(@RequestBody AuthenticationRequest authenticationRequest)
             throws Exception {
-        User user = authService.verifyUser(authenticationRequest.getEmail(), authenticationRequest.getPassword());
-
-        final String token = jwtTokenUtil.generateToken(user);
-        return ResponseEntity
-                .ok(new AuthToken(token, new Date(), jwtTokenUtil.getExpirationDateFromToken(token), user));
+        return ResponseEntity.ok(service.authenticate(authenticationRequest));
 
     }
 }
