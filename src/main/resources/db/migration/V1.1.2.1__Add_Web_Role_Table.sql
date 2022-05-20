@@ -17,7 +17,7 @@ CREATE TABLE web_role (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO web_role (id, text_id)
-VALUES (1, 'USER'), (2, 'ADMIN');
+VALUES (1, 'USER'), (2, 'DEVELOPER'), (3, 'SYSTEM_ADMIN'),(4, 'ADMIN');
 
 -- ---------------------------------------------------------------------------------
 -- HYDRO-1: END

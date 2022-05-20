@@ -32,7 +32,7 @@ public class DBMigrationController {
      */
     @PostMapping("/{version}")
     @ResponseStatus(OK)
-    @HasAccess(WebRole.ADMIN)
+    @HasAccess(WebRole.SYSTEM_USER)
     public void migrateSqlScripts(@PathVariable String version) throws Exception {
         service.migrateSqlScripts(version);
     }
@@ -45,7 +45,7 @@ public class DBMigrationController {
      */
     @PostMapping("/{sqlVersion}/script")
     @ResponseStatus(OK)
-    @HasAccess(WebRole.ADMIN)
+    @HasAccess(WebRole.SYSTEM_USER)
     public void migrateSingleScript(@PathVariable String sqlVersion) throws Exception {
         service.migrateSingleScript(sqlVersion);
     }

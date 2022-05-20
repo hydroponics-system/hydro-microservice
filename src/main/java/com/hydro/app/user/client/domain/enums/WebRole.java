@@ -9,7 +9,7 @@ import com.hydro.common.enums.TextEnum;
  * @since September 6, 2021
  */
 public enum WebRole implements TextEnum {
-	USER(1, "USER"), ADMIN(2, "ADMIN");
+	USER(1, "USER"), DEVELOPER(2, "DEVELOPER"), SYSTEM_USER(3, "SYSTEM_USER"), ADMIN(4, "ADMIN");
 
 	private int rank;
 	private String textId;

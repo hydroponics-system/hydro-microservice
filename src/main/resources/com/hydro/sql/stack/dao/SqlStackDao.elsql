@@ -1,0 +1,32 @@
+@NAME(findDBUser)
+    SELECT 
+        User
+    FROM
+        mysql.user
+    WHERE
+        User = :user
+
+@NAME(findStack)
+    SHOW DATABASES LIKE :stackName
+
+@NAME(getStackTables)
+    SELECT 
+        table_name
+    FROM
+        information_schema.tables
+    WHERE
+        table_schema = :stackName
+    ORDER BY create_time
+
+@NAME(copyTableDataFromEnvironment)
+    INSERT INTO :destTable 
+    SELECT * FROM :envTable
+
+@NAME(dropStack)
+    DROP SCHEMA IF EXISTS :stack
+
+@NAME(createStack)
+    CREATE SCHEMA :stack
+
+@NAME(grantAccessToStack)
+    GRANT ALL PRIVILEGES ON :stackName.* TO ':username'@'%'
