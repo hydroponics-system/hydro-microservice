@@ -1,6 +1,7 @@
 package com.hydro.factory.config;
 
 import static com.hydro.common.util.CommonUtil.generateRandomNumber;
+import static com.hydro.factory.globals.GlobalsTest.DB_URL_PROPERTIES;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -64,7 +65,7 @@ public class DataSourceTestConfiguration {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl(getEnvironmentValue("MYSQL_TEST_URL", dbUrl));
+        dataSource.setUrl(getEnvironmentValue("MYSQL_TEST_URL", String.format("%s?%s", dbUrl, DB_URL_PROPERTIES)));
         dataSource.setUsername(getEnvironmentValue("MYSQL_TEST_USERNAME", dbUsername));
         dataSource.setPassword(getEnvironmentValue("MYSQL_TEST_PASSWORD", dbPassword));
         activeDataSource = buildDbTables(generateTestDatasource(dataSource));
@@ -107,7 +108,7 @@ public class DataSourceTestConfiguration {
     private DriverManagerDataSource generateTestDatasource(DriverManagerDataSource source) {
         LOGGER.info("Generating test schema...");
         String testSchema = createSchema(source);
-        source.setUrl(dbUrl.replace("?", String.format("/%s?", testSchema)));
+        source.setUrl(String.format("%s/%s?%s", dbUrl, testSchema, DB_URL_PROPERTIES));
         source.setSchema(testSchema);
         return source;
     }
