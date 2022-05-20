@@ -165,7 +165,7 @@ public class DataSourceTestConfiguration {
     private String getEnvironmentValue(String key, String defaultValue) {
         List<String> profiles = Arrays.asList(ENV.getActiveProfiles());
         if (profiles.size() > 0 && profiles.contains(GlobalsTest.PRODUCTION_TEST)) {
-            return System.getenv().get(key);
+            return String.format("%s?%s", System.getenv().get(key), DB_URL_PROPERTIES);
         } else {
             return defaultValue;
         }
