@@ -12,8 +12,8 @@ import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
 import com.hydro.common.abstracts.BaseDao;
 import com.hydro.common.exceptions.UserNotFoundException;
-import com.hydro.common.sql.SqlParamBuilder;
 import com.hydro.common.util.CommonUtil;
+import com.hydro.sql.SqlParamBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;

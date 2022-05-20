@@ -130,17 +130,17 @@ public class DataSourceTestConfiguration {
     }
 
     /**
-     * Method that will take all the db scripts in the src/main/resources/db folder
-     * and apply them to the test schema. If the script can not be run it will move
-     * onto the next one without haulting the rest. Once the scripts are all ran, it
-     * will than return the active test resource that was used.
+     * Method that will take all the db scripts in the db/migration folder and apply
+     * them to the test schema. If the script can not be run it will move onto the
+     * next one without haulting the rest. Once the scripts are all ran, it will
+     * than return the active test resource that was used.
      * 
      * @param source The test {@link DataSource}.
      * @return {@link DataSource} of the test environment being used.
      */
     private DriverManagerDataSource buildDbTables(DriverManagerDataSource source) {
         NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(source);
-        for (File file : new File("./src/main/resources/db").listFiles()) {
+        for (File file : new File("./src/main/resources/db/migration").listFiles()) {
             try {
                 String content = Files.readString(file.toPath());
                 LOGGER.info("Executing SQL:\n{}", content);

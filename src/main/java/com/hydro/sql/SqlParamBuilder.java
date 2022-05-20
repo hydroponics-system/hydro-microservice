@@ -1,4 +1,4 @@
-package com.hydro.common.sql;
+package com.hydro.sql;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
