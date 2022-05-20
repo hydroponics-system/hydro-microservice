@@ -2,7 +2,6 @@ package com.hydro.app.user.dao;
 
 import javax.sql.DataSource;
 
-import com.hydro.app.user.client.domain.User;
 import com.hydro.common.abstracts.BaseDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +18,6 @@ import org.springframework.stereotype.Repository;
 public class UserCredentialsDao extends BaseDao {
 
     @Autowired
-    private UserProfileDao userProfileDao;
-
-    @Autowired
     public UserCredentialsDao(DataSource source) {
         super(source);
     }
@@ -33,9 +29,8 @@ public class UserCredentialsDao extends BaseDao {
      * 
      * @param userId   The id to add the password for.
      * @param authPass Contains the hashed password and salt value.
-     * @throws Exception
      */
-    public void insertUserPassword(int userId, String hashedPass) throws Exception {
+    public void insertUserPassword(int userId, String hashedPass) {
         MapSqlParameterSource params = parameterSource(USER_ID, userId).addValue(PASSWORD, hashedPass);
         post(getSql("insertUserPassword", params), params);
     }
@@ -47,13 +42,9 @@ public class UserCredentialsDao extends BaseDao {
      * @param password The password to set on the user profile.
      * @param salt     The salt value that was appended to the password.
      * @return user associated to that id with the updated information
-     * @throws Exception
      */
-    public User updateUserPassword(int userId, String hashedPass) throws Exception {
-        User userProfile = userProfileDao.getUserById(userId);
-
-        MapSqlParameterSource params = parameterSource(PASSWORD, hashedPass).addValue(USER_ID, userProfile.getId());
+    public void updateUserPassword(int userId, String hashedPass) {
+        MapSqlParameterSource params = parameterSource(PASSWORD, hashedPass).addValue(USER_ID, userId);
         update(getSql("updateUserPassword", params), params);
-        return userProfile;
     }
 }

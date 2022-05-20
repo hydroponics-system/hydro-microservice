@@ -4,12 +4,12 @@ import java.util.Date;
 
 import com.google.common.collect.Sets;
 import com.hydro.app.auth.client.domain.AuthToken;
+import com.hydro.app.auth.client.domain.request.AuthenticationRequest;
 import com.hydro.app.auth.dao.AuthenticationDao;
 import com.hydro.app.user.client.UserProfileClient;
 import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
 import com.hydro.common.exceptions.InvalidCredentialsException;
-import com.hydro.jwt.model.AuthenticationRequest;
 import com.hydro.jwt.utility.JwtTokenUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;

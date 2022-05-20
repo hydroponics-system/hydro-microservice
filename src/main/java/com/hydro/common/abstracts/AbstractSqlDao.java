@@ -5,7 +5,6 @@ import java.util.List;
 import com.opengamma.elsql.ElSqlBundle;
 import com.opengamma.elsql.ElSqlConfig;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
  * @since July 31, 2021
  */
 @Service
-@Scope("prototype")
 public abstract class AbstractSqlDao extends AbstractSqlGlobals {
 
     private final NamedParameterJdbcTemplate template;

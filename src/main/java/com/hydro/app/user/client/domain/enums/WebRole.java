@@ -1,4 +1,6 @@
-package com.hydro.common.enums;
+package com.hydro.app.user.client.domain.enums;
+
+import com.hydro.common.enums.TextEnum;
 
 /**
  * Enums for all the possible user roles.

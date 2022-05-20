@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.hydro.common.enums.WebRole;
+import com.hydro.app.user.client.domain.enums.WebRole;
 
 /**
  * Annotation for checking if user has access to an endpoint.

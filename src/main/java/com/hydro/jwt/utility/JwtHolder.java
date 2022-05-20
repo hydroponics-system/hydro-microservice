@@ -2,8 +2,8 @@ package com.hydro.jwt.utility;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.hydro.common.enums.WebRole;
-import com.hydro.common.util.ActiveProfile;
+import com.hydro.ActiveProfile;
+import com.hydro.app.user.client.domain.enums.WebRole;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -4,8 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.hydro.app.user.client.domain.User;
+import com.hydro.app.user.client.domain.enums.WebRole;
 import com.hydro.common.abstracts.AbstractMapper;
-import com.hydro.common.enums.WebRole;
 
 /**
  * Mapper class to map a User Profile Object {@link User}

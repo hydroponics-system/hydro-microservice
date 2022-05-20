@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import com.hydro.ActiveProfile;
 import com.hydro.app.user.client.domain.User;
-import com.hydro.common.util.ActiveProfile;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

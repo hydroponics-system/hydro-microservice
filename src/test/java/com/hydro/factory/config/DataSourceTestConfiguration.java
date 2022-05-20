@@ -19,8 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -57,7 +59,7 @@ public class DataSourceTestConfiguration {
      * 
      * @return {@link DataSource} test object.
      */
-    @Bean
+    @Bean("dataSource")
     @Profile(value = { "test", "test-local" })
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -67,6 +69,19 @@ public class DataSourceTestConfiguration {
         dataSource.setPassword(getEnvironmentValue("MYSQL_TEST_PASSWORD", dbPassword));
         activeDataSource = buildDbTables(generateTestDatasource(dataSource));
         return activeDataSource;
+    }
+
+    /**
+     * Default jdbcTemplate when running test. This will get called anywhere a
+     * {@link JdbcTemplate} is autowired into the class.
+     * 
+     * @return {@link JdbcTemplate} test object.
+     */
+    @Bean("jdbcTemplate")
+    @DependsOn("dataSource")
+    @Profile(value = { "test", "test-local" })
+    public JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(activeDataSource);
     }
 
     /**

@@ -6,10 +6,10 @@ import java.util.List;
 
 import com.hydro.annotations.interfaces.HasAccess;
 import com.hydro.app.user.client.domain.User;
+import com.hydro.app.user.client.domain.enums.WebRole;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
 import com.hydro.app.user.service.ManageUserProfileService;
 import com.hydro.app.user.service.UserProfileService;
-import com.hydro.common.enums.WebRole;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;

@@ -1,4 +1,4 @@
-package com.hydro.jwt.model;
+package com.hydro.app.auth.client.domain.request;
 
 import java.io.Serializable;
 

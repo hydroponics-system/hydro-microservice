@@ -11,6 +11,8 @@ import com.hydro.common.exceptions.BaseException;
 import com.hydro.common.exceptions.InsufficientPermissionsException;
 import com.hydro.jwt.utility.JwtHolder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 public class UserCredentialsService {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(UserCredentialsService.class);
 
     @Autowired
     private JwtHolder jwtHolder;
@@ -116,10 +120,11 @@ public class UserCredentialsService {
     private User passwordUpdate(int userId, String password) throws Exception {
         try {
             if (password != null && password.trim() != "") {
-                return dao.updateUserPassword(userId, BCrypt.hashpw(password, BCrypt.gensalt()));
+                dao.updateUserPassword(userId, BCrypt.hashpw(password, BCrypt.gensalt()));
             } else {
-                return userProfileClient.getCurrentUser();
+                LOGGER.warn("User password not updated! Password value was either null or empty.");
             }
+            return userProfileClient.getCurrentUser();
         } catch (NoSuchAlgorithmException e) {
             throw new BaseException("Could not hash password!");
         }

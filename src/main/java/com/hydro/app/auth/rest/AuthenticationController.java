@@ -4,8 +4,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import com.hydro.annotations.interfaces.RestApiController;
 import com.hydro.app.auth.client.domain.AuthToken;
+import com.hydro.app.auth.client.domain.request.AuthenticationRequest;
 import com.hydro.app.auth.service.AuthenticationService;
-import com.hydro.jwt.model.AuthenticationRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

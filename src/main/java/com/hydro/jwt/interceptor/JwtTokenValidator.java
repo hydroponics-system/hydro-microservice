@@ -1,12 +1,12 @@
-package com.hydro.jwt.config;
+package com.hydro.jwt.interceptor;
 
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.hydro.ActiveProfile;
 import com.hydro.common.enums.Environment;
 import com.hydro.common.exceptions.BaseException;
-import com.hydro.common.util.ActiveProfile;
 import com.hydro.jwt.utility.JwtTokenUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;

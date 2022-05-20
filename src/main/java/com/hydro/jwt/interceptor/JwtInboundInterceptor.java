@@ -1,6 +1,6 @@
-package com.hydro.jwt.config;
+package com.hydro.jwt.interceptor;
 
-import static com.hydro.jwt.config.JwtGlobals.VOID_ENDPOINTS;
+import static com.hydro.jwt.interceptor.JwtGlobals.VOID_ENDPOINTS;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -27,7 +27,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * @since Aug 6, 2021
  */
 @Component
-public class JwtRequestFilter extends OncePerRequestFilter {
+public class JwtInboundInterceptor extends OncePerRequestFilter {
     @Autowired
     private JwtTokenValidator JWTValidator;
 

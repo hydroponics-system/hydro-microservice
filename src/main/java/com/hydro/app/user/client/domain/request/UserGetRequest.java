@@ -2,7 +2,7 @@ package com.hydro.app.user.client.domain.request;
 
 import java.util.Set;
 
-import com.hydro.common.enums.WebRole;
+import com.hydro.app.user.client.domain.enums.WebRole;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

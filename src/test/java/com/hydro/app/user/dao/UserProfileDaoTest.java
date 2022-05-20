@@ -8,14 +8,15 @@ import java.util.List;
 
 import com.google.common.collect.Sets;
 import com.hydro.app.user.client.domain.User;
+import com.hydro.app.user.client.domain.enums.WebRole;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
-import com.hydro.common.enums.WebRole;
 import com.hydro.common.exceptions.UserNotFoundException;
 import com.hydro.factory.annotations.HydroDaoTest;
 import com.hydro.factory.config.test.UserDaoTestConfig;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -73,7 +74,7 @@ public class UserProfileDaoTest {
     }
 
     @Test
-    public void testInsertUser() {
+    public void testInsertUser() throws InvalidDataAccessApiUsageException, Exception {
         List<User> beforeInsertList = dao.getUsers(new UserGetRequest());
 
         assertEquals(3, beforeInsertList.size(), "Size should be 3");

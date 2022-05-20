@@ -16,6 +16,7 @@ import com.hydro.common.util.CommonUtil;
 import com.hydro.sql.SqlParamBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -76,15 +77,14 @@ public class UserProfileDao extends BaseDao {
 	 * @return {@link User} object of the users data.
 	 * @throws Exception
 	 */
-	public User insertUser(User user) {
+	public User insertUser(User user) throws InvalidDataAccessApiUsageException, Exception {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
 				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
 				.withParam(WEB_ROLE_ID, user.getWebRole() != null ? user.getWebRole().getRank() : 1).build();
 
 		post(getSql("insertUser", params), params, keyHolder);
-		user.setId(keyHolder.getKey().intValue());
-		return user;
+		return getUserById(keyHolder.getKey().intValue());
 	}
 
 	/**

@@ -5,8 +5,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import com.hydro.annotations.interfaces.HasAccess;
 import com.hydro.app.user.client.domain.PasswordUpdate;
 import com.hydro.app.user.client.domain.User;
+import com.hydro.app.user.client.domain.enums.WebRole;
 import com.hydro.app.user.service.UserCredentialsService;
-import com.hydro.common.enums.WebRole;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

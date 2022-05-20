@@ -1,4 +1,4 @@
-package com.hydro.jwt.config;
+package com.hydro.jwt.interceptor;
 
 import java.util.HashMap;
 import java.util.List;
