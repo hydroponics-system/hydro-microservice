@@ -202,7 +202,7 @@ public class SqlStackService {
             String content = Files.readString(f.toPath());
             template.update(content, new MapSqlParameterSource());
         } catch (Exception e) {
-            LOGGER.warn("Error running SQL script '{}' {}", f.getName(), e);
+            LOGGER.warn("Error running SQL script '{}'", f.getName());
         }
     }
 

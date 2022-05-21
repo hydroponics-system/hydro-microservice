@@ -11,15 +11,13 @@
 -- ---------------------------------------------------------------------------------
 
 CREATE TABLE user_credentials (
-  user_id                      int(10)    unsigned NOT NULL,
-  password                     binary(60)          NOT NULL,
-  PRIMARY KEY (user_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-ALTER TABLE user_credentials ADD CONSTRAINT user_profile__user_credentials__FK1 
-  FOREIGN KEY (user_id) REFERENCES user_profile (id) 
-    ON DELETE CASCADE 
-    ON UPDATE CASCADE;
+    user_id                    INT(10) UNSIGNED NOT NULL,
+    password                   BINARY(60) NOT NULL,
+    PRIMARY KEY (user_id),
+    CONSTRAINT user_profile__user_credentials__FK1 FOREIGN KEY (user_id)
+        REFERENCES user_profile (id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 -- ---------------------------------------------------------------------------------
 -- HYDRO-3: END
