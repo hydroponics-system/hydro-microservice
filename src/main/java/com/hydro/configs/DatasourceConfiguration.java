@@ -3,10 +3,11 @@ package com.hydro.configs;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 /**
  * Application Configs for running the application.
@@ -36,12 +37,9 @@ public class DatasourceConfiguration {
      */
     @Bean
     @Profile(value = { "local", "development", "production" })
+    @ConfigurationProperties("spring.datasource")
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl(dbUrl + DB_URL_PROPERTIES);
-        dataSource.setUsername(dbUsername);
-        dataSource.setPassword(dbPassword);
-        return dataSource;
+        return DataSourceBuilder.create().driverClassName("com.mysql.cj.jdbc.Driver").url(dbUrl + DB_URL_PROPERTIES)
+                .username(dbUsername).password(dbPassword).build();
     }
 }
