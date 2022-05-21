@@ -21,7 +21,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import io.jsonwebtoken.lang.Assert;
 
@@ -31,7 +30,6 @@ import io.jsonwebtoken.lang.Assert;
  * @author Sam Butler
  * @since June 25, 2020
  */
-@Transactional
 @Service
 public class SqlStackService {
 
@@ -173,7 +171,7 @@ public class SqlStackService {
             try {
                 stackDao.copyTableDataFromEnvironment(table, stack.getStackType());
             } catch (Exception e) {
-                // Do Nothing
+                LOGGER.warn("Data for table '{}' could not be inserted.", table);
             }
         }
         LOGGER.info("Table Data insert complete!");
@@ -189,11 +187,6 @@ public class SqlStackService {
 
         for (File file : new File(SCRIPT_LOCATION).listFiles()) {
             executeScript(template, file);
-            try {
-                Thread.sleep(1000); // Allow database to process changes.
-            } catch (Exception e) {
-                // Issue with thread can't sleep
-            }
         }
         LOGGER.info("Table insert complete!");
     }
