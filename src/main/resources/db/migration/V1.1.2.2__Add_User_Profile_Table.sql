@@ -11,21 +11,22 @@
 -- ---------------------------------------------------------------------------------
 
 CREATE TABLE user_profile (
-    id                     INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-    first_name             VARCHAR(128) NOT NULL,
-    last_name              VARCHAR(128) NOT NULL DEFAULT '',
-    email                  VARCHAR(128) DEFAULT NULL,
-    web_role_id            INT(10) UNSIGNED NOT NULL DEFAULT 1,
-    last_login_date_utc    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP (),
-    insert_date_utc        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP (),
-    PRIMARY KEY (id),
-    UNIQUE KEY user_profile_AK1 (email),
-    KEY web_role__user_profile__FK1 (web_role_id),
-    CONSTRAINT web_role__user_profile__FK1 FOREIGN KEY (web_role_id)
-        REFERENCES web_role (id)
-        ON UPDATE CASCADE
-)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+  id                       int(10)      unsigned NOT NULL AUTO_INCREMENT,
+  first_name               varchar(128)          NOT NULL,
+  last_name                varchar(128)          NOT NULL DEFAULT '',
+  email                    varchar(128)                   DEFAULT  NULL,
+  web_role_id              int(10)      unsigned NOT NULL DEFAULT 1,
+  last_login_date_utc      datetime              NOT NULL DEFAULT current_timestamp(),
+  insert_date_utc          datetime              NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE UNIQUE INDEX user_profile_AK1 ON user_profile(email);
+
+ALTER TABLE user_profile ADD CONSTRAINT web_role__user_profile__FK1
+  FOREIGN KEY (web_role_id) REFERENCES web_role (id) 
+    ON DELETE RESTRICT 
+    ON UPDATE CASCADE;
 
 -- ---------------------------------------------------------------------------------
 -- HYDRO-2: END
