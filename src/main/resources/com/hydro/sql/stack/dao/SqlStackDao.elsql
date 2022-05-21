@@ -29,4 +29,42 @@
     CREATE SCHEMA :stack
 
 @NAME(grantAccessToStack)
-    GRANT ALL PRIVILEGES ON :stackName.* TO ':username'@'%'
+    GRANT 
+        SELECT,
+        INSERT,
+        UPDATE,
+        DELETE,
+        CREATE,
+        DROP,
+        REFERENCES,
+        INDEX,
+        ALTER,
+        EXECUTE,
+        CREATE VIEW,
+        SHOW VIEW,
+        CREATE ROUTINE,
+        ALTER ROUTINE,
+        EVENT,
+        TRIGGER ON `:stackName`.* TO ':username'@'%'
+
+@NAME(revokeAccessToStack)
+    REVOKE     
+        SELECT,
+        INSERT,
+        UPDATE,
+        DELETE,
+        CREATE,
+        DROP,
+        REFERENCES,
+        INDEX,
+        ALTER,
+        EXECUTE,
+        CREATE VIEW,
+        SHOW VIEW,
+        CREATE ROUTINE,
+        ALTER ROUTINE,
+        EVENT,
+        TRIGGER ON `:stackName`.* FROM ':username'@'%'
+
+@NAME(flushPrivileges)
+    FLUSH PRIVILEGES

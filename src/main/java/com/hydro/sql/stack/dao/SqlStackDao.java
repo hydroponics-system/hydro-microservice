@@ -98,12 +98,31 @@ public class SqlStackDao extends BaseDao {
     /**
      * Grants access to the given username on the specified stack.
      * 
-     * @param username
-     * @param stackName
+     * @param username  The user to grant access for.
+     * @param stackName The stack to grant access too.
      */
     public void grantUserAccessToStack(String username, String stackName) {
-        String query = getSql("grantAccessToStack").replace(":stackName", stackName);
+        String query = getSql("grantAccessToStack").replace(":stackName", stackName.replace("_", "\\_"));
         query = query.replace(":username", username);
         getTemplate().update(query, new MapSqlParameterSource());
+    }
+
+    /**
+     * Revokes access to the given username on the specified stack.
+     * 
+     * @param username  The user to revoke access for.
+     * @param stackName The stack to revoke access too.
+     */
+    public void revokeUserAccessToStack(String username, String stackName) {
+        String query = getSql("revokeAccessToStack").replace(":stackName", stackName.replace("_", "\\_"));
+        query = query.replace(":username", username);
+        getTemplate().update(query, new MapSqlParameterSource());
+    }
+
+    /**
+     * Flushes the user privileges for the stack
+     */
+    public void flushPrivileges() {
+        getTemplate().update(getSql("flushPrivileges"), new MapSqlParameterSource());
     }
 }

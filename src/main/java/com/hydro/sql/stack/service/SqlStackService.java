@@ -59,7 +59,7 @@ public class SqlStackService {
      * 
      * @param dbUsername The db user name.
      */
-    public DatabaseStack createStack(String dbUsername) throws Exception {
+    public DatabaseStack createStack(String dbUsername) {
         Assert.notNull(dbUsername, "Username can not be null");
         DatabaseStack updatedStackInfo = new DatabaseStack();
 
@@ -83,12 +83,27 @@ public class SqlStackService {
     }
 
     /**
-     * Method for creating a stack for the given database user.
+     * Method for dropping a stack.
+     * 
+     * @param stackName The stack name to drop.
+     */
+    public void dropStack(String stackName) {
+        Assert.notNull(stackName, "Stack name can not be null");
+
+        if (!dao.doesStackExist(stackName))
+            throw new BaseException(String.format("The stack '%s' does not exist!", stackName));
+        LOGGER.info("Dropping Stack '{}'...", stackName);
+        dao.dropStack(stackName);
+        LOGGER.info("Stack '{}' successfully dropped!", stackName);
+    }
+
+    /**
+     * Method for granting access for a user to a stack.
      * 
      * @param stackName  The name of the stack to grant access too.
      * @param dbUsername The db user name.
      */
-    public void grantAccessToUserOnStack(String stackName, String dbUsername) throws Exception {
+    public void grantAccessToUserOnStack(String stackName, String dbUsername) {
         Assert.notNull(dbUsername, "Username can not be null");
         Assert.notNull(stackName, "Stack name can not be null");
 
@@ -98,8 +113,31 @@ public class SqlStackService {
         if (!dao.doesDBUserExist(dbUsername))
             throw new BaseException(String.format("Database User '%s' does not exist!", dbUsername));
 
-        LOGGER.info("Granting user '{}' to stack '{}'", dbUsername, stackName);
+        LOGGER.info("Granting access for user '{}' to stack '{}'", dbUsername, stackName);
         dao.grantUserAccessToStack(dbUsername, stackName);
+        dao.flushPrivileges();
+    }
+
+    /**
+     * Method that will take in a stack name and database user that needs to be
+     * revoked.
+     * 
+     * @param stackName  The name of the stack to revoke access too.
+     * @param dbUsername The db user name.
+     */
+    public void revokeAccessToUserOnStack(String stackName, String dbUsername) {
+        Assert.notNull(dbUsername, "Username can not be null");
+        Assert.notNull(stackName, "Stack name can not be null");
+
+        if (!dao.doesStackExist(stackName))
+            throw new BaseException(String.format("The stack '%s' does not exist!", stackName));
+
+        if (!dao.doesDBUserExist(dbUsername))
+            throw new BaseException(String.format("Database User '%s' does not exist!", dbUsername));
+
+        LOGGER.info("Revoking access for user '{}' to stack '{}'", dbUsername, stackName);
+        dao.revokeUserAccessToStack(dbUsername, stackName);
+        dao.flushPrivileges();
     }
 
     /**
@@ -125,7 +163,7 @@ public class SqlStackService {
      * 
      * @param source The source of the stack.
      */
-    public void insertStackEnvironmentData(DataSource source, DatabaseStack stack) throws Exception {
+    public void insertStackEnvironmentData(DataSource source, DatabaseStack stack) {
         LOGGER.info("Inserting data into tables on new stack...");
 
         SqlStackDao stackDao = new SqlStackDao(source);
@@ -144,7 +182,7 @@ public class SqlStackService {
      * 
      * @param template The template to run the script against.
      */
-    public void insertTables(NamedParameterJdbcTemplate template) throws Exception {
+    public void insertTables(NamedParameterJdbcTemplate template) {
         LOGGER.info("Inserting tables into stack...");
 
         for (File file : new File(SCRIPT_LOCATION).listFiles()) {

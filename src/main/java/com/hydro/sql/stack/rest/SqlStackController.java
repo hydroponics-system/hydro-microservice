@@ -8,6 +8,7 @@ import com.hydro.sql.stack.domain.DatabaseStack;
 import com.hydro.sql.stack.service.SqlStackService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,12 +32,12 @@ public class SqlStackController {
      */
     @PostMapping("/{dbUsername}")
     @HasAccess(WebRole.DEVELOPER)
-    public DatabaseStack createStack(@PathVariable String dbUsername) throws Exception {
+    public DatabaseStack createStack(@PathVariable String dbUsername) {
         return service.createStack(dbUsername);
     }
 
     /**
-     * Method for creating a stack for the given database user.
+     * Method for granting access for a user to a stack.
      * 
      * @param stackName  The name of the stack to grant access too.
      * @param dbUsername The db user name.
@@ -44,8 +45,35 @@ public class SqlStackController {
     @PostMapping("/{stackName}/user/{dbUsername}")
     @ResponseStatus(OK)
     @HasAccess(WebRole.ADMIN)
-    public void grantAccessToUserOnStack(@PathVariable String stackName, @PathVariable String dbUsername)
-            throws Exception {
+    public void grantAccessToUserOnStack(@PathVariable String stackName, @PathVariable String dbUsername) {
         service.grantAccessToUserOnStack(stackName, dbUsername);
+    }
+
+    /**
+     * Method that will take in a stack name and database user that needs to be
+     * revoked.
+     * 
+     * @param stackName  The name of the stack to revoke access too.
+     * @param dbUsername The db user name.
+     */
+    @DeleteMapping("/{stackName}")
+    @ResponseStatus(OK)
+    @HasAccess(WebRole.ADMIN)
+    public void dropStack(@PathVariable String stackName) {
+        service.dropStack(stackName);
+    }
+
+    /**
+     * Method that will take in a stack name and database user that needs to be
+     * revoked.
+     * 
+     * @param stackName  The name of the stack to revoke access too.
+     * @param dbUsername The db user name.
+     */
+    @DeleteMapping("/{stackName}/user/{dbUsername}")
+    @ResponseStatus(OK)
+    @HasAccess(WebRole.ADMIN)
+    public void revokeAccessToUserOnStack(@PathVariable String stackName, @PathVariable String dbUsername) {
+        service.revokeAccessToUserOnStack(stackName, dbUsername);
     }
 }
