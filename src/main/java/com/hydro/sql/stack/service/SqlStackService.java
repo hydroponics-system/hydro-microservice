@@ -171,7 +171,7 @@ public class SqlStackService {
             try {
                 stackDao.copyTableDataFromEnvironment(table, stack.getStackType());
             } catch (Exception e) {
-                LOGGER.warn("Data for table '{}' could not be inserted.", table);
+                // Do Nothing
             }
         }
         LOGGER.info("Table Data insert complete!");
