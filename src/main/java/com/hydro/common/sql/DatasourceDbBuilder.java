@@ -2,8 +2,8 @@ package com.hydro.common.sql;
 
 import javax.sql.DataSource;
 
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.stereotype.Service;
 
 /**
  * Datasource builder class for managing and building a datasource instance with
@@ -12,8 +12,9 @@ import org.springframework.stereotype.Service;
  * @author Sam Butler
  * @since May 21, 2022
  */
-@Service
 public class DataSourceDbBuilder {
+
+    private final String DRIVER_CLASSNAME = "com.mysql.cj.jdbc.Driver";
 
     private DriverManagerDataSource source;
 
@@ -29,12 +30,12 @@ public class DataSourceDbBuilder {
     private DataSourceDbBuilder(DriverManagerDataSource s) {
         this.source = s;
         this.dbProperties = "?";
-        this.source.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        this.source.setDriverClassName(DRIVER_CLASSNAME);
     }
 
     /**
      * Begins the creation and new instance of the datasource.
-     * 
+     *
      * @return {@link DataSourceDbBuilder} instance with the set datasource.
      */
     public static DataSourceDbBuilder create() {
@@ -43,7 +44,7 @@ public class DataSourceDbBuilder {
 
     /**
      * Begins the creation and the passed in datasource instance.
-     * 
+     *
      * @param s The datasource to be set.
      * @return {@link DataSourceDbBuilder} instance with the set datasource.
      */
@@ -81,6 +82,17 @@ public class DataSourceDbBuilder {
      */
     public DataSourceDbBuilder password(String password) {
         this.source.setPassword(password);
+        return this;
+    }
+
+    /**
+     * Sets the schema name to use for the datasource
+     * 
+     * @param schema The schema to be set.
+     * @return The new {@link DataSourceDbBuilder} with the updated schema name.
+     */
+    public DataSourceDbBuilder schema(String schema) {
+        this.source.setSchema(schema);
         return this;
     }
 
@@ -186,17 +198,13 @@ public class DataSourceDbBuilder {
      * @return {@link DataSource} instance.
      */
     public DataSource build() {
-        String lastCharacter = this.dbProperties.substring(this.dbProperties.length() - 1);
-        if ("&".equals(lastCharacter) || "?".equals(lastCharacter)) {
-            this.dbProperties = this.dbProperties.substring(0, this.dbProperties.length() - 1);
-        }
-
-        this.source.setUrl(this.dbUrl + this.dbProperties);
-        return this.source;
+        this.buildManagerSource();
+        return DataSourceBuilder.create().driverClassName(DRIVER_CLASSNAME).username(this.source.getUsername())
+                .password(this.source.getPassword()).url(this.source.getUrl()).build();
     }
 
     /**
-     * Will build the driver manager data source.
+     * Returns the build DriverManagerDataSource with the defined properties.
      * 
      * @return {@link DriverManagerDataSource} instance.
      */
@@ -205,6 +213,7 @@ public class DataSourceDbBuilder {
         if ("&".equals(lastCharacter) || "?".equals(lastCharacter)) {
             this.dbProperties = this.dbProperties.substring(0, this.dbProperties.length() - 1);
         }
+
         this.source.setUrl(this.dbUrl + this.dbProperties);
         return this.source;
     }

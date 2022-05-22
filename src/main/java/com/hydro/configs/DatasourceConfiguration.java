@@ -38,8 +38,7 @@ public class DatasourceConfiguration {
     @Profile(value = { "local", "development", "production" })
     @ConfigurationProperties("spring.datasource")
     public DataSource dataSource() {
-        return DataSourceDbBuilder.create().useDefaultProperties().url(dbUrl
-                + "?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC")
-                .username(dbUsername).password(dbPassword).build();
+        return DataSourceDbBuilder.create().useDefaultProperties().url(dbUrl).username(dbUsername).password(dbPassword)
+                .build();
     }
 }
