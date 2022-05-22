@@ -29,6 +29,7 @@ public class DatabaseConnectionBuilder {
      */
     private DatabaseConnectionBuilder(DriverManagerDataSource s) {
         this.source = s;
+        this.dbUrl = "";
         this.dbProperties = "?";
         this.source.setDriverClassName(DRIVER_CLASSNAME);
     }
