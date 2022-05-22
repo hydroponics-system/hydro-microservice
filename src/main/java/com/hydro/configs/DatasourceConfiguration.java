@@ -2,7 +2,7 @@ package com.hydro.configs;
 
 import javax.sql.DataSource;
 
-import com.hydro.common.sql.DataSourceDbBuilder;
+import com.hydro.common.sql.DatabaseConnectionBuilder;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -38,7 +38,7 @@ public class DatasourceConfiguration {
     @Profile(value = { "local", "development", "production" })
     @ConfigurationProperties("spring.datasource")
     public DataSource dataSource() {
-        return DataSourceDbBuilder.create().useDefaultProperties().url(dbUrl).username(dbUsername).password(dbPassword)
-                .build();
+        return DatabaseConnectionBuilder.create().useDefaultProperties().url(dbUrl).username(dbUsername)
+                .password(dbPassword).build();
     }
 }

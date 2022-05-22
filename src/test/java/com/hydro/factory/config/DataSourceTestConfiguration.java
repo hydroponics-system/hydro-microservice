@@ -11,7 +11,7 @@ import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
 
-import com.hydro.common.sql.DataSourceDbBuilder;
+import com.hydro.common.sql.DatabaseConnectionBuilder;
 import com.hydro.factory.globals.GlobalsTest;
 
 import org.slf4j.Logger;
@@ -63,7 +63,7 @@ public class DataSourceTestConfiguration {
     @Bean("dataSource")
     @Profile(value = { "test", "test-local" })
     public DataSource dataSource() {
-        DataSourceDbBuilder dataSourceBuilder = DataSourceDbBuilder.create().useDefaultProperties()
+        DatabaseConnectionBuilder dataSourceBuilder = DatabaseConnectionBuilder.create().useDefaultProperties()
                 .url(getEnvironmentValue("MYSQL_TEST_URL", dbUrl)).allowMultiQueries(true)
                 .username(getEnvironmentValue("MYSQL_TEST_USERNAME", dbUsername))
                 .password(getEnvironmentValue("MYSQL_TEST_PASSWORD", dbPassword));
@@ -104,7 +104,7 @@ public class DataSourceTestConfiguration {
      * @param source The active datasource to the database.
      * @return {@link DataSource} test object.
      */
-    private DriverManagerDataSource generateTestDatasource(DataSourceDbBuilder builder) {
+    private DriverManagerDataSource generateTestDatasource(DatabaseConnectionBuilder builder) {
         LOGGER.info("Generating test schema...");
         String testSchema = createSchema(builder.build());
         builder.url(String.format("%s/%s", dbUrl, testSchema));
