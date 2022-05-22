@@ -1,7 +1,6 @@
 package com.hydro.factory.config;
 
 import static com.hydro.common.util.CommonUtil.generateRandomNumber;
-import static com.hydro.factory.globals.GlobalsTest.DB_URL_PROPERTIES;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -12,6 +11,7 @@ import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
 
+import com.hydro.common.sql.DataSourceDbBuilder;
 import com.hydro.factory.globals.GlobalsTest;
 
 import org.slf4j.Logger;
@@ -63,12 +63,12 @@ public class DataSourceTestConfiguration {
     @Bean("dataSource")
     @Profile(value = { "test", "test-local" })
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl(getEnvironmentValue("MYSQL_TEST_URL", String.format("%s?%s", dbUrl, DB_URL_PROPERTIES)));
-        dataSource.setUsername(getEnvironmentValue("MYSQL_TEST_USERNAME", dbUsername));
-        dataSource.setPassword(getEnvironmentValue("MYSQL_TEST_PASSWORD", dbPassword));
-        activeDataSource = buildDbTables(generateTestDatasource(dataSource));
+        DataSourceDbBuilder dataSourceBuilder = DataSourceDbBuilder.create().useDefaultProperties()
+                .url(getEnvironmentValue("MYSQL_TEST_URL", dbUrl))
+                .allowMultiQueries(true)
+                .username(getEnvironmentValue("MYSQL_TEST_USERNAME", dbUsername))
+                .password(getEnvironmentValue("MYSQL_TEST_PASSWORD", dbPassword));
+        activeDataSource = buildDbTables(generateTestDatasource(dataSourceBuilder));
         return activeDataSource;
     }
 
@@ -105,12 +105,11 @@ public class DataSourceTestConfiguration {
      * @param source The active datasource to the database.
      * @return {@link DataSource} test object.
      */
-    private DriverManagerDataSource generateTestDatasource(DriverManagerDataSource source) {
+    private DriverManagerDataSource generateTestDatasource(DataSourceDbBuilder builder) {
         LOGGER.info("Generating test schema...");
-        String testSchema = createSchema(source);
-        source.setUrl(String.format("%s/%s?%s", dbUrl, testSchema, DB_URL_PROPERTIES));
-        source.setSchema(testSchema);
-        return source;
+        String testSchema = createSchema(builder.build());
+        builder.url(String.format("%s/%s", dbUrl, testSchema));
+        return builder.buildManagerSource();
     }
 
     /**
@@ -165,8 +164,7 @@ public class DataSourceTestConfiguration {
     private String getEnvironmentValue(String key, String defaultValue) {
         List<String> profiles = Arrays.asList(ENV.getActiveProfiles());
         if (profiles.size() > 0 && profiles.contains(GlobalsTest.PRODUCTION_TEST)) {
-            String envValue = System.getenv().get(key);
-            return "MYSQL_TEST_URL".equals(key) ? String.format("%s?%s", envValue, DB_URL_PROPERTIES) : envValue;
+            return System.getenv().get(key);
         } else {
             return defaultValue;
         }
