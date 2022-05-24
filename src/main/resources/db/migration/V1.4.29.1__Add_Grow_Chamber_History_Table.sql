@@ -10,7 +10,7 @@
 -- HYDRO-4: START
 -- ---------------------------------------------------------------------------------
 
-DELETE TABLE grow_chamber_log;
+DROP TABLE grow_chamber_log;
 
 CREATE TABLE grow_chamber_history (
   id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
