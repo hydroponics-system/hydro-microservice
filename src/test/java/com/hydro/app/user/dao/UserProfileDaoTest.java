@@ -16,6 +16,7 @@ import com.hydro.factory.config.test.UserDaoTestConfig;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -95,5 +96,26 @@ public class UserProfileDaoTest {
         assertEquals("LastName", insertedUser.getLastName(), "User last name");
         assertEquals("newEmail@mail.com", insertedUser.getEmail(), "User Email");
         assertEquals(WebRole.ADMIN, insertedUser.getWebRole(), "User Role");
+    }
+
+    @Test
+    public void testUpdateUserValues() throws Exception {
+        User userProfile = new User();
+        assertEquals("Test", dao.getUserById(1).getFirstName());
+        userProfile.setFirstName("Randy");
+        userProfile.setWebRole(WebRole.SYSTEM_USER);
+
+        User returnedUser = dao.updateUserProfile(1, userProfile);
+        assertEquals(userProfile.getFirstName(), returnedUser.getFirstName());
+        assertEquals(WebRole.SYSTEM_USER, returnedUser.getWebRole());
+    }
+
+    @Test
+    public void testUpdateUniqueEmail() {
+        User userProfile = new User();
+        userProfile.setEmail("Fake123@mail.com");
+        DataIntegrityViolationException e = assertThrows(DataIntegrityViolationException.class,
+                () -> dao.updateUserProfile(1, userProfile));
+        assertTrue(e.getMessage().contains("Duplicate entry 'Fake123@mail.com' for key 'user_profile.user_profile"));
     }
 }
