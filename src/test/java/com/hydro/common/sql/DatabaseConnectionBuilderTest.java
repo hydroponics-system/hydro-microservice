@@ -35,4 +35,12 @@ public class DatabaseConnectionBuilderTest {
                 "fakeURL?useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&useUnicode=true&serverTimezone=UTC",
                 source.getUrl(), "Default properties get added to url");
     }
+
+    @Test
+    public void testSinglePropertyAddition() {
+        DriverManagerDataSource source = DatabaseConnectionBuilder.create().url("SamIsAwesome.com")
+                .serverTimezone("EST").allowMultiQueries(false).buildManagerSource();
+        assertNotNull(source);
+        assertEquals("SamIsAwesome.com?serverTimezone=EST&allowMultiQueries=false", source.getUrl(), "Confirm Datasource URL.");
+    }
 }
