@@ -6,8 +6,6 @@ name: Build Development
 on:
   push:
     branches: [ development ]
-  pull_request:
-    branches: [ development ]
 
 permissions:
   contents: read
@@ -38,4 +36,4 @@ jobs:
           MYSQL_TEST_URL: ${{ secrets.MYSQL_TEST_URL }}
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
         with:
-          arguments: build
+          arguments: build --info
