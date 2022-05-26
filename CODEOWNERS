@@ -10,6 +10,6 @@
 *.elsql             @hydroponics-system/data-dev
 
 # Require devops approval for any files dealing with the github actions or properties files.
-/resources/         @hydroponics-system/devops-dev
 /*                  @hydroponics-system/devops-dev
+/resources/         @hydroponics-system/devops-dev
 /src/
