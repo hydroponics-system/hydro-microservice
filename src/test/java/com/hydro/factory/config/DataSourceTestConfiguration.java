@@ -64,7 +64,7 @@ public class DataSourceTestConfiguration {
     @Profile(value = { "test", "test-local" })
     public DataSource dataSource() {
         DatabaseConnectionBuilder dataSourceBuilder = DatabaseConnectionBuilder.create().useDefaultProperties()
-                .url(getEnvironmentValue("MYSQL_TEST_URL", dbUrl)).allowMultiQueries(true)
+                .url(getEnvironmentValue("MYSQL_TEST_URL", dbUrl)).allowMultiQueries(true).allowPublicKeyRetrieval(true)
                 .username(getEnvironmentValue("MYSQL_TEST_USERNAME", dbUsername))
                 .password(getEnvironmentValue("MYSQL_TEST_PASSWORD", dbPassword));
         activeDataSource = buildDbTables(generateTestDatasource(dataSourceBuilder));
