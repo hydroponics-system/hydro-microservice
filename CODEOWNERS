@@ -11,4 +11,3 @@
 
 # Require devops approval for any files dealing with the github actions or properties files.
 /*                  @hydroponics-system/devops-dev
-/src/
