@@ -11,7 +11,7 @@ import com.google.common.collect.Sets;
 import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
 import com.hydro.common.abstracts.BaseDao;
-import com.hydro.common.exceptions.UserNotFoundException;
+import com.hydro.common.exceptions.NotFoundException;
 import com.hydro.common.sql.SqlParamBuilder;
 import com.hydro.common.util.CommonUtil;
 
@@ -66,7 +66,7 @@ public class UserProfileDao extends BaseDao {
 			request.setId(Sets.newHashSet(id));
 			return getUsers(request).get(0);
 		} catch (Exception e) {
-			throw new UserNotFoundException(String.format("User not found for id: '%d'", id));
+			throw new NotFoundException("User", id);
 		}
 	}
 

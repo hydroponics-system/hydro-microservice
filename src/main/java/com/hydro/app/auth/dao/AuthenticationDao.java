@@ -3,7 +3,7 @@ package com.hydro.app.auth.dao;
 import javax.sql.DataSource;
 
 import com.hydro.common.abstracts.BaseDao;
-import com.hydro.common.exceptions.UserNotFoundException;
+import com.hydro.common.exceptions.NotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -34,7 +34,7 @@ public class AuthenticationDao extends BaseDao {
         try {
             return get(getSql("getUserHashedPassword"), parameterSource(EMAIL, email), String.class);
         } catch (Exception e) {
-            throw new UserNotFoundException(String.format("User not found for email: '%s'", email));
+            throw new NotFoundException("User Email", email);
         }
     }
 }

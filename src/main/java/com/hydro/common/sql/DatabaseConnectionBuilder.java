@@ -170,6 +170,18 @@ public class DatabaseConnectionBuilder {
     }
 
     /**
+     * Set the ability to allow Public Key Retrieval queries value for the
+     * datasource.
+     * 
+     * @param v The value to enable or disable it.
+     * @return Updated {@link DatabaseConnectionBuilder} instance
+     */
+    public DatabaseConnectionBuilder allowPublicKeyRetrieval(boolean v) {
+        this.addProperty("allowPublicKeyRetrieval", v);
+        return this;
+    }
+
+    /**
      * Set the default timezone value.
      * 
      * @param v The string timezone value

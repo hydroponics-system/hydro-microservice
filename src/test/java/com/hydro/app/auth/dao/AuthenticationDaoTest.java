@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.hydro.common.exceptions.UserNotFoundException;
+import com.hydro.common.exceptions.NotFoundException;
 import com.hydro.factory.annotations.HydroDaoTest;
 import com.hydro.factory.config.test.AuthenticationDaoTestConfig;
 
@@ -33,9 +33,7 @@ public class AuthenticationDaoTest {
 
     @Test
     public void testGetUserAuthPasswordEmailNotFound() {
-        UserNotFoundException e = assertThrows(UserNotFoundException.class,
-                () -> dao.getUserAuthPassword("notFound@mail.com"));
-
-        assertEquals("User not found for email: 'notFound@mail.com'", e.getMessage(), "Message should match");
+        NotFoundException e = assertThrows(NotFoundException.class, () -> dao.getUserAuthPassword("notFound@mail.com"));
+        assertEquals("User Email not found for id: 'notFound@mail.com'", e.getMessage(), "Message should match");
     }
 }

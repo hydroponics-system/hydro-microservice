@@ -10,7 +10,7 @@ import com.google.common.collect.Sets;
 import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.client.domain.enums.WebRole;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
-import com.hydro.common.exceptions.UserNotFoundException;
+import com.hydro.common.exceptions.NotFoundException;
 import com.hydro.factory.annotations.HydroDaoTest;
 import com.hydro.factory.config.test.UserDaoTestConfig;
 
@@ -70,7 +70,7 @@ public class UserProfileDaoTest {
 
     @Test
     public void testGetUserByIdNotFound() throws Exception {
-        UserNotFoundException e = assertThrows(UserNotFoundException.class, () -> dao.getUserById(12));
+        NotFoundException e = assertThrows(NotFoundException.class, () -> dao.getUserById(12));
         assertEquals("User not found for id: '12'", e.getMessage(), "Message should match");
     }
 

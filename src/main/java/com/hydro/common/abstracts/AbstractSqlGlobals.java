@@ -19,4 +19,11 @@ public abstract class AbstractSqlGlobals {
     public static final String READ = "read";
     public static final String UPDATE = "update";
     public static final String DELETE = "delete";
+    public static final String SYSTEM_ID = "system_id";
+    public static final String PH = "ph";
+    public static final String TDS = "tds";
+    public static final String WATER_TEMP_CELSIUS = "water_temp_celsius";
+    public static final String AIR_TEMP_CELSIUS = "air_temp_celsius";
+    public static final String HUMIDITY = "humidity";
+    public static final String LIGHT_STATUS = "light_status";
 }

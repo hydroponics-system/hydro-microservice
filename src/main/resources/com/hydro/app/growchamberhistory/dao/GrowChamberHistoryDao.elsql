@@ -1,0 +1,29 @@
+@NAME(growChamberHistoryFields)
+  gch.id,
+  gch.system_id,
+  gch.ph,
+  gch.tds,
+  gch.water_temp_celsius,
+  gch.air_temp_celsius,
+  gch.humidity,
+  gch.light_status,
+  gch.insert_date_utc
+
+@NAME(fromGrowChamberHistory)
+  FROM
+    grow_chamber_history gch
+  @WHERE
+    @AND(:id)
+      gch.id IN (:id)
+    @AND(:system_id)
+      gch.system_id IN (:system_id)
+    @AND(:light_status)
+      gch.light_status = (:light_status)
+
+@NAME(getGrowChamberLogs)
+  SELECT @INCLUDE(growChamberHistoryFields)
+  @INCLUDE(fromGrowChamberHistory)
+
+@NAME(insertGrowChamberLog)
+  INSERT INTO grow_chamber_history (system_id, ph, tds, water_temp_celsius, air_temp_celsius, humidity, light_status)
+  VALUES (:system_id, :ph, :tds, :water_temp_celsius, :air_temp_celsius, :humidity, :light_status)
