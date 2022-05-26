@@ -1,5 +1,6 @@
 # Admin devs will be put on all pull request to be reviewed.
 *                   @hydroponics-system/admin-dev
+/src/               @hydroponics-system/admin-dev
 
 # Require backend dev approval for anything in the src folder, except for any resouce files.
 /src/               @hydroponics-system/backend-dev
