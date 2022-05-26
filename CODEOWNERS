@@ -1,17 +1,17 @@
 # Admin devs will be put on all pull request to be reviewed.
-/*/                   @hydroponics-system/admin-dev
+*                   @hydroponics-system/admin-dev
 
 # Require backend dev approval for anything in the src folder, except for any resouce files.
-/src/main/java/              @hydroponics-system/backend-dev
-/src/main/resources/com/     @hydroponics-system/backend-dev
-/src/test/java/              @hydroponics-system/backend-dev
-/src/test/resources/scripts/ @hydroponics-system/backend-dev
+*.java              @hydroponics-system/backend-dev
+*.elsql             @hydroponics-system/backend-dev
 
 # Any SQL changes or elsql changes require a data dev approval
 *.sql               @hydroponics-system/data-dev
 *.elsql             @hydroponics-system/data-dev
 
 # Require devops approval for any files dealing with the github actions or properties files.
-/*                           @hydroponics-system/devops-dev
-/src/main/resources/*        @hydroponics-system/devops-dev
-/src/test/resources/*        @hydroponics-system/devops-dev
+.*                  @hydroponics-system/devops-dev
+*.properties        @hydroponics-system/devops-dev
+*.yml               @hydroponics-system/devops-dev
+*.md                @hydroponics-system/devops-dev
+*.gradle            @hydroponics-system/devops-dev
