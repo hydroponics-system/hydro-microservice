@@ -2,8 +2,8 @@
 *                   @hydroponics-system/admin-dev
 
 # Require backend dev approval for anything in the src folder, except for any resouce files.
-/src/               @hydroponics-system/backend-dev
-/resources/
+/src/main/java      @hydroponics-system/backend-dev
+/src/resources/com/ @hydroponics-system/backend-dev
 
 # Any SQL changes or elsql changes require a data dev approval
 *.sql               @hydroponics-system/data-dev
@@ -11,5 +11,4 @@
 
 # Require devops approval for any files dealing with the github actions or properties files.
 /*                  @hydroponics-system/devops-dev
-/resources/         @hydroponics-system/devops-dev
-/src/
+/src/resources/*    @hydroponics-system/devops-dev
