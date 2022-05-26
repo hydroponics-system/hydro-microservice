@@ -10,9 +10,6 @@ assignees: ''
 ## **Describe the Test**
 - A clear and concise description of what the test will be doing
 
-## **Affected services**
-- What services is the test being added confirming functionality of.
-
 ## **Acceptance Criteria**
 - How can the test be confirmed it is working. (Build passes, specific test pass, etc)
 
