@@ -10,16 +10,15 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 import com.hydro.app.user.client.domain.User;
-import com.hydro.app.user.client.domain.enums.WebRole;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
 import com.hydro.app.user.dao.UserProfileDAO;
 import com.hydro.common.exceptions.NotFoundException;
 import com.hydro.factory.annotations.HydroServiceTest;
+import com.hydro.factory.data.UserFactoryData;
 import com.hydro.jwt.utility.JwtHolder;
 
 import org.junit.Test;
@@ -50,7 +49,7 @@ public class UserProfileServiceTest {
 
     @Test
     public void testGetUsers() {
-        User user1 = userData();
+        User user1 = UserFactoryData.userData();
         User user2 = new User();
         user2.setId(2);
 
@@ -65,7 +64,7 @@ public class UserProfileServiceTest {
 
     @Test
     public void testGetCurrentUser() throws Exception {
-        User user = userData();
+        User user = UserFactoryData.userData();
         when(jwtHolder.getRequiredUserId()).thenReturn(12);
         when(userProfileDAO.getUserById(anyInt())).thenReturn(user);
 
@@ -78,7 +77,7 @@ public class UserProfileServiceTest {
 
     @Test
     public void testGetUserById() throws Exception {
-        User user = userData();
+        User user = UserFactoryData.userData();
         when(userProfileDAO.getUserById(anyInt())).thenReturn(user);
 
         User returnedUser = service.getUserById(12);
@@ -98,7 +97,7 @@ public class UserProfileServiceTest {
 
     @Test
     public void testDoesEmailExist() {
-        when(userProfileDAO.getUsers(any(UserGetRequest.class))).thenReturn(Arrays.asList(userData()));
+        when(userProfileDAO.getUsers(any(UserGetRequest.class))).thenReturn(Arrays.asList(UserFactoryData.userData()));
         assertTrue(service.doesEmailExist("test@user.com"), "Email should exist");
     }
 
@@ -106,16 +105,5 @@ public class UserProfileServiceTest {
     public void testDoesEmailExistNotResults() {
         when(userProfileDAO.getUsers(any(UserGetRequest.class))).thenReturn(Arrays.asList());
         assertFalse(service.doesEmailExist("test@user.com"), "Email does not exist");
-    }
-
-    private User userData() {
-        User u = new User();
-        u.setId(12);
-        u.setFirstName("Test");
-        u.setLastName("User");
-        u.setEmail("test@user.com");
-        u.setWebRole(WebRole.ADMIN);
-        u.setLastLoginDate(LocalDateTime.now());
-        return u;
     }
 }

@@ -11,16 +11,14 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDateTime;
-
 import com.hydro.app.auth.client.AuthenticationClient;
 import com.hydro.app.user.client.UserProfileClient;
 import com.hydro.app.user.client.domain.PasswordUpdate;
 import com.hydro.app.user.client.domain.User;
-import com.hydro.app.user.client.domain.enums.WebRole;
 import com.hydro.app.user.dao.UserCredentialsDAO;
 import com.hydro.common.exceptions.InvalidCredentialsException;
 import com.hydro.factory.annotations.HydroServiceTest;
+import com.hydro.factory.data.UserFactoryData;
 import com.hydro.jwt.utility.JwtHolder;
 
 import org.junit.Test;
@@ -77,7 +75,7 @@ public class UserCredentialsServiceTest {
 
         when(jwtHolder.getRequiredUserId()).thenReturn(12);
         when(jwtHolder.getRequiredEmail()).thenReturn("password@user.com");
-        when(userProfileClient.getCurrentUser()).thenReturn(userData());
+        when(userProfileClient.getCurrentUser()).thenReturn(UserFactoryData.userData());
 
         User userUpdated = service.updateUserPassword(passUpdate);
 
@@ -135,16 +133,5 @@ public class UserCredentialsServiceTest {
     @Test
     public void testResetUserPasswordInvalidResetPasswordToken() {
 
-    }
-
-    private User userData() {
-        User u = new User();
-        u.setId(12);
-        u.setFirstName("Test");
-        u.setLastName("User");
-        u.setEmail("test@user.com");
-        u.setWebRole(WebRole.ADMIN);
-        u.setLastLoginDate(LocalDateTime.now());
-        return u;
     }
 }
