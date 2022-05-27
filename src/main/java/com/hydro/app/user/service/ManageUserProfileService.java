@@ -2,7 +2,7 @@ package com.hydro.app.user.service;
 
 import com.hydro.app.user.client.UserCredentialsClient;
 import com.hydro.app.user.client.domain.User;
-import com.hydro.app.user.dao.UserProfileDao;
+import com.hydro.app.user.dao.UserProfileDAO;
 import com.hydro.common.exceptions.InsufficientPermissionsException;
 import com.hydro.jwt.utility.JwtHolder;
 
@@ -26,7 +26,7 @@ public class ManageUserProfileService {
 	private UserCredentialsClient userCredentialsClient;
 
 	@Autowired
-	private UserProfileDao dao;
+	private UserProfileDAO dao;
 
 	/**
 	 * Creates a new user for the given user object.
@@ -79,6 +79,7 @@ public class ManageUserProfileService {
 	 * @throws Exception
 	 */
 	public User updateUserLastLoginToNow(int userId) throws Exception {
+		dao.getUserById(userId);
 		return dao.updateUserLastLoginToNow(userId);
 	}
 

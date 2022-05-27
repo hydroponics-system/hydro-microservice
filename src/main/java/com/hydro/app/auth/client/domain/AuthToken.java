@@ -20,6 +20,9 @@ public class AuthToken {
 
     private User user;
 
+    public AuthToken() {
+    }
+
     public AuthToken(String t, Date creation, Date expire, User u) {
         token = t;
         expireDate = expire;

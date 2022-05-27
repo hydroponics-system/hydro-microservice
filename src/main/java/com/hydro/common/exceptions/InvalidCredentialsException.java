@@ -7,7 +7,7 @@ package com.hydro.common.exceptions;
  * @since July 31, 2021
  */
 public class InvalidCredentialsException extends BaseException {
-    public InvalidCredentialsException(String message) {
-        super(message);
+    public InvalidCredentialsException(String email) {
+        super(String.format("Invalid Credentials for user email: '%s'", email));
     }
 }

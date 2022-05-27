@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.common.collect.Sets;
 import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
-import com.hydro.app.user.dao.UserProfileDao;
+import com.hydro.app.user.dao.UserProfileDAO;
 import com.hydro.jwt.utility.JwtHolder;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class UserProfileService {
 	private JwtHolder jwtHolder;
 
 	@Autowired
-	private UserProfileDao dao;
+	private UserProfileDAO dao;
 
 	/**
 	 * Get users based on given request filter
@@ -33,7 +33,7 @@ public class UserProfileService {
 	 * @return User profile object {@link User}
 	 * @throws Exception
 	 */
-	public List<User> getUsers(UserGetRequest request) throws Exception {
+	public List<User> getUsers(UserGetRequest request) {
 		return dao.getUsers(request);
 	}
 
@@ -66,7 +66,7 @@ public class UserProfileService {
 	 * @return {@link Boolean} to see if the email exists
 	 * @throws Exception
 	 */
-	public boolean doesEmailExist(String email) throws Exception {
+	public boolean doesEmailExist(String email) {
 		UserGetRequest request = new UserGetRequest();
 		request.setEmail(Sets.newHashSet(email));
 		List<User> users = getUsers(request);

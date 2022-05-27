@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.common.collect.Sets;
 import com.hydro.app.growchamberhistory.client.domain.GrowChamberLog;
 import com.hydro.app.growchamberhistory.client.domain.request.GrowChamberHistoryGetRequest;
-import com.hydro.app.growchamberhistory.dao.GrowChamberHistoryDao;
+import com.hydro.app.growchamberhistory.dao.GrowChamberHistoryDAO;
 import com.hydro.common.exceptions.NotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class GrowChamberHistoryService {
     @Autowired
-    private GrowChamberHistoryDao dao;
+    private GrowChamberHistoryDAO dao;
 
     /**
      * Get a list of grow chamber logs for the given request.

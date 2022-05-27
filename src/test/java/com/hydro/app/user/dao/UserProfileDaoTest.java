@@ -27,7 +27,7 @@ import org.springframework.test.context.jdbc.Sql;
 public class UserProfileDaoTest {
 
     @Autowired
-    private UserProfileDao dao;
+    private UserProfileDAO dao;
 
     @Test
     public void testGetUserList() {

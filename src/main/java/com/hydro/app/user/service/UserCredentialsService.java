@@ -6,21 +6,21 @@ import com.hydro.app.auth.client.AuthenticationClient;
 import com.hydro.app.user.client.UserProfileClient;
 import com.hydro.app.user.client.domain.PasswordUpdate;
 import com.hydro.app.user.client.domain.User;
-import com.hydro.app.user.dao.UserCredentialsDao;
+import com.hydro.app.user.dao.UserCredentialsDAO;
 import com.hydro.common.exceptions.BaseException;
 import com.hydro.common.exceptions.InsufficientPermissionsException;
 import com.hydro.jwt.utility.JwtHolder;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import io.jsonwebtoken.lang.Assert;
+
 /**
  * User Service class that handles all service calls to the
- * {@link UserCredentialsDao}
+ * {@link UserCredentialsDAO}
  * 
  * @author Sam Butler
  * @since June 25, 2020
@@ -28,8 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 public class UserCredentialsService {
-
-    private final Logger LOGGER = LoggerFactory.getLogger(UserCredentialsService.class);
 
     @Autowired
     private JwtHolder jwtHolder;
@@ -41,7 +39,7 @@ public class UserCredentialsService {
     private UserProfileClient userProfileClient;
 
     @Autowired
-    private UserCredentialsDao dao;
+    private UserCredentialsDAO dao;
 
     /**
      * This will be called when new users are created so that they have default
@@ -52,7 +50,7 @@ public class UserCredentialsService {
      * @param authPass Contains the hashed password and salt value.
      * @throws Exception
      */
-    public void insertUserPassword(int userId, String pass) throws Exception {
+    public void insertUserPassword(int userId, String pass) {
         dao.insertUserPassword(userId, BCrypt.hashpw(pass, BCrypt.gensalt()));
     }
 
@@ -105,7 +103,6 @@ public class UserCredentialsService {
         if (!jwtHolder.getRequiredResetPassword()) {
             throw new Exception("Invalid token for reset password!");
         }
-
         return passwordUpdate(jwtHolder.getRequiredUserId(), pass);
     }
 
@@ -118,15 +115,12 @@ public class UserCredentialsService {
      * @throws Exception
      */
     private User passwordUpdate(int userId, String password) throws Exception {
+        Assert.hasLength(password);
         try {
-            if (password != null && password.trim() != "") {
-                dao.updateUserPassword(userId, BCrypt.hashpw(password, BCrypt.gensalt()));
-            } else {
-                LOGGER.warn("User password not updated! Password value was either null or empty.");
-            }
+            dao.updateUserPassword(userId, BCrypt.hashpw(password, BCrypt.gensalt()));
             return userProfileClient.getCurrentUser();
         } catch (NoSuchAlgorithmException e) {
-            throw new BaseException("Could not hash password!");
+            throw new BaseException("Could not update password!");
         }
     }
 }

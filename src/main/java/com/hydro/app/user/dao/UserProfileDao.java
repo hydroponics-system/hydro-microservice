@@ -29,10 +29,10 @@ import org.springframework.stereotype.Repository;
  * @since June 25, 2020
  */
 @Repository
-public class UserProfileDao extends BaseDao {
+public class UserProfileDAO extends BaseDao {
 
 	@Autowired
-	public UserProfileDao(DataSource source) {
+	public UserProfileDAO(DataSource source) {
 		super(source);
 	}
 

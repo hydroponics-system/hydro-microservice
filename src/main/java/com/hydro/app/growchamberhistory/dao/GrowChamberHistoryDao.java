@@ -24,10 +24,10 @@ import org.springframework.stereotype.Repository;
  * @since May 25, 2021
  */
 @Repository
-public class GrowChamberHistoryDao extends BaseDao {
+public class GrowChamberHistoryDAO extends BaseDao {
 
     @Autowired
-    public GrowChamberHistoryDao(DataSource source) {
+    public GrowChamberHistoryDAO(DataSource source) {
         super(source);
     }
 
