@@ -118,7 +118,7 @@ public class UserCredentialsService {
         Assert.hasLength(password);
         try {
             dao.updateUserPassword(userId, BCrypt.hashpw(password, BCrypt.gensalt()));
-            return userProfileClient.getCurrentUser();
+            return userProfileClient.getUserById(userId);
         } catch (NoSuchAlgorithmException e) {
             throw new BaseException("Could not update password!");
         }

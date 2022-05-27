@@ -8,6 +8,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -15,7 +16,9 @@ import com.hydro.app.auth.client.AuthenticationClient;
 import com.hydro.app.user.client.UserProfileClient;
 import com.hydro.app.user.client.domain.PasswordUpdate;
 import com.hydro.app.user.client.domain.User;
+import com.hydro.app.user.client.domain.enums.WebRole;
 import com.hydro.app.user.dao.UserCredentialsDAO;
+import com.hydro.common.exceptions.InsufficientPermissionsException;
 import com.hydro.common.exceptions.InvalidCredentialsException;
 import com.hydro.factory.annotations.HydroServiceTest;
 import com.hydro.factory.data.UserFactoryData;
@@ -75,13 +78,13 @@ public class UserCredentialsServiceTest {
 
         when(jwtHolder.getRequiredUserId()).thenReturn(12);
         when(jwtHolder.getRequiredEmail()).thenReturn("password@user.com");
-        when(userProfileClient.getCurrentUser()).thenReturn(UserFactoryData.userData());
+        when(userProfileClient.getUserById(anyInt())).thenReturn(UserFactoryData.userData());
 
         User userUpdated = service.updateUserPassword(passUpdate);
 
         verify(authClient).authenticate("password@user.com", "currentPassword123!");
         verify(userCredentialsDAO).updateUserPassword(eq(12), anyString());
-        verify(userProfileClient).getCurrentUser();
+        verify(userProfileClient).getUserById(12);
         assertEquals(12, userUpdated.getId(), "User updated should be id 12");
     }
 
@@ -93,7 +96,7 @@ public class UserCredentialsServiceTest {
 
         assertThrows(InvalidCredentialsException.class, () -> service.updateUserPassword(new PasswordUpdate()));
         verify(userCredentialsDAO, never()).updateUserPassword(anyInt(), any());
-        verify(userProfileClient, never()).getCurrentUser();
+        verify(userProfileClient, never()).getUserById(anyInt());
     }
 
     @Test
@@ -110,28 +113,66 @@ public class UserCredentialsServiceTest {
 
         verify(authClient).authenticate("password@user.com", "currentPassword123!");
         verify(userCredentialsDAO, never()).updateUserPassword(anyInt(), any());
-        verify(userProfileClient, never()).getCurrentUser();
+        verify(userProfileClient, never()).getUserById(anyInt());
         assertEquals("[Assertion failed] - this String argument must have length; it must not be null or empty",
                 e.getMessage(), "Exception Message");
     }
 
     @Test
-    public void testUpdateUserPasswordByIdValid() {
+    public void testUpdateUserPasswordByIdValid() throws Exception {
+        PasswordUpdate passUpdate = new PasswordUpdate();
+        passUpdate.setCurrentPassword("currentPassword123!");
+        passUpdate.setNewPassword("newPassword!");
 
+        User userToUpdate = new User();
+        userToUpdate.setWebRole(WebRole.USER);
+        userToUpdate.setId(5);
+
+        when(userProfileClient.getUserById(anyInt())).thenReturn(userToUpdate);
+        when(jwtHolder.getWebRole()).thenReturn(WebRole.ADMIN);
+
+        service.updateUserPasswordById(5, passUpdate);
+
+        verify(userCredentialsDAO).updateUserPassword(eq(5), anyString());
+        verify(userProfileClient, times(2)).getUserById(5);
     }
 
     @Test
-    public void testUpdateUserPasswordByIdUserHasInsufficientPermissions() {
+    public void testUpdateUserPasswordByIdUserHasInsufficientPermissions() throws Exception {
+        User userToUpdate = UserFactoryData.userData();
 
+        when(userProfileClient.getUserById(anyInt())).thenReturn(userToUpdate);
+        when(jwtHolder.getWebRole()).thenReturn(WebRole.DEVELOPER);
+
+        InsufficientPermissionsException e = assertThrows(InsufficientPermissionsException.class,
+                () -> service.updateUserPasswordById(5, new PasswordUpdate()));
+
+        verify(userCredentialsDAO, never()).updateUserPassword(anyInt(), anyString());
+        verify(userProfileClient).getUserById(5);
+        assertEquals("Your role of 'DEVELOPER' can not update a user of role 'ADMIN'", e.getMessage(),
+                "Exception Message");
     }
 
     @Test
-    public void testResetUserPasswordValid() {
+    public void testResetUserPasswordValid() throws Exception {
+        when(jwtHolder.getRequiredUserId()).thenReturn(12);
+        when(jwtHolder.getRequiredResetPassword()).thenReturn(true);
 
+        service.resetUserPassword("newPass");
+
+        verify(userCredentialsDAO).updateUserPassword(eq(12), anyString());
+        verify(userProfileClient).getUserById(12);
     }
 
     @Test
-    public void testResetUserPasswordInvalidResetPasswordToken() {
+    public void testResetUserPasswordInvalidResetPasswordToken() throws Exception {
+        when(jwtHolder.getRequiredUserId()).thenReturn(12);
+        when(jwtHolder.getRequiredResetPassword()).thenReturn(false);
 
+        Exception e = assertThrows(Exception.class, () -> service.resetUserPassword("newPass"));
+
+        verify(userCredentialsDAO, never()).updateUserPassword(anyInt(), anyString());
+        verify(userProfileClient, never()).getUserById(12);
+        assertEquals("Invalid token for reset password!", e.getMessage(), "Exception Message");
     }
 }
