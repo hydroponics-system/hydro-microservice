@@ -2,8 +2,9 @@ name: Release Version
 on:
   workflow_run:
     workflows: ['Build Development']
-    branches: [development]
     types: [completed]
+    branches:
+      - 'development'
     
 jobs:
   on-success:
