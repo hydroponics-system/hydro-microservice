@@ -1,27 +1,22 @@
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
--- Script: V1.1.2.2__Add_User_Credentials_Table.sql
+-- Script: V1.5.32.2__Add_Contraint_To_Grow_Chamber_History.sql
 -- Author: Sam Butler
--- Date: April 24, 2022
--- Issue: HYDRO-3: Create User Credentials Table 
--- Version: v1.1.2
+-- Date: May 28, 2022
+-- Issue: 
+-- Version: v1.5.32
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 -- ---------------------------------------------------------------------------------
--- HYDRO-3: START
+-- HYDRO-4: START
 -- ---------------------------------------------------------------------------------
-CREATE TABLE user_credentials (
-  user_id                      int(10)    unsigned NOT NULL,
-  password                     binary(60)          NOT NULL,
-  PRIMARY KEY (user_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-ALTER TABLE user_credentials ADD CONSTRAINT user_profile__user_credentials__FK1 
-  FOREIGN KEY (user_id) REFERENCES user_profile (id) 
+ALTER TABLE grow_chamber_history ADD CONSTRAINT system__grow_chamber_history__FK1 
+  FOREIGN KEY (system_id) REFERENCES systems(id) 
     ON DELETE CASCADE 
     ON UPDATE CASCADE;
 
 -- ---------------------------------------------------------------------------------
--- HYDRO-3: END
+-- HYDRO-4: END
 -- ---------------------------------------------------------------------------------
 
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

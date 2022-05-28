@@ -1,0 +1,11 @@
+@NAME(registerSystem)
+    INSERT INTO systems (uuid, part_number, name)
+    VALUES (:uuid, :part_number, :name)
+
+@NAME(nextSystemId)
+    SELECT 
+        AUTO_INCREMENT
+    FROM
+        information_schema.TABLES
+    WHERE
+        TABLE_NAME = 'systems'

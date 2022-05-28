@@ -25,4 +25,7 @@ public abstract class AbstractSqlGlobals {
     public static final String AIR_TEMP_CELSIUS = "air_temp_celsius";
     public static final String HUMIDITY = "humidity";
     public static final String LIGHT_STATUS = "light_status";
+    public static final String UUID = "uuid";
+    public static final String PART_NUMBER = "part_number";
+    public static final String NAME = "name";
 }

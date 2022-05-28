@@ -142,10 +142,10 @@ public class DataSourceTestConfiguration {
         for (File file : new File("./src/main/resources/db/migration").listFiles()) {
             try {
                 String content = Files.readString(file.toPath());
-                LOGGER.info("Executing SQL:\n{}", content);
+                LOGGER.info("Executing SQL script : '{}'", file.getName());
                 template.update(content, new MapSqlParameterSource());
             } catch (Exception e) {
-                LOGGER.warn("Could not run Sql script '{}' {}", file.getName(), e);
+                LOGGER.warn("Error running SQL script '{}'", file.getName());
             }
         }
         return source;

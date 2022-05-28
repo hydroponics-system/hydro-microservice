@@ -21,7 +21,7 @@ CREATE TABLE grow_chamber_history (
   air_temp_celsius                 DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT 0.0,
   humidity                         DECIMAL(5,2) UNSIGNED NOT NULL DEFAULT 0.0,
   light_status                     TINYINT(1)   UNSIGNED NOT NULL DEFAULT 0,
-  insert_date_utc                  DATETIME              NOT NULL DEFAULT current_timestamp(3),
+  insert_date_utc                  DATETIME              NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (id));
 
 -- ---------------------------------------------------------------------------------
