@@ -3,8 +3,7 @@ on:
   workflow_run:
     workflows: ['Build Development']
     types: [completed]
-    branches:
-      - 'development'
+    branches: [development]
     
 jobs:
   on-success:
