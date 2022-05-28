@@ -2,7 +2,7 @@ package com.hydro.app.user.service;
 
 import com.hydro.app.user.client.UserCredentialsClient;
 import com.hydro.app.user.client.domain.User;
-import com.hydro.app.user.dao.UserProfileDao;
+import com.hydro.app.user.dao.UserProfileDAO;
 import com.hydro.common.exceptions.InsufficientPermissionsException;
 import com.hydro.jwt.utility.JwtHolder;
 
@@ -26,7 +26,7 @@ public class ManageUserProfileService {
 	private UserCredentialsClient userCredentialsClient;
 
 	@Autowired
-	private UserProfileDao dao;
+	private UserProfileDAO dao;
 
 	/**
 	 * Creates a new user for the given user object.
@@ -36,10 +36,9 @@ public class ManageUserProfileService {
 	 * @throws Exception
 	 */
 	public User createUser(User user) throws Exception {
-		User newUser = dao.insertUser(user);
-
-		userCredentialsClient.insertUserPassword(newUser.getId(), user.getPassword());
-		return dao.getUserById(newUser.getId());
+		int newUserId = dao.insertUser(user);
+		userCredentialsClient.insertUserPassword(newUserId, user.getPassword());
+		return dao.getUserById(newUserId);
 	}
 
 	/**
@@ -63,9 +62,7 @@ public class ManageUserProfileService {
 	public User updateUserProfileById(int id, User user) throws Exception {
 		User updatingUser = dao.getUserById(id);
 		if (id != updatingUser.getId() && jwtHolder.getWebRole().getRank() <= updatingUser.getWebRole().getRank()) {
-			throw new InsufficientPermissionsException(
-					String.format("Your role of '%s' can not update a user of role '%s'", jwtHolder.getWebRole(),
-							updatingUser.getWebRole()));
+			throw new InsufficientPermissionsException(jwtHolder.getWebRole(), updatingUser.getWebRole(), "update");
 		}
 
 		return updateUserProfile(id, user);
@@ -79,6 +76,7 @@ public class ManageUserProfileService {
 	 * @throws Exception
 	 */
 	public User updateUserLastLoginToNow(int userId) throws Exception {
+		dao.getUserById(userId);
 		return dao.updateUserLastLoginToNow(userId);
 	}
 
@@ -91,9 +89,7 @@ public class ManageUserProfileService {
 	public void deleteUser(int id) throws Exception {
 		User deletingUser = dao.getUserById(id);
 		if (id != deletingUser.getId() && jwtHolder.getWebRole().getRank() <= deletingUser.getWebRole().getRank()) {
-			throw new InsufficientPermissionsException(
-					String.format("Your role of '%s' can not delete a user of role '%s'", jwtHolder.getWebRole(),
-							deletingUser.getWebRole()));
+			throw new InsufficientPermissionsException(jwtHolder.getWebRole(), deletingUser.getWebRole(), "delete");
 		}
 		dao.deleteUser(id);
 	}

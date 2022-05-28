@@ -21,7 +21,7 @@ import org.springframework.test.context.jdbc.Sql;
 public class AuthenticationDaoTest {
 
     @Autowired
-    private AuthenticationDao dao;
+    private AuthenticationDAO dao;
 
     @Test
     public void testGetUserAuthPasswordValidEmail() throws Exception {

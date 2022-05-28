@@ -5,7 +5,7 @@ import java.util.Date;
 import com.google.common.collect.Sets;
 import com.hydro.app.auth.client.domain.AuthToken;
 import com.hydro.app.auth.client.domain.request.AuthenticationRequest;
-import com.hydro.app.auth.dao.AuthenticationDao;
+import com.hydro.app.auth.dao.AuthenticationDAO;
 import com.hydro.app.user.client.UserProfileClient;
 import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AuthenticationService {
     @Autowired
-    private AuthenticationDao dao;
+    private AuthenticationDAO dao;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -63,7 +63,7 @@ public class AuthenticationService {
             User authUser = getAuthenticatedUser(email);
             return userProfileClient.updateUserLastLoginToNow(authUser.getId());
         } else {
-            throw new InvalidCredentialsException("Invalid Credentials!");
+            throw new InvalidCredentialsException(email);
         }
     }
 

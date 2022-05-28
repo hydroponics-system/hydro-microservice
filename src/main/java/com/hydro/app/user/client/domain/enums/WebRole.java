@@ -12,6 +12,7 @@ public enum WebRole implements TextEnum {
 	USER(1, "USER"), DEVELOPER(2, "DEVELOPER"), SYSTEM_USER(3, "SYSTEM_USER"), ADMIN(4, "ADMIN");
 
 	private int rank;
+
 	private String textId;
 
 	WebRole(int rank, String textId) {
@@ -49,15 +50,5 @@ public enum WebRole implements TextEnum {
 			if (w.rank == rank)
 				return w;
 		return USER;
-	}
-
-	/**
-	 * Determines if the current webrole is a manager or not. Managers are ranks
-	 * between 2 and 6.
-	 * 
-	 * @return {@link Boolean} if the webrole is a manager.
-	 */
-	public boolean isManager() {
-		return rank > 2 && rank < 6;
 	}
 }

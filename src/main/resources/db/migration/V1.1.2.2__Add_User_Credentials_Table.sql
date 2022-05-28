@@ -1,26 +1,28 @@
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
--- Script: V1.1.2.1__Add_Web_Role_Table.sql
+-- Script: V1.1.2.2__Add_User_Credentials_Table.sql
 -- Author: Sam Butler
 -- Date: April 24, 2022
--- Issue: HYDRO-1: Create Web Role Table 
+-- Issue: HYDRO-3: Create User Credentials Table 
 -- Version: v1.1.2
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 -- ---------------------------------------------------------------------------------
--- HYDRO-1: START
+-- HYDRO-3: START
 -- ---------------------------------------------------------------------------------
-
-CREATE TABLE web_role (
-  id                   int(10)      unsigned NOT NULL AUTO_INCREMENT,
-  text_id              varchar(128)          DEFAULT NULL,
-  PRIMARY KEY (id)
+CREATE TABLE user_credentials (
+  user_id                      int(10)    unsigned NOT NULL,
+  password                     binary(60)          NOT NULL,
+  PRIMARY KEY (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO web_role (id, text_id)
-VALUES (1, 'USER'), (2, 'DEVELOPER'), (3, 'SYSTEM_ADMIN'),(4, 'ADMIN');
+ALTER TABLE user_credentials ADD CONSTRAINT user_profile__user_credentials__FK1 
+  FOREIGN KEY (user_id) REFERENCES user_profile (id) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+
 
 -- ---------------------------------------------------------------------------------
--- HYDRO-1: END
+-- HYDRO-3: END
 -- ---------------------------------------------------------------------------------
 
 -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

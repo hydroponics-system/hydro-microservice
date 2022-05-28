@@ -15,10 +15,10 @@ import org.springframework.stereotype.Repository;
  * @since October 9, 2021
  */
 @Repository
-public class UserCredentialsDao extends BaseDao {
+public class UserCredentialsDAO extends BaseDao {
 
     @Autowired
-    public UserCredentialsDao(DataSource source) {
+    public UserCredentialsDAO(DataSource source) {
         super(source);
     }
 

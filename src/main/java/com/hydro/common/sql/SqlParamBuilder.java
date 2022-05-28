@@ -1,8 +1,10 @@
 package com.hydro.common.sql;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import com.hydro.common.datetime.DateTimeMapper;
 import com.hydro.common.enums.TextEnum;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -54,7 +56,7 @@ public class SqlParamBuilder {
      * @param value The value of the parameter
      * @return this builder object {@link SqlParamBuilder}
      */
-    public SqlParamBuilder withParam(String name, TextEnum value) {
+    public SqlParamBuilder withParam(String name, TextEnum value) throws Exception {
         return withParam(name, value == null ? null : value.getTextId());
     }
 
@@ -71,6 +73,18 @@ public class SqlParamBuilder {
     }
 
     /**
+     * Add parameter to sql map and check that the text enum is not null, if not get
+     * the text id.
+     * 
+     * @param name  The name of the parameter.
+     * @param value The value of the parameter
+     * @return this builder object {@link SqlParamBuilder}
+     */
+    public SqlParamBuilder withParam(String name, LocalDateTime value) {
+        return withParam(name, DateTimeMapper.printDate(value));
+    }
+
+    /**
      * Add parameter to sql map for an enum collection and check that the text enum
      * is not null, if not get the text id.
      * 
@@ -78,7 +92,7 @@ public class SqlParamBuilder {
      * @param value The value of the parameter
      * @return this builder object {@link SqlParamBuilder}
      */
-    public SqlParamBuilder withParamTextEnumCollection(String name, Collection<? extends TextEnum> values) {
+    public <T> SqlParamBuilder withParamTextEnumCollection(String name, Collection<? extends TextEnum> values) {
         return withParam(name,
                 values == null ? null : values.stream().map(TextEnum::getTextId).collect(Collectors.toList()));
     }

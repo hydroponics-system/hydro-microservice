@@ -27,17 +27,6 @@ public class UserProfileClient {
 	private ManageUserProfileService manageUserProfileService;
 
 	/**
-	 * Get users with no filters.
-	 * 
-	 * @param request of the user
-	 * @return User profile object {@link User}
-	 * @throws Exception
-	 */
-	public List<User> getUsers() throws Exception {
-		return userProfileService.getUsers(new UserGetRequest());
-	}
-
-	/**
 	 * Get users based on given request filter.
 	 * 
 	 * @param request of the user

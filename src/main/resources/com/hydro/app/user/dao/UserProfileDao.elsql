@@ -3,24 +3,20 @@
   up.first_name,
   up.last_name,
   up.email,
-  up.web_role_id,
+  up.web_role,
   up.insert_date_utc,
   up.last_login_date_utc
-
-@NAME(webRoleFields)
-  wr.id, wr.text_id
 
 @NAME(fromUserProfile)
   FROM
     user_profile up
-    JOIN web_role wr ON up.web_role_id = wr.id
   @WHERE
     @AND(:id)
       up.id IN (:id)
     @AND(:email)
       up.email IN (:email)
-    @AND(:web_role_text_id)
-      wr.text_id IN (:web_role_text_id)
+    @AND(:web_role)
+      up.web_role IN (:web_role)
 
 @NAME(getUsers)
   SELECT @INCLUDE(userProfileFields)
@@ -28,8 +24,8 @@
   ORDER BY up.id ASC
 
 @NAME(insertUser)
-  INSERT INTO user_profile (first_name, last_name, email, web_role_id)
-  VALUES (:first_name, :last_name, :email, :web_role_id)
+  INSERT INTO user_profile (first_name, last_name, email, web_role)
+  VALUES (:first_name, :last_name, :email, :web_role)
 
 @NAME(deleteUser)
   DELETE FROM user_profile
@@ -41,7 +37,7 @@
     email       = :email,
     first_name  = :first_name,
     last_name   = :last_name,
-    web_role_id = :web_role_id
+    web_role    = :web_role
   WHERE
     id = :id
 

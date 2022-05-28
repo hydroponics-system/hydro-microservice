@@ -20,10 +20,11 @@ public class AuthenticationClient {
     private AuthenticationService service;
 
     /**
-     * Verifies user credentials passed as a JWT Request
+     * Authenticates a user for the given email and password.
      *
-     * @param email    - Entered email at login.
-     * @param password - Password entered at login.
+     * @param email    Entered email at login.
+     * @param password Password entered at login.
+     * @return {@link AuthToken} with the jwt auth.
      * @throws Exception
      */
     public AuthToken authenticate(String email, String password) throws Exception {
