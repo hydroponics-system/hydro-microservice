@@ -11,9 +11,9 @@ import com.google.common.collect.Sets;
 import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
 import com.hydro.common.abstracts.BaseDao;
+import com.hydro.common.datetime.DateTimeMapper;
 import com.hydro.common.exceptions.NotFoundException;
 import com.hydro.common.sql.SqlParamBuilder;
-import com.hydro.common.util.CommonUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
@@ -46,8 +46,8 @@ public class UserProfileDAO extends BaseDao {
 	public List<User> getUsers(UserGetRequest request) {
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(ID, request.getId())
 				.withParam(EMAIL, request.getEmail()).withParam(FIRST_NAME, request.getFirstName())
-				.withParam(LAST_NAME, request.getLastName())
-				.withParamTextEnumCollection(WEB_ROLE_TEXT_ID, request.getWebRole()).build();
+				.withParam(LAST_NAME, request.getLastName()).withParamTextEnumCollection(WEB_ROLE, request.getWebRole())
+				.build();
 
 		return getPage(getSql("getUsers", params), params, USER_MAPPER);
 	}
@@ -74,17 +74,17 @@ public class UserProfileDAO extends BaseDao {
 	 * Creates a new user for the given user object.
 	 * 
 	 * @param user The user to create.
-	 * @return {@link User} object of the users data.
+	 * @return {@link Integer} auto increment id of the new user.
 	 * @throws Exception
 	 */
-	public User insertUser(User user) throws InvalidDataAccessApiUsageException, Exception {
+	public int insertUser(User user) throws InvalidDataAccessApiUsageException, Exception {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
 				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
-				.withParam(WEB_ROLE_ID, user.getWebRole() != null ? user.getWebRole().getRank() : 1).build();
+				.withParam(WEB_ROLE, user.getWebRole()).build();
 
 		post(getSql("insertUser", params), params, keyHolder);
-		return getUserById(keyHolder.getKey().intValue());
+		return keyHolder.getKey().intValue();
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class UserProfileDAO extends BaseDao {
 
 		MapSqlParameterSource params = SqlParamBuilder.with().withParam(FIRST_NAME, user.getFirstName())
 				.withParam(LAST_NAME, user.getLastName()).withParam(EMAIL, user.getEmail())
-				.withParam(WEB_ROLE_ID, user.getWebRole().getRank()).withParam(ID, userId).build();
+				.withParam(WEB_ROLE, user.getWebRole()).withParam(ID, userId).build();
 
 		update(getSql("updateUserProfile", params), params);
 
@@ -118,7 +118,7 @@ public class UserProfileDAO extends BaseDao {
 	 */
 	public User updateUserLastLoginToNow(int userId) throws Exception {
 		MapSqlParameterSource params = SqlParamBuilder.with()
-				.withParam(LAST_LOGIN_DATE, CommonUtil.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss"))
+				.withParam(LAST_LOGIN_DATE, DateTimeMapper.printDate(new Date(), "yyyy-MM-dd HH:mm:ss"))
 				.withParam(ID, userId).build();
 
 		update(getSql("updateUserLastLoginToNow", params), params);

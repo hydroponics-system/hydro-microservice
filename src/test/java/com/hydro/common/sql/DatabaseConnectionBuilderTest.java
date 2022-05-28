@@ -7,7 +7,7 @@ import javax.sql.DataSource;
 
 import com.hydro.factory.annotations.HydroTest;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 @HydroTest
@@ -41,6 +41,7 @@ public class DatabaseConnectionBuilderTest {
         DriverManagerDataSource source = DatabaseConnectionBuilder.create().url("SamIsAwesome.com")
                 .serverTimezone("EST").allowMultiQueries(false).buildManagerSource();
         assertNotNull(source);
-        assertEquals("SamIsAwesome.com?serverTimezone=EST&allowMultiQueries=false", source.getUrl(), "Confirm Datasource URL.");
+        assertEquals("SamIsAwesome.com?serverTimezone=EST&allowMultiQueries=false", source.getUrl(),
+                "Confirm Datasource URL.");
     }
 }

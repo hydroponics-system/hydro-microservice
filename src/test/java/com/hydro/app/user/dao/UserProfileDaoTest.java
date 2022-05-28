@@ -17,7 +17,6 @@ import com.hydro.factory.config.test.UserDaoTestConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -75,7 +74,7 @@ public class UserProfileDaoTest {
     }
 
     @Test
-    public void testInsertUser() throws InvalidDataAccessApiUsageException, Exception {
+    public void testInsertUser() throws Exception {
         List<User> beforeInsertList = dao.getUsers(new UserGetRequest());
 
         assertEquals(3, beforeInsertList.size(), "Size should be 3");
@@ -86,12 +85,10 @@ public class UserProfileDaoTest {
         user.setEmail("newEmail@mail.com");
         user.setWebRole(WebRole.ADMIN);
 
-        dao.insertUser(user);
+        int newUserId = dao.insertUser(user);
+        User insertedUser = dao.getUserById(newUserId);
 
-        List<User> afterInsert = dao.getUsers(new UserGetRequest());
-        User insertedUser = afterInsert.get(3);
-
-        assertEquals(4, afterInsert.size(), "List Size should be 4");
+        assertEquals(4, insertedUser.getId(), "New user Id should be 4");
         assertEquals("NewUserInsert", insertedUser.getFirstName(), "User first name");
         assertEquals("LastName", insertedUser.getLastName(), "User last name");
         assertEquals("newEmail@mail.com", insertedUser.getEmail(), "User Email");

@@ -21,16 +21,13 @@ import com.hydro.factory.annotations.HydroServiceTest;
 import com.hydro.factory.data.UserFactoryData;
 import com.hydro.jwt.utility.JwtHolder;
 
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @HydroServiceTest
-@RunWith(SpringRunner.class)
 public class UserProfileServiceTest {
 
     @Mock
