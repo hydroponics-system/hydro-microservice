@@ -3,11 +3,12 @@ on:
   workflow_run:
     workflows: ['Build Development']
     types: [completed]
+    branches: [development]
     
 jobs:
   on-success:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'successTEST' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
