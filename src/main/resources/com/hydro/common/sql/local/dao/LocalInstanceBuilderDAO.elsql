@@ -1,0 +1,10 @@
+@NAME(createLocalSchema)
+    CREATE DATABASE IF NOT EXISTS hydro_db_dev__local
+
+@NAME(doesSchemaExist)
+    SELECT 
+        SCHEMA_NAME
+    FROM
+        INFORMATION_SCHEMA.SCHEMATA
+    WHERE
+        SCHEMA_NAME = :schemaName

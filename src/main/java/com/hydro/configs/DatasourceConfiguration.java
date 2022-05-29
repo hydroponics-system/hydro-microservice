@@ -3,6 +3,7 @@ package com.hydro.configs;
 import javax.sql.DataSource;
 
 import com.hydro.common.sql.DatabaseConnectionBuilder;
+import com.hydro.common.sql.local.service.LocalInstanceBuilder;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -30,15 +31,31 @@ public class DatasourceConfiguration {
 
     /**
      * Datasource configuration. This will get called anywhere a {@link DataSource}
-     * is autowired into the class.
+     * is autowired into the class. This will only be run when on development and
+     * production environment.
      * 
      * @return {@link DataSource} object.
      */
     @Bean
-    @Profile(value = { "local", "development", "production" })
+    @Profile({ "development", "production" })
     @ConfigurationProperties("spring.datasource")
     public DataSource dataSource() {
         return DatabaseConnectionBuilder.create().useDefaultProperties().url(dbUrl).username(dbUsername)
                 .password(dbPassword).build();
+    }
+
+    /**
+     * Datasource configuration. This will get called anywhere a {@link DataSource}
+     * is autowired into the class. This is strictly for local environment use.
+     * 
+     * @return {@link DataSource} object.
+     */
+    @Bean
+    @Profile({ "local" })
+    @ConfigurationProperties("spring.datasource")
+    public DataSource dataSourceLocal() {
+        DatabaseConnectionBuilder builder = DatabaseConnectionBuilder.create().useDefaultProperties().url(dbUrl)
+                .username(dbUsername).password(dbPassword);
+        return LocalInstanceBuilder.create(builder);
     }
 }

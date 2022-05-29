@@ -44,16 +44,6 @@ public class DatabaseConnectionBuilder {
     }
 
     /**
-     * Begins the creation and the passed in datasource instance.
-     *
-     * @param s The datasource to be set.
-     * @return {@link DatabaseConnectionBuilder} instance with the set datasource.
-     */
-    public static DatabaseConnectionBuilder create(DriverManagerDataSource s) {
-        return new DatabaseConnectionBuilder(s);
-    }
-
-    /**
      * Method for setting the url on the datasource to be used to connect.
      * 
      * @param url The url to set.

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Grow Chamber History class that handles all service calls to the dao
+ * System class that handles all service calls to the dao.
  * 
  * @author Sam Butler
  * @since June 25, 2020

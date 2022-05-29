@@ -1,7 +1,5 @@
 package com.hydro.common.util;
 
-import java.util.Random;
-
 import io.jsonwebtoken.lang.Assert;
 
 /**
@@ -13,7 +11,7 @@ import io.jsonwebtoken.lang.Assert;
 public class CommonUtil {
 
     /**
-     * Method that will simply generate a random 10 digit number based on the local
+     * Method that will simply generate a random 8 digit number based on the local
      * time.
      * 
      * @return {@link Long} of the random number.
@@ -30,10 +28,10 @@ public class CommonUtil {
      * @return {@link Long} of the random number.
      */
     public static long generateRandomNumber(int length) {
-        Assert.isTrue(length > 0 && length < 11, "Length must be greater than 1 and less than 11");
+        Assert.isTrue(length > 0 && length < 11, "Length must be between 0 and 10");
 
-        int randomLength = Integer.parseInt("1" + "0".repeat(length - 1));
-        Random r = new Random(System.currentTimeMillis());
-        return ((1 + r.nextInt(2)) * randomLength + r.nextInt(randomLength));
+        long numberThreshold = Long.parseLong("9" + "0".repeat(length - 1));
+        long mask = Long.parseLong("1" + "0".repeat(length - 1));
+        return (long) Math.floor(Math.random() * numberThreshold) + mask;
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 /**
- * Class that handles all the dao calls to the database for grow chamber logs.
+ * Class that handles all the dao calls to the database for hydro systems.
  * 
  * @author Sam Butler
  * @since May 25, 2021
