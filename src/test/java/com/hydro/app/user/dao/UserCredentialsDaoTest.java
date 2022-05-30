@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.hydro.factory.annotations.HydroDaoTest;
-import com.hydro.factory.config.test.UserDaoTestConfig;
+import com.hydro.factory.config.test.UserDAOTestConfig;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +16,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
-@ContextConfiguration(classes = UserDaoTestConfig.class)
-@Sql("/scripts/user/userCredentialsDao/init.sql")
+@ContextConfiguration(classes = UserDAOTestConfig.class)
+@Sql("/scripts/user/userCredentialsDAO/init.sql")
 @HydroDaoTest
-public class UserCredentialsDaoTest {
+public class UserCredentialsDAOTest {
 
         @Autowired
         private UserCredentialsDAO dao;

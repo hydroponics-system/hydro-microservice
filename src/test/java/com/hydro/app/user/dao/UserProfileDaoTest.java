@@ -12,7 +12,7 @@ import com.hydro.app.user.client.domain.enums.WebRole;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
 import com.hydro.common.exceptions.NotFoundException;
 import com.hydro.factory.annotations.HydroDaoTest;
-import com.hydro.factory.config.test.UserDaoTestConfig;
+import com.hydro.factory.config.test.UserDAOTestConfig;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +20,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 
-@ContextConfiguration(classes = UserDaoTestConfig.class)
-@Sql("/scripts/user/userProfileDao/init.sql")
+@ContextConfiguration(classes = UserDAOTestConfig.class)
+@Sql("/scripts/user/userProfileDAO/init.sql")
 @HydroDaoTest
-public class UserProfileDaoTest {
+public class UserProfileDAOTest {
 
     @Autowired
     private UserProfileDAO dao;
