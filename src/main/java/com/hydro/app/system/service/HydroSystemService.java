@@ -1,13 +1,17 @@
 package com.hydro.app.system.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
+import com.google.common.collect.Sets;
 import com.hydro.ActiveProfile;
 import com.hydro.app.system.client.domain.HydroSystem;
 import com.hydro.app.system.client.domain.PartNumber;
-import com.hydro.app.system.dao.SystemDAO;
+import com.hydro.app.system.client.domain.request.HydroSystemGetRequest;
+import com.hydro.app.system.dao.HydroSystemDAO;
 import com.hydro.common.enums.Environment;
+import com.hydro.common.exceptions.NotFoundException;
 import com.hydro.common.util.CommonUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +19,42 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * System class that handles all service calls to the dao.
+ * Grow Chamber History class that handles all service calls to the dao
  * 
  * @author Sam Butler
  * @since June 25, 2020
  */
 @Transactional
 @Service
-public class SystemService {
+public class HydroSystemService {
 
     @Autowired
-    private SystemDAO dao;
+    private HydroSystemDAO dao;
 
     @Autowired
     private ActiveProfile activeProfile;
+
+    /**
+     * Method for getting a list of systems based on the given request.
+     * 
+     * @param request The hydro get request
+     * @return List of {@link HydroSystem} objects.
+     */
+    public List<HydroSystem> getSystems(HydroSystemGetRequest request) {
+        return dao.getSystems(request);
+    }
+
+    /**
+     * Method for getting a system by uuid.
+     * 
+     * @param uuid The systems unique identifier.
+     * @return {@link HydroSystem} that matches the uuid
+     */
+    public HydroSystem getSystemByUUID(String uuid) {
+        HydroSystemGetRequest request = new HydroSystemGetRequest();
+        request.setUuid(Sets.newHashSet(uuid));
+        return getSystems(request).stream().findFirst().orElseThrow(() -> new NotFoundException("UUID", uuid));
+    }
 
     /**
      * Method for registering a new hydroponic system.

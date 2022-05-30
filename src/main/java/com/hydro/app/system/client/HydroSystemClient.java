@@ -9,6 +9,6 @@ import com.hydro.annotations.interfaces.Client;
  * @since July 31, 2021
  */
 @Client
-public class SystemClient {
+public class HydroSystemClient {
 
 }
