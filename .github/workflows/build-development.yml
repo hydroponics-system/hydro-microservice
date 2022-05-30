@@ -5,9 +5,8 @@ name: Build Development
 
 on:
   push:
-    branches: [ development ]
-  pull_request:
-    branches: [ development ]
+    branches-ignore:
+      - master
 
 permissions:
   contents: read
