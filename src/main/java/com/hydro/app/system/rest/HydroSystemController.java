@@ -12,10 +12,13 @@ import com.hydro.app.system.service.HydroSystemService;
 import com.hydro.app.user.client.domain.enums.WebRole;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,12 +45,25 @@ public class HydroSystemController {
     }
 
     /**
-     * Method for getting a system by uuid.
+     * Method for getting a system by id.
      * 
      * @param uuid The systems unique identifier.
+     * @return {@link HydroSystem} that matches the id
+     */
+    @ApiOperation(value = "Get a system by unique identifier.", notes = "Will get the system by the system id.")
+    @GetMapping(value = "/{id}", produces = APPLICATION_JSON_VALUE)
+    @HasAccess(WebRole.USER)
+    public HydroSystem getSystemById(@PathVariable int id) {
+        return service.getSystemById(id);
+    }
+
+    /**
+     * Method for getting a system by uuid.
+     * 
+     * @param uuid The systems uuid.
      * @return {@link HydroSystem} that matches the uuid
      */
-    @ApiOperation(value = "Get a system by unique identifier.", notes = "Will get the system by the uuid.")
+    @ApiOperation(value = "Get a system by uuid.", notes = "Will get the system by the uuid.")
     @GetMapping(value = "/{uuid}/uuid", produces = APPLICATION_JSON_VALUE)
     @HasAccess(WebRole.USER)
     public HydroSystem getSystemByUUID(@PathVariable String uuid) {
@@ -65,5 +81,18 @@ public class HydroSystemController {
     @HasAccess(WebRole.USER)
     public HydroSystem registerSystem(@PathVariable String systemName) {
         return service.registerSystem(systemName);
+    }
+
+    /**
+     * Unregister a system by the given system id.
+     * 
+     * @param id The System unique identifier.
+     */
+    @ApiOperation(value = "Unregister a system.", notes = "Takes in a system id and will unregister the system.")
+    @DeleteMapping(value = "/{systemId}/unregister", produces = APPLICATION_JSON_VALUE)
+    @HasAccess(WebRole.USER)
+    @ResponseStatus(HttpStatus.OK)
+    public void unregisterSystem(@PathVariable int systemId) {
+        service.unregisterSystem(systemId);
     }
 }

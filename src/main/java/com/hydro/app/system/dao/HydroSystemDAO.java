@@ -53,10 +53,23 @@ public class HydroSystemDAO extends BaseDao {
     public int registerSystem(HydroSystem sys) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource params = SqlParamBuilder.with().withParam(UUID, sys.getUuid())
-                .withParam(PART_NUMBER, sys.getPartNumber().toString()).withParam(NAME, sys.getName()).build();
+                .withParam(PART_NUMBER, sys.getPartNumber().toString()).withParam(NAME, sys.getName())
+                .withParam(INSERT_USER_ID, sys.getInsertUserId()).build();
 
         post(getSql("registerSystem", params), params, keyHolder);
         return keyHolder.getKey().intValue();
+    }
+
+    /**
+     * Unregister a system by the given uuid. This will confirm that the system
+     * being deleted is either by the user that created it or it is of a user with a
+     * role of type ADMIN.
+     * 
+     * @param uuid The System unique identifier.
+     */
+    public void unregisterSystem(int id) {
+        var params = parameterSource(ID, id);
+        delete(getSql("unregisterSystem", params), params);
     }
 
     /**

@@ -10,9 +10,12 @@ import com.hydro.app.system.client.domain.HydroSystem;
 import com.hydro.app.system.client.domain.PartNumber;
 import com.hydro.app.system.client.domain.request.HydroSystemGetRequest;
 import com.hydro.app.system.dao.HydroSystemDAO;
+import com.hydro.app.user.client.domain.enums.WebRole;
 import com.hydro.common.enums.Environment;
+import com.hydro.common.exceptions.InsufficientPermissionsException;
 import com.hydro.common.exceptions.NotFoundException;
 import com.hydro.common.util.CommonUtil;
+import com.hydro.jwt.utility.JwtHolder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +37,9 @@ public class HydroSystemService {
     @Autowired
     private ActiveProfile activeProfile;
 
+    @Autowired
+    private JwtHolder jwtHolder;
+
     /**
      * Method for getting a list of systems based on the given request.
      * 
@@ -45,9 +51,21 @@ public class HydroSystemService {
     }
 
     /**
-     * Method for getting a system by uuid.
+     * Method for getting a system by system id.
      * 
      * @param uuid The systems unique identifier.
+     * @return {@link HydroSystem} that matches the id
+     */
+    public HydroSystem getSystemById(int id) {
+        HydroSystemGetRequest request = new HydroSystemGetRequest();
+        request.setId(Sets.newHashSet(id));
+        return getSystems(request).stream().findFirst().orElseThrow(() -> new NotFoundException("ID", id));
+    }
+
+    /**
+     * Method for getting a system by uuid.
+     * 
+     * @param uuid The systems uuid.
      * @return {@link HydroSystem} that matches the uuid
      */
     public HydroSystem getSystemByUUID(String uuid) {
@@ -72,6 +90,23 @@ public class HydroSystemService {
     }
 
     /**
+     * Unregister a system by the given id. This will confirm that the system
+     * being deleted is either by the user that created it or it is of a user with a
+     * role of type ADMIN.
+     * 
+     * @param id The System unique identifier.
+     */
+    public void unregisterSystem(int id) {
+        HydroSystem sys = getSystemById(id);
+
+        if (jwtHolder.getRequiredUserId() != sys.getInsertUserId() && !jwtHolder.getWebRole().equals(WebRole.ADMIN)) {
+            throw new InsufficientPermissionsException("Insufficient permissions. You can not unregister this system.");
+        }
+
+        dao.unregisterSystem(id);
+    }
+
+    /**
      * Builds a hydro system object for the given system id.
      * 
      * @param systemId The system id
@@ -88,6 +123,7 @@ public class HydroSystemService {
         sys.setName(name);
         sys.setPartNumber(partNumber);
         sys.setUuid(systemUUID.toString());
+        sys.setInsertUserId(jwtHolder.getRequiredUserId());
         return sys;
     }
 }

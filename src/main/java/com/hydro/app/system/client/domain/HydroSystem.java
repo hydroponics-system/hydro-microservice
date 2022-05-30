@@ -26,6 +26,9 @@ public class HydroSystem {
     @ApiModelProperty(value = "Nickname for the system.")
     private String name;
 
+    @ApiModelProperty(value = "User that registered the hydro system.")
+    private int insertUserId;
+
     @ApiModelProperty(value = "When the log was created.")
     private LocalDateTime insertDate;
 
@@ -59,6 +62,14 @@ public class HydroSystem {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getInsertUserId() {
+        return insertUserId;
+    }
+
+    public void setInsertUserId(int insertUserId) {
+        this.insertUserId = insertUserId;
     }
 
     public LocalDateTime getInsertDate() {
