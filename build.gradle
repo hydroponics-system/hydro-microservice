@@ -29,7 +29,6 @@ dependencies {
 	implementation 'com.sendgrid:sendgrid-java:4.0.1'
 	implementation 'com.google.guava:guava:r05'
 
-	implementation 'org.apache.commons:commons-csv:1.5'
 	implementation 'org.aspectj:aspectjtools:1.9.7'
 
 	implementation 'mysql:mysql-connector-java:8.0.15'
