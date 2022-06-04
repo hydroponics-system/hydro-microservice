@@ -11,10 +11,11 @@
 -- ---------------------------------------------------------------------------------
 
 CREATE TABLE systems (
-  id                 INT          UNSIGNED NOT NULL AUTO_INCREMENT,
+  id                 INT(10)      UNSIGNED NOT NULL AUTO_INCREMENT,
   uuid               VARCHAR(128)          NOT NULL,
   part_number        VARCHAR(128)          NOT NULL,
   name               VARCHAR(128)          NULL,
+  insert_user_id     INT(10)      UNSIGNED NOT NULL,   
   insert_date_utc    DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

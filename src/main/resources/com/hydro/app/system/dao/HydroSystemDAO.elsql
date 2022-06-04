@@ -3,6 +3,7 @@
     sys.uuid,
     sys.part_number,
     sys.name,
+    sys.insert_user_id, 
     sys.insert_date_utc
 
 @NAME(fromSystem)

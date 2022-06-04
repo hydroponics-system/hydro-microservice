@@ -20,7 +20,7 @@ public class HydroSystemMapper extends AbstractMapper<HydroSystem> {
 	public HydroSystem mapRow(ResultSet rs, int rowNum) throws SQLException {
 		HydroSystem sys = new HydroSystem();
 
-		sys.setId(rs.getInt(rs.getInt(ID)));
+		sys.setId(rs.getInt(ID));
 		sys.setUuid(rs.getString(UUID));
 		sys.setPartNumber(new PartNumber(rs.getString(PART_NUMBER)));
 		sys.setName(rs.getString(NAME));
