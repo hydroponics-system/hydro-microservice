@@ -26,6 +26,9 @@ public class HydroSystem {
     private String name;
 
     @Schema(description = "When the log was created.")
+    private int insertUserId;
+
+    @Schema(description = "When the log was created.")
     private LocalDateTime insertDate;
 
     public int getId() {
@@ -58,6 +61,14 @@ public class HydroSystem {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getInsertUserId() {
+        return insertUserId;
+    }
+
+    public void setInsertUserId(int insertUserId) {
+        this.insertUserId = insertUserId;
     }
 
     public LocalDateTime getInsertDate() {

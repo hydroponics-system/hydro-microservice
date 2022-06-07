@@ -5,10 +5,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.hydro.annotations.interfaces.HasAccess;
 import com.hydro.annotations.interfaces.RestApiController;
@@ -42,9 +45,22 @@ public class HydroSystemController {
     }
 
     /**
-     * Method for getting a system by uuid.
+     * Method for getting a system by id.
      * 
      * @param uuid The systems unique identifier.
+     * @return {@link HydroSystem} that matches the id
+     */
+    @Operation(summary = "Get a system by unique identifier.", description = "Will get the system by the system id.")
+    @GetMapping(value = "/{id}", produces = APPLICATION_JSON_VALUE)
+    @HasAccess(WebRole.USER)
+    public HydroSystem getSystemById(@PathVariable int id) {
+        return service.getSystemById(id);
+    }
+
+    /**
+     * Method for getting a system by uuid.
+     * 
+     * @param uuid The systems uuid.
      * @return {@link HydroSystem} that matches the uuid
      */
     @Operation(summary = "Get a system by unique identifier.", description = "Will get the system by the uuid.")
@@ -65,5 +81,18 @@ public class HydroSystemController {
     @HasAccess(WebRole.USER)
     public HydroSystem registerSystem(@PathVariable String systemName) {
         return service.registerSystem(systemName);
+    }
+
+    /**
+     * Unregister a system by the given system id.
+     * 
+     * @param id The System unique identifier.
+     */
+    @Operation(summary = "Unregister a system.", description = "Takes in a system id and will unregister the system.")
+    @DeleteMapping(value = "/{systemId}/unregister", produces = APPLICATION_JSON_VALUE)
+    @HasAccess(WebRole.USER)
+    @ResponseStatus(HttpStatus.OK)
+    public void unregisterSystem(@PathVariable int systemId) {
+        service.unregisterSystem(systemId);
     }
 }

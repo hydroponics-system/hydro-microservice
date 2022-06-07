@@ -3,7 +3,7 @@
     sys.uuid,
     sys.part_number,
     sys.name,
-    sys.insert_user_id, 
+    sys.insert_user_id,
     sys.insert_date_utc
 
 @NAME(fromSystem)
@@ -23,8 +23,12 @@
     @INCLUDE(fromSystem)
 
 @NAME(registerSystem)
-    INSERT INTO systems (uuid, part_number, name)
-    VALUES (:uuid, :part_number, :name)
+    INSERT INTO systems (uuid, part_number, name, insert_user_id)
+    VALUES (:uuid, :part_number, :name, :insert_user_id)
+
+@NAME(unregisterSystem)
+    DELETE FROM systems 
+    WHERE id = :id
 
 @NAME(nextSystemId)
     SELECT 

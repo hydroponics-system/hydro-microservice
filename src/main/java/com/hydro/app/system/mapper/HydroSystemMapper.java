@@ -24,6 +24,7 @@ public class HydroSystemMapper extends AbstractMapper<HydroSystem> {
 		sys.setUuid(rs.getString(UUID));
 		sys.setPartNumber(new PartNumber(rs.getString(PART_NUMBER)));
 		sys.setName(rs.getString(NAME));
+		sys.setInsertUserId(rs.getInt(INSERT_USER_ID));
 		sys.setInsertDate(rs.getTimestamp(INSERT_DATE).toLocalDateTime());
 
 		return sys;
