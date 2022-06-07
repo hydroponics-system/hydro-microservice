@@ -2,8 +2,7 @@ package com.hydro.app.growchamberhistory.client.domain;
 
 import java.time.LocalDateTime;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Grow chamber log object.
@@ -11,34 +10,34 @@ import io.swagger.annotations.ApiModelProperty;
  * @author Sam Butler
  * @since May 26, 2022
  */
-@ApiModel(description = "Grow Chamber Log object for holding information about the grow chamber history.")
+@Schema(description = "Grow Chamber Log object for holding information about the grow chamber history.")
 public class GrowChamberLog {
 
-    @ApiModelProperty(value = "Log identifier.")
+    @Schema(description = "Log identifier.")
     private int id;
 
-    @ApiModelProperty(value = "System identifier.")
+    @Schema(description = "System identifier.")
     private int systemId;
 
-    @ApiModelProperty(value = "PH level of the system.")
+    @Schema(description = "PH level of the system.")
     private float ph;
 
-    @ApiModelProperty(value = "Total dissolved solids of the system.")
+    @Schema(description = "Total dissolved solids of the system.")
     private float tds;
 
-    @ApiModelProperty(value = "Water temp of the system in celsius.")
+    @Schema(description = "Water temp of the system in celsius.")
     private float waterTemp;
 
-    @ApiModelProperty(value = "Air temp of the system in celsius.")
+    @Schema(description = "Air temp of the system in celsius.")
     private float airTemp;
 
-    @ApiModelProperty(value = "Humidity level of the system.")
+    @Schema(description = "Humidity level of the system.")
     private float humidity;
 
-    @ApiModelProperty(value = "The status if the lights are on or off.")
+    @Schema(description = "The status if the lights are on or off.")
     private boolean lightsOn;
 
-    @ApiModelProperty(value = "When the log was created.")
+    @Schema(description = "When the log was created.")
     private LocalDateTime insertDate;
 
     public int getId() {

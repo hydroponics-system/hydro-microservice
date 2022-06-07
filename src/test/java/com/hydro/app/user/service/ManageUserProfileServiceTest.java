@@ -9,6 +9,10 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+
 import com.hydro.app.user.client.UserCredentialsClient;
 import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.client.domain.enums.WebRole;
@@ -18,12 +22,6 @@ import com.hydro.common.exceptions.NotFoundException;
 import com.hydro.factory.annotations.HydroServiceTest;
 import com.hydro.factory.data.UserFactoryData;
 import com.hydro.jwt.utility.JwtHolder;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 @HydroServiceTest
 public class ManageUserProfileServiceTest {
@@ -39,11 +37,6 @@ public class ManageUserProfileServiceTest {
 
     @InjectMocks
     private ManageUserProfileService service;
-
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test
     public void testCreateUser() throws Exception {

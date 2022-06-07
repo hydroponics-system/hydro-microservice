@@ -4,13 +4,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.util.List;
 
-import com.hydro.annotations.interfaces.HasAccess;
-import com.hydro.app.user.client.domain.User;
-import com.hydro.app.user.client.domain.enums.WebRole;
-import com.hydro.app.user.client.domain.request.UserGetRequest;
-import com.hydro.app.user.service.ManageUserProfileService;
-import com.hydro.app.user.service.UserProfileService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,13 +15,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import com.hydro.annotations.interfaces.HasAccess;
+import com.hydro.app.user.client.domain.User;
+import com.hydro.app.user.client.domain.enums.WebRole;
+import com.hydro.app.user.client.domain.request.UserGetRequest;
+import com.hydro.app.user.service.ManageUserProfileService;
+import com.hydro.app.user.service.UserProfileService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RequestMapping("/api/user-app/user-profile")
 @RestController
-@Api(tags = { "User Profile Controller" }, description = "Endpoint for managing users.")
+@Tag(name = "User Profile Controller", description = "Endpoint for managing users.")
 public class UserProfileController {
 
 	@Autowired
@@ -44,7 +44,7 @@ public class UserProfileController {
 	 * @return list of user objects
 	 * @throws Exception
 	 */
-	@ApiOperation(value = "Get list of users", notes = "Given a UserGetRequest, a list of users will be returned that match the request")
+	@Operation(summary = "Get list of users", description = "Given a UserGetRequest, a list of users will be returned that match the request")
 	@GetMapping(produces = APPLICATION_JSON_VALUE)
 	@HasAccess(WebRole.ADMIN)
 	public List<User> getUsers(UserGetRequest request) throws Exception {
@@ -71,7 +71,8 @@ public class UserProfileController {
 	 */
 	@GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
 	@HasAccess(WebRole.ADMIN)
-	public User getUserById(@ApiParam(value = "Id of a user", required = true) @PathVariable int id) throws Exception {
+	public User getUserById(@Parameter(description = "Id of a user", required = true) @PathVariable int id)
+			throws Exception {
 		return userProfileService.getUserById(id);
 	}
 
@@ -123,7 +124,7 @@ public class UserProfileController {
 	@PutMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
 	@HasAccess(WebRole.ADMIN)
 	public User updateUserProfileById(
-			@ApiParam(value = "User Request to filter on.", required = true) @PathVariable int id,
+			@Parameter(description = "User Request to filter on.", required = true) @PathVariable int id,
 			@RequestBody User user) throws Exception {
 		return manageUserProfileService.updateUserProfileById(id, user);
 	}
@@ -136,7 +137,7 @@ public class UserProfileController {
 	 */
 	@DeleteMapping("/{id}")
 	@HasAccess(WebRole.ADMIN)
-	public void deleteUser(@ApiParam(value = "User Request to filter on.", required = true) @PathVariable int id)
+	public void deleteUser(@Parameter(description = "User Request to filter on.", required = true) @PathVariable int id)
 			throws Exception {
 		manageUserProfileService.deleteUser(id);
 	}

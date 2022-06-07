@@ -1,14 +1,14 @@
 package com.hydro.websockets.rest;
 
-import com.hydro.annotations.interfaces.RestApiController;
-import com.hydro.websockets.service.WebSocketService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import io.swagger.annotations.Api;
+import com.hydro.annotations.interfaces.RestApiController;
+import com.hydro.websockets.service.WebSocketService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * WebSocketController for notifications
@@ -18,7 +18,7 @@ import io.swagger.annotations.Api;
  */
 @RestApiController
 @RequestMapping("/api/web-socket/notifications")
-@Api(tags = { "Websocket Controller" }, description = "Endpoints for websocket integration.")
+@Tag(name = "Websocket Controller", description = "Endpoints for websocket integration.")
 public class WebSocketController {
 
     @Autowired

@@ -1,0 +1,39 @@
+@NAME(systemFields)
+    sys.id,
+    sys.uuid,
+    sys.part_number,
+    sys.name,
+    sys.insert_user_id,
+    sys.insert_date_utc
+
+@NAME(fromSystem)
+    FROM systems sys
+    @WHERE
+        @AND(:id)
+            sys.id IN (:id)
+        @AND(:uuid)
+            sys.uuid IN (:uuid)
+        @AND(:part_number)
+            sys.part_number IN (:part_number)
+        @AND(:name)
+            sys.name IN (:name)
+
+@NAME(getSystems)
+    SELECT @INCLUDE(systemFields)
+    @INCLUDE(fromSystem)
+
+@NAME(registerSystem)
+    INSERT INTO systems (uuid, part_number, name, insert_user_id)
+    VALUES (:uuid, :part_number, :name, :insert_user_id)
+
+@NAME(unregisterSystem)
+    DELETE FROM systems 
+    WHERE id = :id
+
+@NAME(nextSystemId)
+    SELECT 
+        AUTO_INCREMENT
+    FROM
+        information_schema.TABLES
+    WHERE
+        TABLE_NAME = 'systems'

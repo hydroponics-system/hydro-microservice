@@ -2,6 +2,12 @@ package com.hydro.app.user.service;
 
 import java.security.NoSuchAlgorithmException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
 import com.hydro.app.auth.client.AuthenticationClient;
 import com.hydro.app.user.client.UserProfileClient;
 import com.hydro.app.user.client.domain.PasswordUpdate;
@@ -10,13 +16,6 @@ import com.hydro.app.user.dao.UserCredentialsDAO;
 import com.hydro.common.exceptions.BaseException;
 import com.hydro.common.exceptions.InsufficientPermissionsException;
 import com.hydro.jwt.utility.JwtHolder;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import io.jsonwebtoken.lang.Assert;
 
 /**
  * User Service class that handles all service calls to the
@@ -113,7 +112,7 @@ public class UserCredentialsService {
      * @throws Exception
      */
     private User passwordUpdate(int userId, String password) throws Exception {
-        Assert.hasLength(password);
+        Assert.hasLength(password, "Password can not be empty or null");
         try {
             dao.updateUserPassword(userId, BCrypt.hashpw(password, BCrypt.gensalt()));
             return userProfileClient.getUserById(userId);

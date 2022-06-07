@@ -1,7 +1,6 @@
 package com.hydro.app.user.client.domain;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Object used to update a users password. This will hold a current password and
@@ -10,13 +9,13 @@ import io.swagger.annotations.ApiModelProperty;
  * @author Sam Butler
  * @since October 29, 2021
  */
-@ApiModel(description = "Password update object for when a user wants to change their password.")
+@Schema(description = "Password update object for when a user wants to change their password.")
 public class PasswordUpdate {
 
-    @ApiModelProperty(value = "The users current password.")
+    @Schema(description = "The users current password.")
     private String currentPassword;
 
-    @ApiModelProperty(value = "The users new password")
+    @Schema(description = "The users new password")
     private String newPassword;
 
     public PasswordUpdate() {

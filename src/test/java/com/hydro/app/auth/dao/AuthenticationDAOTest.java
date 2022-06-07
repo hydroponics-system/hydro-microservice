@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.hydro.common.exceptions.NotFoundException;
 import com.hydro.factory.annotations.HydroDaoTest;
-import com.hydro.factory.config.test.AuthenticationDaoTestConfig;
+import com.hydro.factory.config.test.AuthenticationDAOTestConfig;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 
-@ContextConfiguration(classes = AuthenticationDaoTestConfig.class)
-@Sql("/scripts/auth/init.sql")
+@ContextConfiguration(classes = AuthenticationDAOTestConfig.class)
+@Sql("/scripts/auth/authenticationDAO/init.sql")
 @HydroDaoTest
-public class AuthenticationDaoTest {
+public class AuthenticationDAOTest {
 
     @Autowired
     private AuthenticationDAO dao;

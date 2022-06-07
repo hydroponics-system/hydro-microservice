@@ -11,13 +11,13 @@
 -- ---------------------------------------------------------------------------------
 
 CREATE TABLE user_profile (
-  id                       int(10)      unsigned NOT NULL AUTO_INCREMENT,
-  first_name               varchar(128)          NOT NULL,
-  last_name                varchar(128)          NOT NULL DEFAULT '',
-  email                    varchar(128)                   DEFAULT  NULL,
-  web_role                 varchar(128)          NOT NULL DEFAULT 'USER',
-  last_login_date_utc      datetime              NOT NULL DEFAULT current_timestamp(),
-  insert_date_utc          datetime              NOT NULL DEFAULT current_timestamp(),
+  id                       INT          UNSIGNED NOT NULL AUTO_INCREMENT,
+  first_name               VARCHAR(128)          NOT NULL,
+  last_name                VARCHAR(128)          NOT NULL DEFAULT '',
+  email                    VARCHAR(128)                   DEFAULT  NULL,
+  web_role                 VARCHAR(128)          NOT NULL DEFAULT 'USER',
+  last_login_date_utc      DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  insert_date_utc          DATETIME              NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

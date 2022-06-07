@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @author Sam Butler
  * @since April 25, 2022
  */
-@ComponentScan(basePackages = { "com.hydro.app.user.dao" })
-public class UserDaoTestConfig {
+@ComponentScan(basePackages = { "com.hydro.app.system.dao" })
+public class HydroSystemDAOTestConfig {
 
 }
