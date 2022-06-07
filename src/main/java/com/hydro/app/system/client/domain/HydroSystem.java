@@ -2,8 +2,7 @@ package com.hydro.app.system.client.domain;
 
 import java.time.LocalDateTime;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Hydroponic System object.
@@ -11,22 +10,22 @@ import io.swagger.annotations.ApiModelProperty;
  * @author Sam Butler
  * @since May 26, 2022
  */
-@ApiModel(description = "Hydroponic System object holding information about the system.")
+@Schema(description = "Hydroponic System object holding information about the system.")
 public class HydroSystem {
 
-    @ApiModelProperty(value = "System identifier.")
+    @Schema(description = "System identifier.")
     private int id;
 
-    @ApiModelProperty(value = "Unique Universal identifier for the system.")
+    @Schema(description = "Unique Universal identifier for the system.")
     private String uuid;
 
-    @ApiModelProperty(value = "System part number.")
+    @Schema(description = "System part number.")
     private PartNumber partNumber;
 
-    @ApiModelProperty(value = "Nickname for the system.")
+    @Schema(description = "Nickname for the system.")
     private String name;
 
-    @ApiModelProperty(value = "When the log was created.")
+    @Schema(description = "When the log was created.")
     private LocalDateTime insertDate;
 
     public int getId() {

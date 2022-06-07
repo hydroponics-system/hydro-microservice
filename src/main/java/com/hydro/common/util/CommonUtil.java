@@ -1,6 +1,6 @@
 package com.hydro.common.util;
 
-import io.jsonwebtoken.lang.Assert;
+import org.springframework.util.Assert;
 
 /**
  * Class for storing common methods for use accross the application.

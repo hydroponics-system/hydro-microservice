@@ -2,18 +2,18 @@ package com.hydro.app.auth.rest;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import com.hydro.annotations.interfaces.RestApiController;
-import com.hydro.app.auth.client.domain.AuthToken;
-import com.hydro.app.auth.client.domain.request.AuthenticationRequest;
-import com.hydro.app.auth.service.AuthenticationService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import io.swagger.annotations.Api;
+import com.hydro.annotations.interfaces.RestApiController;
+import com.hydro.app.auth.client.domain.AuthToken;
+import com.hydro.app.auth.client.domain.request.AuthenticationRequest;
+import com.hydro.app.auth.service.AuthenticationService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Generates a JWT after being passed a request
@@ -23,7 +23,7 @@ import io.swagger.annotations.Api;
  */
 @RequestMapping("/authenticate")
 @RestApiController
-@Api(tags = { "Authentication Controller" }, description = "Endpoints for authentication.")
+@Tag(name = "Authentication Controller", description = "Endpoints for authentication.")
 public class AuthenticationController {
 
     @Autowired

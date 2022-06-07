@@ -4,8 +4,7 @@ import java.time.LocalDateTime;
 
 import com.hydro.app.user.client.domain.enums.WebRole;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Class to create a user profile object
@@ -13,31 +12,31 @@ import io.swagger.annotations.ApiModelProperty;
  * @author Sam Butler
  * @since June 25, 2020
  */
-@ApiModel(description = "User object for holding user details.")
+@Schema(description = "User object for holding user details.")
 public class User {
 
-	@ApiModelProperty(value = "User identifier")
+	@Schema(description = "User identifier")
 	private int id;
 
-	@ApiModelProperty(value = "First name of the user.")
+	@Schema(description = "First name of the user.")
 	private String firstName;
 
-	@ApiModelProperty(value = "Last name of the user.")
+	@Schema(description = "Last name of the user.")
 	private String lastName;
 
-	@ApiModelProperty(value = "The users email")
+	@Schema(description = "The users email")
 	private String email;
 
-	@ApiModelProperty(value = "The user web role", allowableValues = "USER,ADMIN")
+	@Schema(description = "The user web role", allowableValues = "USER,ADMIN")
 	private WebRole webRole;
 
-	@ApiModelProperty(value = "The users password (hashed).")
+	@Schema(description = "The users password (hashed).")
 	private String password;
 
-	@ApiModelProperty(value = "The date the user has last authenticated.")
+	@Schema(description = "The date the user has last authenticated.")
 	private LocalDateTime lastLoginDate;
 
-	@ApiModelProperty(value = "When the user was created.")
+	@Schema(description = "When the user was created.")
 	private LocalDateTime insertDate;
 
 	public int getId() {

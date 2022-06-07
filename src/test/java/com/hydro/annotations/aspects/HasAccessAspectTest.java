@@ -7,22 +7,23 @@ import static org.mockito.Mockito.when;
 
 import java.lang.annotation.Annotation;
 
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import com.hydro.annotations.interfaces.HasAccess;
 import com.hydro.app.user.client.domain.enums.WebRole;
 import com.hydro.common.exceptions.InsufficientPermissionsException;
 import com.hydro.factory.annotations.HydroTest;
 import com.hydro.jwt.utility.JwtHolder;
 
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
 @HydroTest
+@ExtendWith(MockitoExtension.class)
 public class HasAccessAspectTest {
     @Mock
     private ProceedingJoinPoint proceedingJoinPoint;
@@ -32,11 +33,6 @@ public class HasAccessAspectTest {
 
     @InjectMocks
     private HasAccessAspect accessAspcect;
-
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test
     public void testHasAccessAdminAccess() throws Throwable {

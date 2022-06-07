@@ -13,6 +13,10 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+
 import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
 import com.hydro.app.user.dao.UserProfileDAO;
@@ -20,12 +24,6 @@ import com.hydro.common.exceptions.NotFoundException;
 import com.hydro.factory.annotations.HydroServiceTest;
 import com.hydro.factory.data.UserFactoryData;
 import com.hydro.jwt.utility.JwtHolder;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 @HydroServiceTest
 public class UserProfileServiceTest {
@@ -38,11 +36,6 @@ public class UserProfileServiceTest {
 
     @InjectMocks
     private UserProfileService service;
-
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test
     public void testGetUsers() {
@@ -85,7 +78,6 @@ public class UserProfileServiceTest {
 
     @Test
     public void testGetUserByIdInvalidUserId() throws Exception {
-        when(jwtHolder.getRequiredUserId()).thenReturn(100);
         when(userProfileDAO.getUserById(anyInt())).thenThrow(new NotFoundException("User", 100));
 
         assertThrows(NotFoundException.class, () -> service.getUserById(100));

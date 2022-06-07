@@ -2,12 +2,6 @@ package com.hydro.app.user.rest;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import com.hydro.annotations.interfaces.HasAccess;
-import com.hydro.app.user.client.domain.PasswordUpdate;
-import com.hydro.app.user.client.domain.User;
-import com.hydro.app.user.client.domain.enums.WebRole;
-import com.hydro.app.user.service.UserCredentialsService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,11 +9,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
+import com.hydro.annotations.interfaces.HasAccess;
+import com.hydro.app.user.client.domain.PasswordUpdate;
+import com.hydro.app.user.client.domain.User;
+import com.hydro.app.user.client.domain.enums.WebRole;
+import com.hydro.app.user.service.UserCredentialsService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RequestMapping("/api/user-app/user-credentials")
 @RestController
-@Api(tags = { "User Credentials Controller" }, description = "Endpoint for managing a users credentials.")
+@Tag(name = "User Credentials Controller", description = "Endpoint for managing a users credentials.")
 public class UserCredentialsController {
 
     @Autowired

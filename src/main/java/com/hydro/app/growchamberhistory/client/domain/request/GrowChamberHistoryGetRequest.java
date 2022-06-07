@@ -2,8 +2,7 @@ package com.hydro.app.growchamberhistory.client.domain.request;
 
 import java.util.Set;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * GrowChamberHistoryGetRequest for filtering grow chamber history logs.
@@ -11,16 +10,16 @@ import io.swagger.annotations.ApiModelProperty;
  * @author Sam Butler
  * @since May 26, 2022
  */
-@ApiModel(description = "Grow Chamber History get request object for filtering logs.")
+@Schema(description = "Grow Chamber History get request object for filtering logs.")
 public class GrowChamberHistoryGetRequest {
 
-    @ApiModelProperty(value = "List of Grow Chamber ids.")
+    @Schema(description = "List of Grow Chamber ids.")
     private Set<Integer> id;
 
-    @ApiModelProperty(value = "List system ids.")
+    @Schema(description = "List system ids.")
     private Set<Integer> systemId;
 
-    @ApiModelProperty(value = "The status of the lights.")
+    @Schema(description = "The status of the lights.")
     private Boolean lightStatus;
 
     public Set<Integer> getId() {

@@ -1,46 +1,53 @@
+buildscript {
+    ext {
+        google_guava_version = '31.1-jre'
+        mysql_connector_version = '8.0.25'
+        springboot_version = '2.6.7'
+        swagger_version = '2.2.0'
+		spring_doc_openapi_version = '1.6.9'
+		json_web_token_version = '0.2'
+		aspect_tools_version = '1.9.7'
+		elsql_version = '1.2'
+		google_bugs_version = '3.0.2'
+    }
+}
+
 plugins {
-	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id "org.springframework.boot" version "${springboot_version}"
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-	id 'java'
+	id "java"
 }
 
 group = 'com.hydro'
-sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-web-services'
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation "org.springframework.boot:spring-boot-starter"
+	implementation "org.springframework.boot:spring-boot-starter-jdbc"
+	implementation "org.springframework.boot:spring-boot-starter-web-services"
+	implementation "org.springframework.boot:spring-boot-starter-webflux"
+	implementation "org.springframework.boot:spring-boot-starter-security"
+	implementation "org.springframework.boot:spring-boot-starter-websocket"
 
-    implementation "io.springfox:springfox-boot-starter:3.0.0"
-    compile "io.springfox:springfox-swagger-ui:3.0.0"
-	implementation 'io.jsonwebtoken:jjwt:0.2'
+	implementation "io.jsonwebtoken:jjwt:${json_web_token_version}"
+	implementation "com.google.code.findbugs:jsr305:${google_bugs_version}"
+	implementation "com.opengamma:elsql:${elsql_version}"
+	implementation "com.google.guava:guava:${google_guava_version}"
+	implementation "org.aspectj:aspectjtools:${aspect_tools_version}"
 
-	implementation 'com.google.code.findbugs:jsr305:3.0.2'
-	implementation 'com.opengamma:elsql:1.2'
-	implementation 'com.sendgrid:sendgrid-java:4.0.1'
-	implementation 'com.google.guava:guava:r05'
+	implementation "io.swagger.core.v3:swagger-annotations:${swagger_version}"
+	implementation "org.springdoc:springdoc-openapi-ui:${spring_doc_openapi_version}"
 
-	implementation 'org.aspectj:aspectjtools:1.9.7'
+	runtimeOnly "mysql:mysql-connector-java:${mysql_connector_version}"
 
-	implementation 'mysql:mysql-connector-java:8.0.15'
-
-	testImplementation 'org.junit.platform:junit-platform-launcher:1.5.2'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-    	exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'  
-	}
+	testImplementation "org.springframework.boot:spring-boot-starter-test"
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+tasks.withType(Copy).all {
+	duplicatesStrategy 'exclude'
 }
 
-sourceSets.test.resources.srcDir 'src/test/resources'
+sourceSets.test.resources.srcDir "src/test/resources"

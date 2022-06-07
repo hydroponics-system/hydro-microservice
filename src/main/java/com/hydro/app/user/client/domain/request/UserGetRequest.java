@@ -4,8 +4,7 @@ import java.util.Set;
 
 import com.hydro.app.user.client.domain.enums.WebRole;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This class handles lookups passed to the DAO.
@@ -13,22 +12,22 @@ import io.swagger.annotations.ApiModelProperty;
  * @author Sam Butler
  * @since September 9, 2021
  */
-@ApiModel(description = "User get request object for filtering users.")
+@Schema(description = "User get request object for filtering users.")
 public class UserGetRequest {
 
-    @ApiModelProperty(value = "List of user ids.")
+    @Schema(description = "List of user ids.")
     private Set<Integer> id;
 
-    @ApiModelProperty(value = "List of user first names.")
+    @Schema(description = "List of user first names.")
     private Set<String> firstName;
 
-    @ApiModelProperty(value = "List of user last names.")
+    @Schema(description = "List of user last names.")
     private Set<String> lastName;
 
-    @ApiModelProperty(value = "List of emails.")
+    @Schema(description = "List of emails.")
     private Set<String> email;
 
-    @ApiModelProperty(value = "List of user web roles.", allowableValues = "USER,ADMIN")
+    @Schema(description = "List of user web roles.", allowableValues = "USER,ADMIN")
     private Set<WebRole> webRole;
 
     public Set<Integer> getId() {

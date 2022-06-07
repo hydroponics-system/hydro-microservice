@@ -132,6 +132,7 @@ hs_err_pid*
 
 ### Gradle ###
 .gradle
+.classpath
 build/
 
 # Ignore Gradle GUI config

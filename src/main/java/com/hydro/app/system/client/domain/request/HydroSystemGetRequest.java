@@ -2,8 +2,7 @@ package com.hydro.app.system.client.domain.request;
 
 import java.util.Set;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * System get request for filtering systems.
@@ -11,19 +10,19 @@ import io.swagger.annotations.ApiModelProperty;
  * @author Sam Butler
  * @since May 26, 2022
  */
-@ApiModel(description = "System get request object for filtering systems.")
+@Schema(description = "System get request object for filtering systems.")
 public class HydroSystemGetRequest {
 
-    @ApiModelProperty(value = "List System ids.")
+    @Schema(description = "List System ids.")
     private Set<Integer> id;
 
-    @ApiModelProperty(value = "List of system part numbers.")
+    @Schema(description = "List of system part numbers.")
     private Set<String> uuid;
 
-    @ApiModelProperty(value = "List of system part numbers.")
+    @Schema(description = "List of system part numbers.")
     private Set<String> partNumber;
 
-    @ApiModelProperty(value = "List of system names.")
+    @Schema(description = "List of system names.")
     private Set<String> name;
 
     public Set<Integer> getId() {

@@ -11,6 +11,10 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+
 import com.hydro.app.auth.client.domain.request.AuthenticationRequest;
 import com.hydro.app.auth.dao.AuthenticationDAO;
 import com.hydro.app.user.client.UserProfileClient;
@@ -19,12 +23,6 @@ import com.hydro.app.user.client.domain.request.UserGetRequest;
 import com.hydro.common.exceptions.InvalidCredentialsException;
 import com.hydro.factory.annotations.HydroServiceTest;
 import com.hydro.jwt.utility.JwtTokenUtil;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 @HydroServiceTest
 public class AuthenticationServiceTest {
@@ -40,11 +38,6 @@ public class AuthenticationServiceTest {
 
     @InjectMocks
     private AuthenticationService service;
-
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test
     public void testAuthenticateUser() throws Exception {

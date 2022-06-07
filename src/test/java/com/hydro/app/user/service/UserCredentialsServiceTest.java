@@ -12,6 +12,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
 import com.hydro.app.auth.client.AuthenticationClient;
 import com.hydro.app.user.client.UserProfileClient;
 import com.hydro.app.user.client.domain.PasswordUpdate;
@@ -23,15 +30,6 @@ import com.hydro.common.exceptions.InvalidCredentialsException;
 import com.hydro.factory.annotations.HydroServiceTest;
 import com.hydro.factory.data.UserFactoryData;
 import com.hydro.jwt.utility.JwtHolder;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
 @HydroServiceTest
 public class UserCredentialsServiceTest {
@@ -53,11 +51,6 @@ public class UserCredentialsServiceTest {
 
     @InjectMocks
     private UserCredentialsService service;
-
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test
     public void testInsertUserPassword() {
@@ -88,7 +81,6 @@ public class UserCredentialsServiceTest {
     @Test
     public void testUpdateUserPasswordAuthenticationFailed() throws Exception {
         when(authClient.authenticate(any(), any())).thenThrow(InvalidCredentialsException.class);
-        when(jwtHolder.getRequiredUserId()).thenReturn(12);
         when(jwtHolder.getRequiredEmail()).thenReturn("test@user.com");
 
         assertThrows(InvalidCredentialsException.class, () -> service.updateUserPassword(new PasswordUpdate()));
@@ -111,8 +103,7 @@ public class UserCredentialsServiceTest {
         verify(authClient).authenticate("password@user.com", "currentPassword123!");
         verify(userCredentialsDAO, never()).updateUserPassword(anyInt(), any());
         verify(userProfileClient, never()).getUserById(anyInt());
-        assertEquals("[Assertion failed] - this String argument must have length; it must not be null or empty",
-                e.getMessage(), "Exception Message");
+        assertEquals("Password can not be empty or null", e.getMessage(), "Exception Message");
     }
 
     @Test
@@ -126,7 +117,6 @@ public class UserCredentialsServiceTest {
         userToUpdate.setId(5);
 
         when(userProfileClient.getUserById(anyInt())).thenReturn(userToUpdate);
-        when(jwtHolder.getWebRole()).thenReturn(WebRole.ADMIN);
 
         service.updateUserPasswordById(5, passUpdate);
 
@@ -163,7 +153,6 @@ public class UserCredentialsServiceTest {
 
     @Test
     public void testResetUserPasswordInvalidResetPasswordToken() throws Exception {
-        when(jwtHolder.getRequiredUserId()).thenReturn(12);
         when(jwtHolder.getRequiredResetPassword()).thenReturn(false);
 
         Exception e = assertThrows(Exception.class, () -> service.resetUserPassword("newPass"));
