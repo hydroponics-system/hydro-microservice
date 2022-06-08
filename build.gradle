@@ -18,11 +18,19 @@ plugins {
 	id "java"
 }
 
-group = 'com.hydro'
-
 repositories {
 	mavenCentral()
 }
+
+tasks.named('processTestResources') {
+	duplicatesStrategy 'exclude'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+group = 'com.hydro'
 
 dependencies {
 	implementation "org.springframework.boot:spring-boot-starter"
@@ -44,10 +52,6 @@ dependencies {
 	runtimeOnly "mysql:mysql-connector-java:${mysql_connector_version}"
 
 	testImplementation "org.springframework.boot:spring-boot-starter-test"
-}
-
-tasks.withType(Copy).all {
-	duplicatesStrategy 'exclude'
 }
 
 sourceSets.test.resources.srcDir "src/test/resources"
