@@ -6,16 +6,16 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.hydro.app.system.client.domain.HydroSystem;
-import com.hydro.app.system.client.domain.request.HydroSystemGetRequest;
-import com.hydro.common.abstracts.BaseDao;
-import com.hydro.common.sql.SqlParamBuilder;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import com.hydro.app.system.client.domain.HydroSystem;
+import com.hydro.app.system.client.domain.request.HydroSystemGetRequest;
+import com.hydro.common.abstracts.BaseDao;
+import com.hydro.common.sql.SqlParamBuilder;
 
 /**
  * Class that handles all the dao calls to the database for grow chamber logs.
@@ -38,7 +38,7 @@ public class HydroSystemDAO extends BaseDao {
      * @return List of {@link HydroSystem} objects.
      */
     public List<HydroSystem> getSystems(HydroSystemGetRequest request) {
-        var params = SqlParamBuilder.with().withParam(ID, request.getId()).withParam(UUID, request.getPartNumber())
+        var params = SqlParamBuilder.with().withParam(ID, request.getId()).withParam(UUID, request.getUuid())
                 .withParam(PART_NUMBER, request.getPartNumber()).withParam(NAME, request.getName()).build();
 
         return getPage(getSql("getSystems", params), params, HYDRO_SYSTEM_MAPPER);
