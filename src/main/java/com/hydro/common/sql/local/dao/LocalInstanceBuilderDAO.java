@@ -2,10 +2,9 @@ package com.hydro.common.sql.local.dao;
 
 import javax.sql.DataSource;
 
-import com.hydro.common.abstracts.BaseDao;
-
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
+
+import com.hydro.common.abstracts.BaseDao;
 
 /**
  * Local instance builder dao for interacting with the users local database.
@@ -25,7 +24,7 @@ public class LocalInstanceBuilderDAO extends BaseDao {
      * database.
      */
     public void createLocalSchema() {
-        post(getSql("createLocalSchema"), new MapSqlParameterSource());
+        execute(getSql("createLocalSchema"));
     }
 
     /**
