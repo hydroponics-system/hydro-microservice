@@ -64,8 +64,12 @@ public class HydroSystemDAOTest {
 
     @Test
     public void testGetNextSystemId() {
+        HydroSystemGetRequest req = new HydroSystemGetRequest();
+        req.setId(Sets.newHashSet(4));
+
         assertEquals(4, dao.getNextSystemId(), "Next id should be 4");
         assertEquals(dao.registerSystem(HydroSystemFactoryData.hydroSystem()), 4, "System created with id 4");
+        assertEquals(222222, dao.getSystems(req).get(0).getPartNumber().getSystemId(), "Part Number");
     }
 
     private static Stream<Arguments> provideHydroGetRequests() {
