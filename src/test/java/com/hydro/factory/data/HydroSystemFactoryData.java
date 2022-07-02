@@ -13,6 +13,7 @@ public class HydroSystemFactoryData {
 
     public static HydroSystem hydroSystem() {
         HydroSystem sys = new HydroSystem();
+        sys.setId(1);
         sys.setUuid("71d9ec65-265b-3388-a6e4-654128dr5678");
         sys.setPartNumber(new PartNumber("111111D222222"));
         sys.setName("testName");
