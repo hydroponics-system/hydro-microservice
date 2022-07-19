@@ -47,10 +47,6 @@ public class PartNumber {
         systemId = valueOf(matcher, "system");
     }
 
-    public String getPartNumber() {
-        return partNumber;
-    }
-
     public int getProductNumber() {
         return productNumber;
     }

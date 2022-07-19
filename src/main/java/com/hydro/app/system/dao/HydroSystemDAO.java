@@ -38,7 +38,7 @@ public class HydroSystemDAO extends BaseDao {
      * @return List of {@link HydroSystem} objects.
      */
     public List<HydroSystem> getSystems(HydroSystemGetRequest request) {
-        var params = SqlParamBuilder.with().withParam(ID, request.getId()).withParam(UUID, request.getPartNumber())
+        var params = SqlParamBuilder.with().withParam(ID, request.getId()).withParam(UUID, request.getUuid())
                 .withParam(PART_NUMBER, request.getPartNumber()).withParam(NAME, request.getName()).build();
 
         return getPage(getSql("getSystems", params), params, HYDRO_SYSTEM_MAPPER);
@@ -52,7 +52,7 @@ public class HydroSystemDAO extends BaseDao {
      */
     public int registerSystem(HydroSystem sys) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        MapSqlParameterSource params = SqlParamBuilder.with().withParam(UUID, sys.getUuid())
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(UUID, sys.getUUID())
                 .withParam(PART_NUMBER, sys.getPartNumber().toString()).withParam(NAME, sys.getName())
                 .withParam(INSERT_USER_ID, sys.getInsertUserId()).build();
 

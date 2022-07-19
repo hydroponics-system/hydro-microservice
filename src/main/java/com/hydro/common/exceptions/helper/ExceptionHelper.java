@@ -1,12 +1,13 @@
 package com.hydro.common.exceptions.helper;
 
-import com.hydro.common.exceptions.InvalidCredentialsException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import com.hydro.common.exceptions.InvalidCredentialsException;
+import com.hydro.common.util.HydroLogger;
 
 /**
  * Exception Helper class for returning response entitys of the errored objects.
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * @author Sam Butler
  * @since August 24, 2021
  */
-// @ControllerAdvice
+@ControllerAdvice
 public class ExceptionHelper {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionHelper.class);
+
+    @Autowired
+    private HydroLogger LOGGER;
 
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<ExceptionError> handleInvalidCredentialsException(Exception ex) {
@@ -28,7 +31,7 @@ public class ExceptionHelper {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionError> handleException(Exception ex) {
         LOGGER.error(ex.getMessage());
-        return new ResponseEntity<ExceptionError>(new ExceptionError(ex.getMessage(), HttpStatus.BAD_REQUEST),
+        return new ResponseEntity<ExceptionError>(new ExceptionError(ex.getMessage(), HttpStatus.FORBIDDEN),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

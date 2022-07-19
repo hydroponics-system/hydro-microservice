@@ -19,6 +19,7 @@ import com.hydro.app.user.client.domain.enums.WebRole;
 import com.hydro.app.user.dao.UserProfileDAO;
 import com.hydro.common.exceptions.InsufficientPermissionsException;
 import com.hydro.common.exceptions.NotFoundException;
+import com.hydro.common.util.HydroLogger;
 import com.hydro.factory.annotations.HydroServiceTest;
 import com.hydro.factory.data.UserFactoryData;
 import com.hydro.jwt.utility.JwtHolder;
@@ -34,6 +35,9 @@ public class ManageUserProfileServiceTest {
 
     @Mock
     private UserProfileDAO dao;
+
+    @Mock
+    private HydroLogger logger;
 
     @InjectMocks
     private ManageUserProfileService service;
@@ -53,7 +57,7 @@ public class ManageUserProfileServiceTest {
 
     @Test
     public void testUpdateUserProfile() throws Exception {
-        when(jwtHolder.getRequiredUserId()).thenReturn(12);
+        when(jwtHolder.getUserId()).thenReturn(12);
 
         service.updateUserProfile(UserFactoryData.userData());
 

@@ -34,6 +34,6 @@
     SELECT 
         AUTO_INCREMENT
     FROM
-        information_schema.TABLES
-    WHERE
-        TABLE_NAME = 'systems'
+        information_schema.tables
+    WHERE table_name = 'systems'
+    AND table_schema = DATABASE()

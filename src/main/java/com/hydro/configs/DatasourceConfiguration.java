@@ -2,17 +2,17 @@ package com.hydro.configs;
 
 import javax.sql.DataSource;
 
-import com.hydro.common.sql.DatabaseConnectionBuilder;
-import com.hydro.common.sql.local.service.LocalInstanceBuilder;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.hydro.common.sql.DatabaseConnectionBuilder;
+import com.hydro.common.sql.local.service.LocalInstanceBuilder;
+
 /**
- * Application Configs for running the application.
+ * Application Configs for datasource objects.
  * 
  * @author Sam Butler
  * @since April 25, 2022

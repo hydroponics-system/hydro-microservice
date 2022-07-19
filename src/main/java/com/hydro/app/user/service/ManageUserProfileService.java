@@ -1,14 +1,15 @@
 package com.hydro.app.user.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.hydro.app.user.client.UserCredentialsClient;
 import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.dao.UserProfileDAO;
 import com.hydro.common.exceptions.InsufficientPermissionsException;
+import com.hydro.common.util.HydroLogger;
 import com.hydro.jwt.utility.JwtHolder;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * User Service class that handles all service calls to the dao
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 public class ManageUserProfileService {
+
 	@Autowired
 	private JwtHolder jwtHolder;
 
@@ -28,6 +30,9 @@ public class ManageUserProfileService {
 	@Autowired
 	private UserProfileDAO dao;
 
+	@Autowired
+	private HydroLogger LOGGER;
+
 	/**
 	 * Creates a new user for the given user object.
 	 * 
@@ -36,8 +41,10 @@ public class ManageUserProfileService {
 	 * @throws Exception
 	 */
 	public User createUser(User user) throws Exception {
+		LOGGER.info("Creating new user...");
 		int newUserId = dao.insertUser(user);
 		userCredentialsClient.insertUserPassword(newUserId, user.getPassword());
+		LOGGER.info("New User created with ID: '{}'", newUserId);
 		return dao.getUserById(newUserId);
 	}
 
@@ -49,7 +56,7 @@ public class ManageUserProfileService {
 	 * @throws Exception
 	 */
 	public User updateUserProfile(User user) throws Exception {
-		return updateUserProfile(jwtHolder.getRequiredUserId(), user);
+		return updateUserProfile(jwtHolder.getUserId(), user);
 	}
 
 	/**
@@ -92,6 +99,7 @@ public class ManageUserProfileService {
 			throw new InsufficientPermissionsException(jwtHolder.getWebRole(), deletingUser.getWebRole(), "delete");
 		}
 		dao.deleteUser(id);
+		LOGGER.info("User successfully deleted with ID: '{}'", id);
 	}
 
 	/**

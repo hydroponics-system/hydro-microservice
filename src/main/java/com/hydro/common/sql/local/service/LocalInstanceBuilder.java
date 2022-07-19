@@ -5,15 +5,15 @@ import java.nio.file.Files;
 
 import javax.sql.DataSource;
 
-import com.hydro.common.sql.DatabaseConnectionBuilder;
-import com.hydro.common.sql.local.dao.LocalInstanceBuilderDAO;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.stereotype.Component;
+
+import com.hydro.common.sql.DatabaseConnectionBuilder;
+import com.hydro.common.sql.local.dao.LocalInstanceBuilderDAO;
+import com.hydro.common.util.HydroLogger;
 
 /**
  * Local instance builder if the application-local.properties is running on a
@@ -23,9 +23,10 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
  * @author Sam Butler
  * @since May 29, 2022
  */
+@Component
 public class LocalInstanceBuilder {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LocalInstanceBuilder.class);
+    private static final HydroLogger LOGGER = new HydroLogger(LocalInstanceBuilder.class);
 
     private static final String LOCAL_HOST = "localhost";
 

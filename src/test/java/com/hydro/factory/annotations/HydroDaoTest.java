@@ -3,13 +3,13 @@ package com.hydro.factory.annotations;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import com.hydro.factory.config.DataSourceTestConfiguration;
-import com.hydro.factory.resolver.ActiveProfileTestResolver;
-
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import com.hydro.factory.config.DataSourceTestConfiguration;
+import com.hydro.factory.resolver.ActiveProfileTestResolver;
 
 /**
  * Annotation id for test that deal with dao classes.

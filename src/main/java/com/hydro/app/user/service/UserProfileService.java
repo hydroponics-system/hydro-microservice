@@ -2,14 +2,15 @@ package com.hydro.app.user.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.google.common.collect.Sets;
 import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
 import com.hydro.app.user.dao.UserProfileDAO;
+import com.hydro.common.util.HydroLogger;
 import com.hydro.jwt.utility.JwtHolder;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * User Service class that handles all service calls to the dao
@@ -26,6 +27,9 @@ public class UserProfileService {
 	@Autowired
 	private UserProfileDAO dao;
 
+	@Autowired
+	private HydroLogger LOGGER;
+
 	/**
 	 * Get users based on given request filter
 	 * 
@@ -34,7 +38,9 @@ public class UserProfileService {
 	 * @throws Exception
 	 */
 	public List<User> getUsers(UserGetRequest request) {
-		return dao.getUsers(request);
+		List<User> users = dao.getUsers(request);
+		LOGGER.info("User list response: '{}'", users.size());
+		return users;
 	}
 
 	/**
@@ -44,7 +50,7 @@ public class UserProfileService {
 	 * @throws Exception
 	 */
 	public User getCurrentUser() throws Exception {
-		return getUserById(jwtHolder.getRequiredUserId());
+		return getUserById(jwtHolder.getUserId());
 	}
 
 	/**
