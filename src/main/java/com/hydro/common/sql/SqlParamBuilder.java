@@ -1,13 +1,15 @@
 package com.hydro.common.sql;
 
+import static com.hydro.common.datetime.DateTimeMapper.printDate;
+
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.stream.Collectors;
 
-import com.hydro.common.datetime.DateTimeMapper;
-import com.hydro.common.enums.TextEnum;
-
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+
+import com.hydro.common.enums.TextEnum;
 
 /**
  * Sql builder to create all query binding parameters for making querys to the
@@ -61,8 +63,7 @@ public class SqlParamBuilder {
     }
 
     /**
-     * Add parameter to sql map and check that the text enum is not null, if not get
-     * the text id.
+     * Add parameter to sql map for the given {@link Boolean} value.
      * 
      * @param name  The name of the parameter.
      * @param value The value of the parameter
@@ -73,6 +74,17 @@ public class SqlParamBuilder {
     }
 
     /**
+     * Add parameter to sql map for the given {@link LocalDateTime} object.
+     * 
+     * @param name  The name of the parameter.
+     * @param value The value of the parameter
+     * @return this builder object {@link SqlParamBuilder}
+     */
+    public SqlParamBuilder withParam(String name, LocalDateTime value) {
+        return withParam(name, printDate(value));
+    }
+
+    /**
      * Add parameter to sql map and check that the text enum is not null, if not get
      * the text id.
      * 
@@ -80,8 +92,8 @@ public class SqlParamBuilder {
      * @param value The value of the parameter
      * @return this builder object {@link SqlParamBuilder}
      */
-    public SqlParamBuilder withParam(String name, LocalDateTime value) {
-        return withParam(name, DateTimeMapper.printDate(value));
+    public SqlParamBuilder withParam(String name, Date value) {
+        return withParam(name, printDate(value));
     }
 
     /**

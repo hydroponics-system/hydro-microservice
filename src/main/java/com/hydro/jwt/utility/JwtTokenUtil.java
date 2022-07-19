@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import com.hydro.ActiveProfile;
-import com.hydro.app.user.client.domain.User;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.hydro.ActiveProfile;
+import com.hydro.app.user.client.domain.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -36,16 +36,6 @@ public class JwtTokenUtil implements Serializable {
         activeProfile = profile;
         secret = activeProfile.getSigningKey();
         JWT_TOKEN_VALIDITY = 18000000; // 5 hours
-    }
-
-    /**
-     * Pulls the email (Subject Field) from the token
-     * 
-     * @param token - The token being inspected
-     * @return String of the subject field
-     */
-    public String getIdFromToken(String token) {
-        return getClaimFromToken(token, Claims::getSubject);
     }
 
     /**

@@ -4,13 +4,13 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.hydro.ActiveProfile;
 import com.hydro.common.enums.Environment;
 import com.hydro.common.exceptions.BaseException;
 import com.hydro.jwt.utility.JwtTokenUtil;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * JWT token validator for confirming a token on a request header.
@@ -146,7 +146,6 @@ public class JwtTokenValidator {
      */
     private void hasCorrectFields(String token) throws IOException {
         try {
-            jwtTokenUtil.getIdFromToken(token);
             jwtTokenUtil.getExpirationDateFromToken(token);
             jwtTokenUtil.getAllClaimsFromToken(token);
         } catch (Exception e) {

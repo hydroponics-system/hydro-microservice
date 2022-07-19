@@ -68,4 +68,18 @@ public class DateTimeMapper {
         }
         return printDate(dt, DATE_TIME_PRINT);
     }
+
+    /**
+     * Formats the date into the default format for sql. If the passed in date is
+     * null then the method will return null
+     * 
+     * @param dt The date to format.
+     * @return {@link String} of the formatted date.
+     */
+    public static String printDate(Date dt) {
+        if (dt == null) {
+            return null;
+        }
+        return printDate(dt, DATE_TIME_PRINT);
+    }
 }

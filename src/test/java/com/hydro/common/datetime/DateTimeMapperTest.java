@@ -5,16 +5,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-import com.hydro.factory.annotations.HydroTest;
-
 import org.junit.jupiter.api.Test;
+
+import com.hydro.factory.annotations.HydroTest;
 
 @HydroTest
 public class DateTimeMapperTest {
     @Test
-    public void testFormatDateShouldFormatDatetoString() {
+    public void testFormatDateGivenFormat() {
         Date testDate = new Date(100000);
-        assertEquals("01-01-1970 00:01:40", DateTimeMapper.printDate(testDate, "MM-dd-yyyy HH:mm:ss"));
+        assertEquals("01-01-1970", DateTimeMapper.printDate(testDate, "MM-dd-yyyy"));
+    }
+
+    @Test
+    public void testPrintDateDefaultFormat() {
+        Date testDate = new Date(100000);
+        assertEquals("1970-01-01 00:01:40", DateTimeMapper.printDate(testDate));
     }
 
     @Test

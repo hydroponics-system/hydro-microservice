@@ -1,13 +1,8 @@
 package com.hydro;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 
 import com.hydro.common.enums.Environment;
-
-import org.springframework.stereotype.Service;
 
 /**
  * Used to set and get the property files and active profile for the application
@@ -20,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class ActiveProfile {
     private static final String HEROKU_ENV_PATH = "/app/src/main";
     private static final String LOCAL_ENV_PATH = "src/main";
-    private static final String SEND_GRID_KEY = "SENDGRID_API_KEY";
 
     /**
      * Method to set the current active profile the application is running in
@@ -97,26 +91,5 @@ public class ActiveProfile {
      */
     public boolean isLocalEnvironment() {
         return getEnvironment().equals(Environment.LOCAL);
-    }
-
-    /**
-     * Gets the signing key property for sending emails
-     * 
-     * @return {@link String} of the key
-     * @throws IOException
-     */
-    public String getSendGridSigningKey() throws IOException {
-        if (isLocalEnvironment()) {
-            String sendGridField = String.format("%s=", SEND_GRID_KEY);
-            BufferedReader br = new BufferedReader(new FileReader(getPropertyFilePath()));
-            String gridSigning = br.lines().collect(Collectors.joining("\n"));
-            br.close();
-
-            gridSigning = gridSigning.substring(gridSigning.indexOf(sendGridField) + sendGridField.length());
-            int endIndex = gridSigning.indexOf("\n") == -1 ? gridSigning.length() : gridSigning.indexOf("\n");
-            return endIndex > -1 ? gridSigning.substring(0, endIndex) : gridSigning;
-        } else {
-            return System.getenv(SEND_GRID_KEY);
-        }
     }
 }

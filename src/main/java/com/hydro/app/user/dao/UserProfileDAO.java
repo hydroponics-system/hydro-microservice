@@ -1,19 +1,12 @@
 package com.hydro.app.user.dao;
 
 import static com.hydro.app.user.mapper.UserProfileMapper.USER_MAPPER;
+import static com.hydro.common.datetime.DateTimeMapper.printDate;
 
 import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
-
-import com.google.common.collect.Sets;
-import com.hydro.app.user.client.domain.User;
-import com.hydro.app.user.client.domain.request.UserGetRequest;
-import com.hydro.common.abstracts.BaseDao;
-import com.hydro.common.datetime.DateTimeMapper;
-import com.hydro.common.exceptions.NotFoundException;
-import com.hydro.common.sql.SqlParamBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
@@ -21,6 +14,13 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import com.google.common.collect.Sets;
+import com.hydro.app.user.client.domain.User;
+import com.hydro.app.user.client.domain.request.UserGetRequest;
+import com.hydro.common.abstracts.BaseDao;
+import com.hydro.common.exceptions.NotFoundException;
+import com.hydro.common.sql.SqlParamBuilder;
 
 /**
  * Class that handles all the dao calls to the database for users
@@ -117,8 +117,7 @@ public class UserProfileDAO extends BaseDao {
 	 * @throws Exception
 	 */
 	public User updateUserLastLoginToNow(int userId) throws Exception {
-		MapSqlParameterSource params = SqlParamBuilder.with()
-				.withParam(LAST_LOGIN_DATE, DateTimeMapper.printDate(new Date(), "yyyy-MM-dd HH:mm:ss"))
+		MapSqlParameterSource params = SqlParamBuilder.with().withParam(LAST_LOGIN_DATE, printDate(new Date()))
 				.withParam(ID, userId).build();
 
 		update(getSql("updateUserLastLoginToNow", params), params);
