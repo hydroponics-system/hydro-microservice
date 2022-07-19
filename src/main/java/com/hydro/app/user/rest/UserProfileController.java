@@ -16,19 +16,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hydro.annotations.interfaces.HasAccess;
+import com.hydro.annotations.openapi.TagUser;
 import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.client.domain.enums.WebRole;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
 import com.hydro.app.user.service.ManageUserProfileService;
 import com.hydro.app.user.service.UserProfileService;
 
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RequestMapping("/api/user-app/user-profile")
 @RestController
-@Tag(name = "User Profile Controller", description = "Endpoint for managing users.")
+@TagUser
 public class UserProfileController {
 
 	@Autowired
@@ -44,7 +43,6 @@ public class UserProfileController {
 	 * @return list of user objects
 	 * @throws Exception
 	 */
-	@Operation(summary = "Get list of users", description = "Given a UserGetRequest, a list of users will be returned that match the request")
 	@GetMapping(produces = APPLICATION_JSON_VALUE)
 	@HasAccess(WebRole.ADMIN)
 	public List<User> getUsers(UserGetRequest request) throws Exception {

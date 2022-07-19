@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hydro.annotations.interfaces.RestApiController;
+import com.hydro.annotations.openapi.TagAuthentication;
 import com.hydro.app.auth.client.domain.AuthToken;
 import com.hydro.app.auth.client.domain.request.AuthenticationRequest;
 import com.hydro.app.auth.service.AuthenticationService;
-
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Generates a JWT after being passed a request
@@ -23,7 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  */
 @RequestMapping("/authenticate")
 @RestApiController
-@Tag(name = "Authentication Controller", description = "Endpoints for authentication.")
+@TagAuthentication
 public class AuthenticationController {
 
     @Autowired

@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hydro.annotations.interfaces.HasAccess;
 import com.hydro.annotations.interfaces.RestApiController;
+import com.hydro.annotations.openapi.TagGrowChamberHistory;
 import com.hydro.app.growchamberhistory.client.domain.GrowChamberLog;
 import com.hydro.app.growchamberhistory.client.domain.request.GrowChamberHistoryGetRequest;
 import com.hydro.app.growchamberhistory.service.GrowChamberHistoryService;
 import com.hydro.app.user.client.domain.enums.WebRole;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RequestMapping("/api/grow-chamber-history-app/logs")
 @RestApiController
-@Tag(name = "Grow Chamber History Controller", description = "Endpoints for managing grow chamber history logs.")
+@TagGrowChamberHistory
 public class GrowChamberHistoryController {
 
     @Autowired

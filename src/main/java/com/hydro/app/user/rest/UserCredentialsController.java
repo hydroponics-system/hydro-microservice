@@ -10,16 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hydro.annotations.interfaces.HasAccess;
+import com.hydro.annotations.openapi.TagUser;
 import com.hydro.app.user.client.domain.PasswordUpdate;
 import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.client.domain.enums.WebRole;
 import com.hydro.app.user.service.UserCredentialsService;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
-
 @RequestMapping("/api/user-app/user-credentials")
 @RestController
-@Tag(name = "User Credentials Controller", description = "Endpoint for managing a users credentials.")
+@TagUser
 public class UserCredentialsController {
 
     @Autowired

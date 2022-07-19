@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.hydro.annotations.interfaces.HasAccess;
 import com.hydro.annotations.interfaces.RestApiController;
+import com.hydro.annotations.openapi.TagHydroSystem;
 import com.hydro.app.system.client.domain.HydroSystem;
 import com.hydro.app.system.client.domain.request.HydroSystemGetRequest;
 import com.hydro.app.system.service.HydroSystemService;
 import com.hydro.app.user.client.domain.enums.WebRole;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RequestMapping("/api/system-app/system")
 @RestApiController
-@Tag(name = "System Controller", description = "Endpoints for managing hydroponic systems.")
+@TagHydroSystem
 public class HydroSystemController {
 
     @Autowired
