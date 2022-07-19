@@ -1,7 +1,5 @@
 package com.hydro.jwt.security;
 
-import com.google.common.collect.ImmutableList;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * Adding CORS configuration so UI is able to access backend from cross origins
@@ -49,7 +49,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(ImmutableList.of(allowedDomains != null ? allowedDomains : "*"));
         configuration.setAllowedMethods(ImmutableList.of("GET", "POST", "PUT", "DELETE"));
-        configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
