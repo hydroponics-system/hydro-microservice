@@ -4,13 +4,13 @@ import java.security.Principal;
 import java.util.Map;
 import java.util.UUID;
 
-import com.hydro.websockets.client.domain.UserPrincipal;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
+
+import com.hydro.common.util.HydroLogger;
+import com.hydro.websockets.client.domain.UserPrincipal;
 
 /**
  * Custom handshake handler for assigning a unique id to a new connection.
@@ -19,7 +19,9 @@ import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
  * @since March 24, 2022
  */
 public class ClientHandshakeHandler extends DefaultHandshakeHandler {
-    private final Logger LOGGER = LoggerFactory.getLogger(ClientHandshakeHandler.class);
+
+    @Autowired
+    private HydroLogger LOGGER;
 
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler,

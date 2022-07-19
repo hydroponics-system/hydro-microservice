@@ -65,8 +65,8 @@ public class UserCredentialsService {
      *                   not able to hash the new password.
      */
     public User updateUserPassword(PasswordUpdate passUpdate) throws Exception {
-        authClient.authenticate(jwtHolder.getRequiredEmail(), passUpdate.getCurrentPassword());
-        return passwordUpdate(jwtHolder.getRequiredUserId(), passUpdate.getNewPassword());
+        authClient.authenticate(jwtHolder.getEmail(), passUpdate.getCurrentPassword());
+        return passwordUpdate(jwtHolder.getUserId(), passUpdate.getNewPassword());
     }
 
     /**
@@ -97,10 +97,10 @@ public class UserCredentialsService {
      *                   not able to hash the new password.
      */
     public User resetUserPassword(String pass) throws Exception {
-        if (!jwtHolder.getRequiredResetPassword()) {
+        if (!jwtHolder.getResetPassword()) {
             throw new Exception("Invalid token for reset password!");
         }
-        return passwordUpdate(jwtHolder.getRequiredUserId(), pass);
+        return passwordUpdate(jwtHolder.getUserId(), pass);
     }
 
     /**

@@ -66,8 +66,8 @@ public class UserCredentialsServiceTest {
         passUpdate.setCurrentPassword("currentPassword123!");
         passUpdate.setNewPassword("newPassword!");
 
-        when(jwtHolder.getRequiredUserId()).thenReturn(12);
-        when(jwtHolder.getRequiredEmail()).thenReturn("password@user.com");
+        when(jwtHolder.getUserId()).thenReturn(12);
+        when(jwtHolder.getEmail()).thenReturn("password@user.com");
         when(userProfileClient.getUserById(anyInt())).thenReturn(UserFactoryData.userData());
 
         User userUpdated = service.updateUserPassword(passUpdate);
@@ -81,7 +81,7 @@ public class UserCredentialsServiceTest {
     @Test
     public void testUpdateUserPasswordAuthenticationFailed() throws Exception {
         when(authClient.authenticate(any(), any())).thenThrow(InvalidCredentialsException.class);
-        when(jwtHolder.getRequiredEmail()).thenReturn("test@user.com");
+        when(jwtHolder.getEmail()).thenReturn("test@user.com");
 
         assertThrows(InvalidCredentialsException.class, () -> service.updateUserPassword(new PasswordUpdate()));
         verify(userCredentialsDAO, never()).updateUserPassword(anyInt(), any());
@@ -94,8 +94,8 @@ public class UserCredentialsServiceTest {
         passUpdate.setCurrentPassword("currentPassword123!");
         passUpdate.setNewPassword("");
 
-        when(jwtHolder.getRequiredUserId()).thenReturn(12);
-        when(jwtHolder.getRequiredEmail()).thenReturn("password@user.com");
+        when(jwtHolder.getUserId()).thenReturn(12);
+        when(jwtHolder.getEmail()).thenReturn("password@user.com");
 
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
                 () -> service.updateUserPassword(passUpdate));
@@ -142,8 +142,8 @@ public class UserCredentialsServiceTest {
 
     @Test
     public void testResetUserPasswordValid() throws Exception {
-        when(jwtHolder.getRequiredUserId()).thenReturn(12);
-        when(jwtHolder.getRequiredResetPassword()).thenReturn(true);
+        when(jwtHolder.getUserId()).thenReturn(12);
+        when(jwtHolder.getResetPassword()).thenReturn(true);
 
         service.resetUserPassword("newPass");
 
@@ -153,7 +153,7 @@ public class UserCredentialsServiceTest {
 
     @Test
     public void testResetUserPasswordInvalidResetPasswordToken() throws Exception {
-        when(jwtHolder.getRequiredResetPassword()).thenReturn(false);
+        when(jwtHolder.getResetPassword()).thenReturn(false);
 
         Exception e = assertThrows(Exception.class, () -> service.resetUserPassword("newPass"));
 

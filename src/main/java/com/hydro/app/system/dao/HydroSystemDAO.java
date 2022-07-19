@@ -52,7 +52,7 @@ public class HydroSystemDAO extends BaseDao {
      */
     public int registerSystem(HydroSystem sys) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        MapSqlParameterSource params = SqlParamBuilder.with().withParam(UUID, sys.getUuid())
+        MapSqlParameterSource params = SqlParamBuilder.with().withParam(UUID, sys.getUUID())
                 .withParam(PART_NUMBER, sys.getPartNumber().toString()).withParam(NAME, sys.getName())
                 .withParam(INSERT_USER_ID, sys.getInsertUserId()).build();
 

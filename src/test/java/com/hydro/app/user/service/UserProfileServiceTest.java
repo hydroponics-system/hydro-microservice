@@ -21,6 +21,7 @@ import com.hydro.app.user.client.domain.User;
 import com.hydro.app.user.client.domain.request.UserGetRequest;
 import com.hydro.app.user.dao.UserProfileDAO;
 import com.hydro.common.exceptions.NotFoundException;
+import com.hydro.common.util.HydroLogger;
 import com.hydro.factory.annotations.HydroServiceTest;
 import com.hydro.factory.data.UserFactoryData;
 import com.hydro.jwt.utility.JwtHolder;
@@ -33,6 +34,9 @@ public class UserProfileServiceTest {
 
     @Mock
     private UserProfileDAO userProfileDAO;
+
+    @Mock
+    private HydroLogger logger;
 
     @InjectMocks
     private UserProfileService service;
@@ -55,12 +59,12 @@ public class UserProfileServiceTest {
     @Test
     public void testGetCurrentUser() throws Exception {
         User user = UserFactoryData.userData();
-        when(jwtHolder.getRequiredUserId()).thenReturn(12);
+        when(jwtHolder.getUserId()).thenReturn(12);
         when(userProfileDAO.getUserById(anyInt())).thenReturn(user);
 
         User returnedUser = service.getCurrentUser();
 
-        verify(jwtHolder).getRequiredUserId();
+        verify(jwtHolder).getUserId();
         verify(userProfileDAO).getUserById(eq(12));
         assertEquals(user.getId(), returnedUser.getId(), "User id should be 12");
     }

@@ -39,7 +39,7 @@ public class HydroSystem {
         this.id = id;
     }
 
-    public String getUuid() {
+    public String getUUID() {
         return uuid;
     }
 

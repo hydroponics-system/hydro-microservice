@@ -11,11 +11,6 @@ import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
 
-import com.hydro.common.sql.DatabaseConnectionBuilder;
-import com.hydro.factory.globals.GlobalsTest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +24,10 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.hydro.common.sql.DatabaseConnectionBuilder;
+import com.hydro.common.util.HydroLogger;
+import com.hydro.factory.globals.GlobalsTest;
+
 /**
  * Datasouce config for the test environment.
  * 
@@ -38,10 +37,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 public class DataSourceTestConfiguration {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceTestConfiguration.class);
+    private static final HydroLogger LOGGER = new HydroLogger(DataSourceTestConfiguration.class);
 
     @Autowired
-    Environment ENV;
+    private Environment ENV;
 
     @Value("${spring.datasource.url}")
     private String dbUrl;
