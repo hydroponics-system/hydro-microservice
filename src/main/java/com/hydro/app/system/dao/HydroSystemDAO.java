@@ -78,6 +78,6 @@ public class HydroSystemDAO extends BaseDao {
      * @return {@link Long} of the next auto increment id of a system.
      */
     public long getNextSystemId() {
-        return get(getSql("nextSystemId"), new MapSqlParameterSource(), Long.class);
+        return get(getSql("nextSystemId"), Long.class);
     }
 }

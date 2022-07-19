@@ -2,15 +2,15 @@ package com.hydro.common.abstracts;
 
 import java.util.List;
 
-import com.opengamma.elsql.ElSqlBundle;
-import com.opengamma.elsql.ElSqlConfig;
-
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
+
+import com.opengamma.elsql.ElSqlBundle;
+import com.opengamma.elsql.ElSqlConfig;
 
 /**
  * Abstract class for building the DAO classes and running queries against the
@@ -74,6 +74,33 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
     }
 
     /**
+     * Does a get on the database for a single record. It will return the top most
+     * record if multiple rows are returned.
+     * 
+     * @param <T>    The object type of the method to cast the rows too.
+     * @param sql    The sql to run against the database.
+     * @param mapper The mapper to return the data as.
+     * @return Object of the returned data.
+     */
+    protected <T> T get(String sql, RowMapper<T> mapper) {
+        return getTemplate().queryForObject(sql, new MapSqlParameterSource(), mapper);
+    }
+
+    /**
+     * Does a get on the database for a single record. It will return the top most
+     * record if multiple rows are returned. It will return the type of the passed
+     * in class.
+     * 
+     * @param <T>   The object type of the method to cast the rows too.
+     * @param sql   The sql to run against the database.
+     * @param clazz The class to map the data as.
+     * @return Object of the returned data.
+     */
+    protected <T> T get(String sql, Class<T> clazz) {
+        return getTemplate().queryForObject(sql, new MapSqlParameterSource(), clazz);
+    }
+
+    /**
      * Querys the database for a page of data. It will return the data as a list of
      * the called object.
      * 
@@ -85,6 +112,32 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
      */
     protected <T> List<T> getPage(String sql, MapSqlParameterSource params, RowMapper<T> mapper) {
         return getTemplate().query(sql, params, mapper);
+    }
+
+    /**
+     * Querys the database for a page of data. It will return the data as a list of
+     * the called object.
+     * 
+     * @param <T>    The object type of the method to cast the rows too.
+     * @param sql    The sql to run against the database.
+     * @param mapper The mapper to return the data as.
+     * @return List of the returned data.
+     */
+    protected <T> List<T> getPage(String sql, RowMapper<T> mapper) {
+        return getTemplate().query(sql, new MapSqlParameterSource(), mapper);
+    }
+
+    /**
+     * Querys the database for a page of data. It will return the data as a list of
+     * the called object.
+     * 
+     * @param <T>   The object type of the method to cast the rows too.
+     * @param sql   The sql to run against the database.
+     * @param clazz The class to map the data as.
+     * @return List of the returned data.
+     */
+    protected <T> List<T> getPage(String sql, Class<T> clazz) {
+        return getTemplate().queryForList(sql, new MapSqlParameterSource(), clazz);
     }
 
     /**
@@ -127,6 +180,15 @@ public abstract class AbstractSqlDao extends AbstractSqlGlobals {
      */
     protected int update(String sql, MapSqlParameterSource params) {
         return getTemplate().update(sql, params);
+    }
+
+    /**
+     * Will execute the given sql string against the active database.
+     * 
+     * @param sql The sql to be run.
+     */
+    protected void execute(String sql) {
+        getTemplate().update(sql, new MapSqlParameterSource());
     }
 
     /**
