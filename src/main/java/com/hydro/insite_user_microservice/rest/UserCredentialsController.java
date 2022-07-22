@@ -16,7 +16,7 @@ import com.hydro.insite_user_microservice.client.domain.enums.WebRole;
 import com.hydro.insite_user_microservice.openapi.TagUser;
 import com.hydro.insite_user_microservice.service.UserCredentialsService;
 
-@RequestMapping("/api/user-app/user-credentials")
+@RequestMapping("/api/user-app/credentials")
 @RestController
 @TagUser
 public class UserCredentialsController {

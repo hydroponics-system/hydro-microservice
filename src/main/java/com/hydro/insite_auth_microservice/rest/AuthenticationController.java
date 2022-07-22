@@ -39,6 +39,5 @@ public class AuthenticationController {
     public ResponseEntity<AuthToken> authenticateUser(@RequestBody AuthenticationRequest authenticationRequest)
             throws Exception {
         return ResponseEntity.ok(service.authenticate(authenticationRequest));
-
     }
 }

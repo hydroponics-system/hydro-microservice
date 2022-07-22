@@ -25,7 +25,7 @@ import com.hydro.insite_user_microservice.service.UserProfileService;
 
 import io.swagger.v3.oas.annotations.Parameter;
 
-@RequestMapping("/api/user-app/user-profile")
+@RequestMapping("/api/user-app/profile")
 @RestController
 @TagUser
 public class UserProfileController {
