@@ -1,6 +1,6 @@
 package com.hydro.factory.config;
 
-import static com.hydro.common.util.CommonUtil.generateRandomNumber;
+import static com.hydro.insite_common_microservice.util.CommonUtil.generateRandomNumber;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -24,9 +24,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.hydro.common.sql.DatabaseConnectionBuilder;
-import com.hydro.common.util.HydroLogger;
 import com.hydro.factory.globals.GlobalsTest;
+import com.hydro.insite_common_microservice.util.HydroLogger;
+import com.hydro.insite_sql_microservice.DatabaseConnectionBuilder;
 
 /**
  * Datasouce config for the test environment.

@@ -2,8 +2,8 @@ package com.hydro.factory.data;
 
 import java.time.LocalDateTime;
 
-import com.hydro.app.user.client.domain.User;
-import com.hydro.app.user.client.domain.enums.WebRole;
+import com.hydro.insite_user_microservice.client.domain.User;
+import com.hydro.insite_user_microservice.client.domain.enums.WebRole;
 
 /**
  * Class for holding common test data to be used in test classes.

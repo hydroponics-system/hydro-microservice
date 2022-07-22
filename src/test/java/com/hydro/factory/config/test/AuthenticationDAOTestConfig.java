@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @author Sam Butler
  * @since April 25, 2022
  */
-@ComponentScan(basePackages = { "com.hydro.app.auth.dao" })
+@ComponentScan(basePackages = { "com.hydro.insite_auth_microservice.dao" })
 public class AuthenticationDAOTestConfig {
 
 }

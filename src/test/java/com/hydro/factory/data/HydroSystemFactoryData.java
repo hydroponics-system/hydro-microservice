@@ -1,7 +1,7 @@
 package com.hydro.factory.data;
 
-import com.hydro.app.system.client.domain.HydroSystem;
-import com.hydro.app.system.client.domain.PartNumber;
+import com.hydro.insite_hydro_system_microservice.client.domain.HydroSystem;
+import com.hydro.insite_hydro_system_microservice.client.domain.PartNumber;
 
 /**
  * Class for holding common test data to be used in test classes.
