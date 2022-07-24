@@ -15,12 +15,14 @@ import com.hydro.insite_common_microservice.enums.Environment;
 public class ActiveProfile {
     private static final String HEROKU_ENV_PATH = "/app/src/main";
     private static final String LOCAL_ENV_PATH = "src/main";
+    private static final String ACTIVE_PROFILE_TAG = "spring.profiles.active";
+    private static final String APP_ENV = "APP_ENVIRONMENT";
 
     /**
      * Method to set the current active profile the application is running in
      */
     public void setPropertyFile() {
-        System.setProperty("spring.profiles.active", getEnvironment().toString().toLowerCase());
+        System.setProperty(ACTIVE_PROFILE_TAG, getEnvironment().toString().toLowerCase());
     }
 
     /**
@@ -38,8 +40,8 @@ public class ActiveProfile {
      * @return string of the environment currently running
      */
     public Environment getEnvironment() {
-        if (System.getenv("APP_ENVIRONMENT") != null) {
-            return Environment.getEnvrionment(System.getenv("APP_ENVIRONMENT"));
+        if (System.getenv(APP_ENV) != null) {
+            return Environment.getEnvrionment(System.getenv(APP_ENV));
         } else {
             return Environment.LOCAL;
         }
@@ -51,11 +53,7 @@ public class ActiveProfile {
      * @return String of the application file name
      */
     public String getAppPropertiesName() {
-        if (isLocalEnvironment()) {
-            return "application-local.properties";
-        } else {
-            return String.format("application-%s.properties", getEnvironment().toString().toLowerCase());
-        }
+        return String.format("application-%s.properties", getEnvironment().toString().toLowerCase());
     }
 
     /**

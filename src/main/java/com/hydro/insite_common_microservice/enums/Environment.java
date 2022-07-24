@@ -7,7 +7,7 @@ package com.hydro.insite_common_microservice.enums;
  * @since July 31, 2021
  */
 public enum Environment {
-    PRODUCTION, DEVELOPMENT, LOCAL;
+    PRODUCTION, DEVELOPMENT, LOCAL, TEST;
 
     public static Environment getEnvrionment(String text) {
         for (Environment w : Environment.values())
