@@ -13,7 +13,6 @@ permissions:
 
 jobs:
   build:
-
     runs-on: windows-latest
 
     steps:
@@ -23,18 +22,18 @@ jobs:
       - name: Set up JDK 14
         uses: actions/setup-java@v3
         with:
-          java-version: '14'
-          distribution: 'adopt'
+          java-version: "14"
+          distribution: "adopt"
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Make gradlew executable
         run: chmod +x ./gradlew
       - name: Run Build
-        env: 
+        env:
           TEST_ENV: ${{ secrets.TEST_ENV }}
           MYSQL_TEST_USERNAME: ${{ secrets.MYSQL_TEST_USERNAME }}
           MYSQL_TEST_PASSWORD: ${{ secrets.MYSQL_TEST_PASSWORD }}
           MYSQL_TEST_URL: ${{ secrets.MYSQL_TEST_URL }}
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
         with:
-          arguments: build
+          arguments: build --info
