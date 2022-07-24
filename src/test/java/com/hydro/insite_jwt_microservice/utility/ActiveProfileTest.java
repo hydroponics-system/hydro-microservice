@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 
 import com.hydro.factory.annotations.HydroServiceTest;
+import com.hydro.insite_common_microservice.enums.Environment;
 
 @HydroServiceTest
 public class ActiveProfileTest {
@@ -14,24 +15,16 @@ public class ActiveProfileTest {
     private ActiveProfile profile;
 
     @Test
-    public void testsetPropertyFile() {
+    public void testSetPropertyFile() {
         profile.setEnvironmentProperties();
         assertEquals("local", System.getProperty("spring.profiles.active"));
     }
 
     @Test
-    public void testGetPropertyFilePath() {
-        assertEquals("src/main/resources/application-local.properties", profile.getPropertyFilePath());
-    }
-
-    @Test
-    public void testGetAppPropertiesName() {
-        assertEquals("application-local.properties", profile.getAppPropertiesName());
-    }
-
-    @Test
-    public void testGetEnvironmentUrl() {
-        assertEquals("src/main", profile.getEnvironmentUrl());
+    public void testGetEnvironment() {
+        System.setProperty("spring.profiles.active", "local");
+        assertEquals(Environment.LOCAL, profile.getEnvironment());
+        System.clearProperty("spring.profiles.active");
     }
 
     @Test
