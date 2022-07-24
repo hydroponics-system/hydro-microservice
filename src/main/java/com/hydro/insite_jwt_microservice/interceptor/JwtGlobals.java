@@ -33,10 +33,10 @@ public class JwtGlobals {
             // ===================
 
             // GET -> Get Email Exist status Endpoint
-            put("/api/user-app/user-profile/check-email", List.of(HttpMethod.GET));
+            put("/api/user-app/profile/check-email", List.of(HttpMethod.GET));
 
             // POST -> Create User Endpoint
-            put("/api/user-app/user-profile", List.of(HttpMethod.POST));
+            put("/api/user-app/profile", List.of(HttpMethod.POST));
 
             // ===================
             // Swagger
