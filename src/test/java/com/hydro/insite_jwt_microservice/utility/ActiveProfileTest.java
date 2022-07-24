@@ -15,7 +15,7 @@ public class ActiveProfileTest {
 
     @Test
     public void testsetPropertyFile() {
-        profile.setPropertyFile();
+        profile.setEnvironmentProperties();
         assertEquals("local", System.getProperty("spring.profiles.active"));
     }
 

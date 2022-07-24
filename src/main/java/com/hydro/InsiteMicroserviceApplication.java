@@ -14,7 +14,7 @@ public class InsiteMicroserviceApplication {
 
 	public static void main(String[] args) throws NoSuchAlgorithmException {
 		ActiveProfile activeProfile = new ActiveProfile();
-		activeProfile.setPropertyFile();
+		activeProfile.setEnvironmentProperties();
 
 		SpringApplication.run(InsiteMicroserviceApplication.class, args);
 	}
