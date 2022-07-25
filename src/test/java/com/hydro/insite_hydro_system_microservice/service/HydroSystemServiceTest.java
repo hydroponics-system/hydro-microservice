@@ -25,7 +25,6 @@ import com.hydro.insite_common_microservice.util.HydroLogger;
 import com.hydro.insite_hydro_system_microservice.client.domain.HydroSystem;
 import com.hydro.insite_hydro_system_microservice.client.domain.request.HydroSystemGetRequest;
 import com.hydro.insite_hydro_system_microservice.dao.HydroSystemDAO;
-import com.hydro.insite_jwt_microservice.utility.ActiveProfile;
 import com.hydro.insite_jwt_microservice.utility.JwtHolder;
 import com.hydro.insite_jwt_microservice.utility.JwtTokenUtil;
 import com.hydro.insite_user_microservice.client.domain.enums.WebRole;
@@ -35,9 +34,6 @@ public class HydroSystemServiceTest {
 
     @Mock
     private HydroSystemDAO hydroSystemDAO;
-
-    @Mock
-    private ActiveProfile activeProfile;
 
     @Mock
     private JwtTokenUtil jwtTokenUtil;
@@ -102,7 +98,6 @@ public class HydroSystemServiceTest {
     public void testRegisterSystem() {
         when(hydroSystemDAO.registerSystem(any(HydroSystem.class))).thenReturn(10);
         when(hydroSystemDAO.getNextSystemId()).thenReturn(10L);
-        when(activeProfile.getEnvironment()).thenReturn(Environment.DEVELOPMENT);
         when(jwtHolder.getUserId()).thenReturn(1);
 
         HydroSystem s = service.registerSystem("testSystem");

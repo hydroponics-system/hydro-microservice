@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hydro.insite_user_microservice.client.domain.User;
@@ -28,12 +27,8 @@ public class JwtTokenUtil implements Serializable {
 
     private String secret;
 
-    private ActiveProfile activeProfile;
-
-    @Autowired
-    public JwtTokenUtil(ActiveProfile profile) {
-        activeProfile = profile;
-        secret = activeProfile.getSigningKey();
+    public JwtTokenUtil() {
+        secret = JwtEnvironment.getSigningKey();
         JWT_TOKEN_VALIDITY = 18000000; // 5 hours
     }
 
@@ -108,7 +103,7 @@ public class JwtTokenUtil implements Serializable {
         claims.put("lastName", user.getLastName());
         claims.put("email", user.getEmail());
         claims.put("webRole", user.getWebRole());
-        claims.put("env", activeProfile.getEnvironment());
+        claims.put("env", JwtEnvironment.getEnvironment());
         claims.put("passwordReset", reset);
 
         return doGenerateToken(claims);

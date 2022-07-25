@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.hydro.insite_common_microservice.enums.Environment;
 import com.hydro.insite_common_microservice.exceptions.BaseException;
-import com.hydro.insite_jwt_microservice.utility.ActiveProfile;
+import com.hydro.insite_jwt_microservice.utility.JwtEnvironment;
 import com.hydro.insite_jwt_microservice.utility.JwtTokenUtil;
 
 /**
@@ -23,9 +23,6 @@ public class JwtTokenValidator {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    private ActiveProfile activeProfile;
 
     /**
      * Checks to see if the token on the request is valid. If it is not valid then
@@ -162,7 +159,7 @@ public class JwtTokenValidator {
     private void isCorrectEnvironment(String token) throws BaseException {
         Environment environment = Environment.valueOf(jwtTokenUtil.getAllClaimsFromToken(token).get("env").toString());
 
-        if (!activeProfile.getEnvironment().equals(environment)) {
+        if (!JwtEnvironment.getEnvironment().equals(environment)) {
             throw new BaseException("JWT token doesn't match accessing environment!");
         }
     }

@@ -18,7 +18,7 @@ import com.hydro.insite_hydro_system_microservice.client.domain.HydroSystem;
 import com.hydro.insite_hydro_system_microservice.client.domain.PartNumber;
 import com.hydro.insite_hydro_system_microservice.client.domain.request.HydroSystemGetRequest;
 import com.hydro.insite_hydro_system_microservice.dao.HydroSystemDAO;
-import com.hydro.insite_jwt_microservice.utility.ActiveProfile;
+import com.hydro.insite_jwt_microservice.utility.JwtEnvironment;
 import com.hydro.insite_jwt_microservice.utility.JwtHolder;
 import com.hydro.insite_user_microservice.client.domain.enums.WebRole;
 
@@ -34,9 +34,6 @@ public class HydroSystemService {
 
     @Autowired
     private HydroSystemDAO dao;
-
-    @Autowired
-    private ActiveProfile activeProfile;
 
     @Autowired
     private JwtHolder jwtHolder;
@@ -124,7 +121,7 @@ public class HydroSystemService {
     private HydroSystem buildSystem(long systemId, String name) {
         HydroSystem sys = new HydroSystem();
 
-        String env = activeProfile.getEnvironment().equals(Environment.PRODUCTION) ? "P" : "D";
+        String env = JwtEnvironment.getEnvironment().equals(Environment.PRODUCTION) ? "P" : "D";
         PartNumber partNumber = new PartNumber(
                 String.format("%06d%s%06d", CommonUtil.generateRandomNumber(6), env, systemId));
         UUID systemUUID = UUID.nameUUIDFromBytes(partNumber.toString().getBytes());

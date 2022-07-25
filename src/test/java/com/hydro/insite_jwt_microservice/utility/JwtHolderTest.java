@@ -4,10 +4,10 @@ import static com.hydro.factory.data.UserFactoryData.userData;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import com.hydro.factory.annotations.HydroServiceTest;
@@ -18,22 +18,19 @@ import com.hydro.insite_user_microservice.client.domain.enums.WebRole;
 public class JwtHolderTest {
 
     @Mock
-    private ActiveProfile profile;
-
-    @Mock
     private HydroLogger hydroLogger;
 
+    @Mock
+    private JwtEnvironment jwtEnvironment;
+
+    @InjectMocks
     private JwtHolder jwtHolder;
 
     private String token;
 
     @BeforeEach
     public void setup() throws Exception {
-        when(profile.getSigningKey()).thenReturn("TEST-KEY");
-
-        JwtTokenUtil tokenUtil = new JwtTokenUtil(profile);
-
-        jwtHolder = new JwtHolder(profile, hydroLogger);
+        JwtTokenUtil tokenUtil = new JwtTokenUtil();
         token = tokenUtil.generateToken(userData());
     }
 

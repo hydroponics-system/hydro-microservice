@@ -5,33 +5,24 @@ import org.springframework.stereotype.Service;
 import com.hydro.insite_common_microservice.enums.Environment;
 
 /**
- * Used to set and get the property files and active profile for the application
- * based on the current environment the application is running in.
- *
+ * Information about the sessions environment information from the jwt instance.
+ * 
  * @author Sam Butler
- * @since April 30, 2022
+ * @since July 25, 2022
  */
 @Service
-public class ActiveProfile {
+public class JwtEnvironment {
+
     private static final String ACTIVE_PROFILE = "spring.profiles.active";
-    private static final String APP_ENV = "APP_ENVIRONMENT";
     private static final String SIGNING_KEY = "JWT_SIGNING_KEY";
     private static final String DEFAULT_KEY = "local-key";
 
     /**
-     * Method to set the current active profile the application is running in
-     */
-    public void setEnvironmentProperties() {
-        // System.setProperty(ACTIVE_PROFILE,
-        // Environment.get(System.getenv(APP_ENV)).toString().toLowerCase());
-    }
-
-    /**
-     * This method gets the current environment
+     * Gets the current active profile environment.
      *
      * @return string of the environment currently running
      */
-    public Environment getEnvironment() {
+    public static Environment getEnvironment() {
         return Environment.get(System.getProperty(ACTIVE_PROFILE));
     }
 
@@ -40,7 +31,7 @@ public class ActiveProfile {
      * 
      * @return String of the signing key to use.
      */
-    public String getSigningKey() {
+    public static String getSigningKey() {
         return isLocalEnvironment() ? DEFAULT_KEY : System.getenv(SIGNING_KEY);
     }
 
@@ -49,7 +40,7 @@ public class ActiveProfile {
      * 
      * @return boolean if the local instance is being run.
      */
-    public boolean isLocalEnvironment() {
+    public static boolean isLocalEnvironment() {
         return getEnvironment().equals(Environment.LOCAL);
     }
 }

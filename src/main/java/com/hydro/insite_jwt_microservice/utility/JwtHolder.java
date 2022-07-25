@@ -2,6 +2,7 @@ package com.hydro.insite_jwt_microservice.utility;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -23,14 +24,11 @@ public class JwtHolder {
 
 	private JwtParser jwtParser;
 
-	private ActiveProfile activeProfile;
-
+	@Autowired
 	private HydroLogger LOGGER;
 
-	public JwtHolder(ActiveProfile profile, HydroLogger logger) {
-		activeProfile = profile;
-		LOGGER = logger;
-		jwtParser = Jwts.parser().setSigningKey(activeProfile.getSigningKey());
+	public JwtHolder() {
+		jwtParser = Jwts.parser().setSigningKey(JwtEnvironment.getSigningKey());
 	}
 
 	/**
@@ -135,6 +133,5 @@ public class JwtHolder {
 			LOGGER.warn("Could not parse key '{}' from token.", key);
 			return null;
 		}
-
 	}
 }
