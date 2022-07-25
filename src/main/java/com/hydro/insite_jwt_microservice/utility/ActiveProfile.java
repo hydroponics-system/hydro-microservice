@@ -22,7 +22,8 @@ public class ActiveProfile {
      * Method to set the current active profile the application is running in
      */
     public void setEnvironmentProperties() {
-        System.setProperty(ACTIVE_PROFILE, Environment.get(System.getenv(APP_ENV)).toString().toLowerCase());
+        // System.setProperty(ACTIVE_PROFILE,
+        // Environment.get(System.getenv(APP_ENV)).toString().toLowerCase());
     }
 
     /**

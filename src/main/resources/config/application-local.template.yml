@@ -1,0 +1,13 @@
+# Local Template for setting configurations for local development
+server:
+  port: 8000
+
+spring:
+  datasource:
+    username: root
+    password:
+    url: jdbc:mysql://localhost:3306
+
+security:
+  allowed:
+    domains: "*"

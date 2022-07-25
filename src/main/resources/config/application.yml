@@ -1,0 +1,39 @@
+# Do not change any values in this file
+server:
+  port: ${PORT:8080}
+
+spring:
+  datasource:
+    hikari:
+      maxLifetime: "1800000"
+      connectionTimeout: "30000"
+      idleTimeout: "600000"
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+    url: ${MYSQL_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  main:
+    allow-circular-references: "true"
+
+  jackson:
+    default-property-inclusion: non-null
+
+  profiles:
+    default: "local"
+
+info:
+  name: Hydroponics REST Api
+  license:
+    type: MIT License
+    url: https://github.com/hydroponics-system/hydro-microservice/blob/master/LICENSE.md
+  version: Snapshot
+  contact:
+    name: Sam Butler
+    email: sambutler1017@icloud.com
+    url: https://github.com/hydroponics-system/hydro-microservice
+  description: Restful API's for managing a hydroponic system.
+
+security:
+  allowed:
+    domains: ${ALLOWED_DOMAINS}

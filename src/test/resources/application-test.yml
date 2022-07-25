@@ -1,0 +1,6 @@
+# Do not change any values in this file
+spring:
+  datasource:
+    username: ${MYSQL_TEST_USERNAME}
+    password: ${MYSQL_TEST_PASSWORD}
+    url: ${MYSQL_TEST_URL}

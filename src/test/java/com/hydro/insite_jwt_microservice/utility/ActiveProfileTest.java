@@ -14,11 +14,11 @@ public class ActiveProfileTest {
     @InjectMocks
     private ActiveProfile profile;
 
-    @Test
-    public void testSetPropertyFile() {
-        profile.setEnvironmentProperties();
-        assertEquals("local", System.getProperty("spring.profiles.active"));
-    }
+    // @Test
+    // public void testSetPropertyFile() {
+    // profile.setEnvironmentProperties();
+    // assertEquals("local", System.getProperty("spring.profiles.active"));
+    // }
 
     @Test
     public void testGetEnvironment() {
