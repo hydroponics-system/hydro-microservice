@@ -1,6 +1,7 @@
 package com.hydro.insite_auth_microservice.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -16,9 +17,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import com.hydro.factory.annotations.HydroServiceTest;
+import com.hydro.insite_auth_microservice.client.domain.AuthToken;
 import com.hydro.insite_auth_microservice.client.domain.request.AuthenticationRequest;
 import com.hydro.insite_auth_microservice.dao.AuthenticationDAO;
 import com.hydro.insite_common_microservice.exceptions.InvalidCredentialsException;
+import com.hydro.insite_common_microservice.exceptions.NotFoundException;
+import com.hydro.insite_jwt_microservice.utility.JwtHolder;
 import com.hydro.insite_jwt_microservice.utility.JwtTokenUtil;
 import com.hydro.insite_user_microservice.client.UserProfileClient;
 import com.hydro.insite_user_microservice.client.domain.User;
@@ -35,6 +39,9 @@ public class AuthenticationServiceTest {
 
     @Mock
     private JwtTokenUtil jwtTokenUtil;
+
+    @Mock
+    private JwtHolder jwtHolder;
 
     @InjectMocks
     private AuthenticationService service;
@@ -53,12 +60,13 @@ public class AuthenticationServiceTest {
         when(userProfileClient.getUsers(any(UserGetRequest.class))).thenReturn(Arrays.asList(userLoggingIn));
         when(userProfileClient.updateUserLastLoginToNow(anyInt())).thenReturn(userLoggingIn);
 
-        service.authenticate(authRequest);
+        AuthToken authToken = service.authenticate(authRequest);
 
         verify(authenticationDAO).getUserAuthPassword(anyString());
         verify(userProfileClient).getUsers(any(UserGetRequest.class));
         verify(userProfileClient).updateUserLastLoginToNow(1);
         verify(jwtTokenUtil).generateToken(userLoggingIn);
+        assertNotNull(authToken, "Auth Token is valid");
     }
 
     @Test
@@ -81,5 +89,38 @@ public class AuthenticationServiceTest {
         verify(userProfileClient, never()).getUsers(any(UserGetRequest.class));
         verify(userProfileClient, never()).updateUserLastLoginToNow(1);
         verify(jwtTokenUtil, never()).generateToken(userLoggingIn);
+    }
+
+    @Test
+    public void testReAuthenticateUser() throws Exception {
+        User userLoggingIn = new User();
+        userLoggingIn.setId(1);
+
+        when(userProfileClient.getUserById(anyInt())).thenReturn(userLoggingIn);
+        when(userProfileClient.updateUserLastLoginToNow(anyInt())).thenReturn(userLoggingIn);
+        when(jwtHolder.getUserId()).thenReturn(1);
+
+        AuthToken authToken = service.reauthenticate();
+
+        verify(authenticationDAO, never()).getUserAuthPassword(any());
+        verify(userProfileClient).getUserById(anyInt());
+        verify(userProfileClient).updateUserLastLoginToNow(1);
+        verify(jwtTokenUtil).generateToken(userLoggingIn);
+        assertNotNull(authToken, "Auth Token is valid");
+    }
+
+    @Test
+    public void testReAuthenticateUserDoesNotExist() throws Exception {
+        User userLoggingIn = new User();
+        userLoggingIn.setId(1);
+
+        when(userProfileClient.getUserById(anyInt())).thenThrow(NotFoundException.class);
+        when(jwtHolder.getUserId()).thenReturn(1);
+
+        assertThrows(NotFoundException.class, () -> service.reauthenticate());
+        verify(authenticationDAO, never()).getUserAuthPassword(any());
+        verify(userProfileClient, never()).updateUserLastLoginToNow(anyInt());
+        verify(jwtTokenUtil, never()).generateToken(userLoggingIn);
+        verify(userProfileClient).getUserById(anyInt());
     }
 }

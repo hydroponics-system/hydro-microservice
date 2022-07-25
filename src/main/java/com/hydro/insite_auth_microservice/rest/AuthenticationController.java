@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hydro.insite_auth_microservice.client.domain.AuthToken;
 import com.hydro.insite_auth_microservice.client.domain.request.AuthenticationRequest;
@@ -20,7 +19,6 @@ import com.hydro.insite_common_microservice.annotations.interfaces.RestApiContro
  * @author Sam Butler
  * @since August 1, 2021
  */
-@RequestMapping("/authenticate")
 @RestApiController
 @TagAuthentication
 public class AuthenticationController {
@@ -32,12 +30,24 @@ public class AuthenticationController {
      * Generates a JWT token from a request
      *
      * @param authenticationRequest A email and password request.
-     * @return a new JWT.
-     * @throws Exception - if authentication request does not match a user.
+     * @return a JWT token.
+     * @throws Exception if authentication request does not match a user.
      */
-    @PostMapping(produces = APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/authenticate", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthToken> authenticateUser(@RequestBody AuthenticationRequest authenticationRequest)
             throws Exception {
         return ResponseEntity.ok(service.authenticate(authenticationRequest));
+    }
+
+    /**
+     * Reauthenticates a user and generate a new token.
+     *
+     * @param authenticationRequest A email and password request.
+     * @return a new JWT token.
+     * @throws Exception If user does not exist.
+     */
+    @PostMapping(path = "/reauthenticate", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<AuthToken> reauthenticateUser() throws Exception {
+        return ResponseEntity.ok(service.reauthenticate());
     }
 }

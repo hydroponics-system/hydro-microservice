@@ -27,7 +27,7 @@ public class User {
 	@Schema(description = "The users email")
 	private String email;
 
-	@Schema(description = "The user web role", allowableValues = "USER,ADMIN")
+	@Schema(description = "The user web role", allowableValues = "USER,SYSTEM_USER,DEVELOPER,ADMIN")
 	private WebRole webRole;
 
 	@Schema(description = "The users password (hashed).")

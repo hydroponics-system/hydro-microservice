@@ -12,6 +12,7 @@ import com.hydro.insite_auth_microservice.client.domain.AuthToken;
 import com.hydro.insite_auth_microservice.client.domain.request.AuthenticationRequest;
 import com.hydro.insite_auth_microservice.dao.AuthenticationDAO;
 import com.hydro.insite_common_microservice.exceptions.InvalidCredentialsException;
+import com.hydro.insite_jwt_microservice.utility.JwtHolder;
 import com.hydro.insite_jwt_microservice.utility.JwtTokenUtil;
 import com.hydro.insite_user_microservice.client.UserProfileClient;
 import com.hydro.insite_user_microservice.client.domain.User;
@@ -35,6 +36,9 @@ public class AuthenticationService {
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
+    private JwtHolder jwtHolder;
+
+    @Autowired
     private UserProfileClient userProfileClient;
 
     /**
@@ -47,8 +51,23 @@ public class AuthenticationService {
     public AuthToken authenticate(AuthenticationRequest request) throws Exception {
         User user = verifyUser(request.getEmail(), request.getPassword());
 
-        final String token = jwtTokenUtil.generateToken(user);
+        String token = jwtTokenUtil.generateToken(user);
         return new AuthToken(token, new Date(), jwtTokenUtil.getExpirationDateFromToken(token), user);
+    }
+
+    /**
+     * Will re-authenticate the logged in user and give a new token. If the user id
+     * can not be returned from the current token, it will error and return null.
+     * 
+     * @return {@link AuthToken} from the token.
+     * @throws Exception If the user for that id does not exist.
+     */
+    public AuthToken reauthenticate() throws Exception {
+        User u = userProfileClient.getUserById(jwtHolder.getUserId());
+        userProfileClient.updateUserLastLoginToNow(u.getId());
+
+        String token = jwtTokenUtil.generateToken(u);
+        return new AuthToken(token, new Date(), jwtTokenUtil.getExpirationDateFromToken(token), u);
     }
 
     /**

@@ -1,4 +1,4 @@
-# Local Template for setting configurations for local development
+# Template for setting configurations for local development
 server:
   port: 8000
 
