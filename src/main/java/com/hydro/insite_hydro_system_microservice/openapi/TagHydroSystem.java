@@ -18,8 +18,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  * @since July 19, 2022
  */
 @Retention(RUNTIME)
-@Target({ TYPE, METHOD, ANNOTATION_TYPE })
+@Target({TYPE, METHOD, ANNOTATION_TYPE})
 @Inherited
 @Tag(name = "Hydro System")
 public @interface TagHydroSystem {
+
 }

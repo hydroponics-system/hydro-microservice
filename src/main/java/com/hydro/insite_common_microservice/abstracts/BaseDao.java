@@ -15,6 +15,6 @@ import com.opengamma.elsql.ElSqlConfig;
 public class BaseDao extends AbstractSqlDao {
 
     public BaseDao(DataSource source) {
-        super(new NamedParameterJdbcTemplate(source), ElSqlConfig.MYSQL);
+        super(new NamedParameterJdbcTemplate(source),ElSqlConfig.MYSQL);
     }
 }

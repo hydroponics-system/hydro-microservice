@@ -19,8 +19,7 @@ public class ExceptionError {
 
     private String message;
 
-    public ExceptionError() {
-    }
+    public ExceptionError() {}
 
     public ExceptionError(String message) {
         this.status = HttpStatus.BAD_REQUEST.value();

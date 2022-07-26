@@ -27,25 +27,25 @@ public class SubscriptionService {
     private JwtHolder jwtHolder;
 
     /**
-     * Push a web notification. It will perform a
-     * {@link NotificationAction#CREATE} with the passed in notification body.
+     * Push a web notification. It will perform a {@link NotificationAction#CREATE}
+     * with the passed in notification body.
      * 
      * @param action The action to perform.
-     * @param body The body to be sent.
+     * @param body   The body to be sent.
      */
     public void push(NotificationBody body) {
-        push(NotificationAction.CREATE,body);
+        push(NotificationAction.CREATE, body);
     }
 
     /**
-     * Push a web notification to active user. It will perform a notification
-     * action with the passed in notification body.
+     * Push a web notification to active user. It will perform a notification action
+     * with the passed in notification body.
      * 
      * @param action The action to perform.
-     * @param body The body to be sent.
+     * @param body   The body to be sent.
      */
     public void push(NotificationAction action, NotificationBody body) {
-        push(action,body,jwtHolder.getUserId());
+        push(action, body, jwtHolder.getUserId());
     }
 
     /**
@@ -53,7 +53,7 @@ public class SubscriptionService {
      * passed in notification body.
      * 
      * @param action The action to perform.
-     * @param body The body to be sent.
+     * @param body   The body to be sent.
      */
     public void push(NotificationAction action, NotificationBody body, int userId) {
         NotificationEnvelope<NotificationBody> envelope = new NotificationEnvelope<>();

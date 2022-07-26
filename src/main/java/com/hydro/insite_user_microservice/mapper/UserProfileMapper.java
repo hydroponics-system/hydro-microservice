@@ -26,7 +26,8 @@ public class UserProfileMapper extends AbstractMapper<User> {
 
 		try {
 			user.setPassword(rs.getString(PASSWORD));
-		} catch (Exception e) {
+		}
+		catch(Exception e) {
 			user.setPassword(null);
 		}
 

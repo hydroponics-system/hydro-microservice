@@ -98,7 +98,7 @@ public class UserCredentialsServiceTest {
         when(jwtHolder.getEmail()).thenReturn("password@user.com");
 
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
-                () -> service.updateUserPassword(passUpdate));
+                                                  () -> service.updateUserPassword(passUpdate));
 
         verify(authClient).authenticate("password@user.com", "currentPassword123!");
         verify(userCredentialsDAO, never()).updateUserPassword(anyInt(), any());
@@ -131,13 +131,13 @@ public class UserCredentialsServiceTest {
         when(userProfileClient.getUserById(anyInt())).thenReturn(userToUpdate);
         when(jwtHolder.getWebRole()).thenReturn(WebRole.DEVELOPER);
 
-        InsufficientPermissionsException e = assertThrows(InsufficientPermissionsException.class,
-                () -> service.updateUserPasswordById(5, new PasswordUpdate()));
+        InsufficientPermissionsException e = assertThrows(InsufficientPermissionsException.class, () -> service
+                .updateUserPasswordById(5, new PasswordUpdate()));
 
         verify(userCredentialsDAO, never()).updateUserPassword(anyInt(), anyString());
         verify(userProfileClient).getUserById(5);
         assertEquals("Your role of 'DEVELOPER' can not update a user of role 'ADMIN'", e.getMessage(),
-                "Exception Message");
+                     "Exception Message");
     }
 
     @Test

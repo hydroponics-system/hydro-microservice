@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @since March 24, 2022
  * @param <T> Implementation of {@link NotificationBody}
  */
+@Schema(description = "Notification Envelope")
 public class NotificationEnvelope<T extends NotificationBody> {
 
     @Schema(description = "The body to be sent with the notificaiton.")
@@ -22,7 +23,7 @@ public class NotificationEnvelope<T extends NotificationBody> {
     @Schema(description = "Where the notification should be sent too.")
     private String destination;
 
-    @Schema(description = "Action type of the notification", allowableValues = {"C","R","U","D"})
+    @Schema(description = "Action type of the notification", allowableValues = {"C", "R", "U", "D"})
     private NotificationAction action;
 
     @Schema(description = "When the notification was created.")

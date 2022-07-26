@@ -33,7 +33,7 @@ public class CommonUtilTest {
     @ValueSource(ints = { 100, 0, 15, -1 })
     public void testGenerateRandomNumberWithInvalidLength(int number) {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
-                () -> CommonUtil.generateRandomNumber(number));
+                                                  () -> CommonUtil.generateRandomNumber(number));
         assertEquals("Length must be between 0 and 10", e.getMessage(), "Exception Message");
     }
 }

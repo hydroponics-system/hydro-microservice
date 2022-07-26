@@ -2,14 +2,20 @@ package com.hydro.insite_user_microservice.client.domain.enums;
 
 import com.hydro.insite_common_microservice.enums.TextEnum;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Enums for all the possible user roles.
  * 
  * @author Sam Butler
  * @since September 6, 2021
  */
+@Schema(description = "Web Role User Types")
 public enum WebRole implements TextEnum {
-	USER(1, "USER"), SYSTEM_USER(2, "SYSTEM_USER"), DEVELOPER(3, "DEVELOPER"), ADMIN(4, "ADMIN");
+	USER(1 , "USER"),
+	SYSTEM_USER(2 , "SYSTEM_USER"),
+	DEVELOPER(3 , "DEVELOPER"),
+	ADMIN(4 , "ADMIN");
 
 	private int rank;
 
@@ -46,9 +52,8 @@ public enum WebRole implements TextEnum {
 	 * @return {@link WebRole} of the rank found, if any.
 	 */
 	public static WebRole getRole(int rank) {
-		for (WebRole w : WebRole.values())
-			if (w.rank == rank)
-				return w;
+		for(WebRole w : WebRole.values())
+			if(w.rank == rank) return w;
 		return USER;
 	}
 }

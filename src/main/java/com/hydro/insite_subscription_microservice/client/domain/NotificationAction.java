@@ -2,12 +2,15 @@ package com.hydro.insite_subscription_microservice.client.domain;
 
 import com.hydro.insite_common_microservice.enums.TextEnum;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Notification Action types
  * 
  * @author Sam Butler
  * @since March 24, 2022
  */
+@Schema(description = "Notification Action Types")
 public enum NotificationAction implements TextEnum {
     CREATE("C"),
     READ("R"),
@@ -31,8 +34,8 @@ public enum NotificationAction implements TextEnum {
     }
 
     /**
-     * Will get the NotificationAction object enum from the passed in text
-     * value. If the enum is invalid it will return null
+     * Will get the NotificationAction object enum from the passed in text value. If
+     * the enum is invalid it will return null
      * 
      * @param text The text to process.
      * @return {@link NotificationAction} Object

@@ -33,7 +33,7 @@ public class HasAccessAspect {
      */
     @Around(value = "@annotation(anno)", argNames = "jp, anno")
     public Object access(ProceedingJoinPoint joinPoint, HasAccess access) throws Throwable {
-        if (jwtHolder.getWebRole().getRank() < access.value().getRank()) {
+        if(jwtHolder.getWebRole().getRank() < access.value().getRank()) {
             throw new InsufficientPermissionsException(jwtHolder.getWebRole());
         }
         return joinPoint.proceed();

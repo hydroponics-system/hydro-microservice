@@ -21,6 +21,4 @@ import com.hydro.factory.resolver.ActiveProfileTestResolver;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = { DataSourceTestConfiguration.class })
 @ActiveProfiles(resolver = ActiveProfileTestResolver.class)
-public @interface HydroDaoTest {
-
-}
+public @interface HydroDaoTest {}

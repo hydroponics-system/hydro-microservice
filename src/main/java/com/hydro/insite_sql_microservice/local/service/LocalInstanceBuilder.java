@@ -67,9 +67,10 @@ public class LocalInstanceBuilder {
     private static DataSource initLocalDatabase(DriverManagerDataSource src) {
         LocalInstanceBuilderDAO dao = new LocalInstanceBuilderDAO(src);
 
-        if (dao.doesSchemaExist("hydro_db_dev__local")) {
+        if(dao.doesSchemaExist("hydro_db_dev__local")) {
             src.setUrl(src.getUrl().replace("?", "/hydro_db_dev__local?"));
-        } else {
+        }
+        else {
             dao.createLocalSchema();
             src.setUrl(src.getUrl().replace("?", "/hydro_db_dev__local?"));
             createTables(src);
@@ -100,10 +101,11 @@ public class LocalInstanceBuilder {
     private static void createTables(DriverManagerDataSource source) {
         LOGGER.info("Running scripts against local database...");
         NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(source);
-        for (File file : new File("./src/main/resources/db/migration").listFiles()) {
+        for(File file : new File("./src/main/resources/db/migration").listFiles()) {
             try {
                 template.update(Files.readString(file.toPath()), new MapSqlParameterSource());
-            } catch (Exception e) {
+            }
+            catch(Exception e) {
                 LOGGER.warn("Error running SQL script '{}'", file.getName());
             }
         }

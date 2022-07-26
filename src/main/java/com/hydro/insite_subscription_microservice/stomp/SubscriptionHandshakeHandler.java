@@ -25,7 +25,7 @@ public class SubscriptionHandshakeHandler extends DefaultHandshakeHandler {
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler,
             Map<String, Object> attributes) {
         String randomId = UUID.randomUUID().toString();
-        LOGGER.info("Client connected to socket with ID '{}'",randomId);
+        LOGGER.info("Client connected to socket with ID '{}'", randomId);
         return new UserPrincipal(randomId);
     }
 

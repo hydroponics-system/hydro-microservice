@@ -138,12 +138,13 @@ public class DataSourceTestConfiguration {
      */
     private DriverManagerDataSource buildDbTables(DriverManagerDataSource source) {
         NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(source);
-        for (File file : new File("./src/main/resources/db/migration").listFiles()) {
+        for(File file : new File("./src/main/resources/db/migration").listFiles()) {
             try {
                 String content = Files.readString(file.toPath());
                 LOGGER.info("Executing SQL script : '{}'", file.getName());
                 template.update(content, new MapSqlParameterSource());
-            } catch (Exception e) {
+            }
+            catch(Exception e) {
                 LOGGER.warn("Error running SQL script '{}'", file.getName());
             }
         }
@@ -162,9 +163,10 @@ public class DataSourceTestConfiguration {
      */
     private String getEnvironmentValue(String key, String defaultValue) {
         List<String> profiles = Arrays.asList(ENV.getActiveProfiles());
-        if (profiles.size() > 0 && profiles.contains(GlobalsTest.PRODUCTION_TEST)) {
+        if(profiles.size() > 0 && profiles.contains(GlobalsTest.PRODUCTION_TEST)) {
             return System.getenv().get(key);
-        } else {
+        }
+        else {
             return defaultValue;
         }
     }

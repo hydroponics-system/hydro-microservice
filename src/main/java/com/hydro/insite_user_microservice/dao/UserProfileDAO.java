@@ -65,8 +65,9 @@ public class UserProfileDAO extends BaseDao {
 			UserGetRequest request = new UserGetRequest();
 			request.setId(Sets.newHashSet(id));
 			return getUsers(request).get(0);
-		} catch (Exception e) {
-			throw new NotFoundException("User", id);
+		}
+		catch(Exception e) {
+			throw new NotFoundException("User",id);
 		}
 	}
 
@@ -142,14 +143,10 @@ public class UserProfileDAO extends BaseDao {
 	 * @return {@link User} with the replaced fields.
 	 */
 	private User mapNonNullUserFields(User destination, User source) {
-		if (destination.getFirstName() == null)
-			destination.setFirstName(source.getFirstName());
-		if (destination.getLastName() == null)
-			destination.setLastName(source.getLastName());
-		if (destination.getEmail() == null)
-			destination.setEmail(source.getEmail());
-		if (destination.getWebRole() == null)
-			destination.setWebRole(source.getWebRole());
+		if(destination.getFirstName() == null) destination.setFirstName(source.getFirstName());
+		if(destination.getLastName() == null) destination.setLastName(source.getLastName());
+		if(destination.getEmail() == null) destination.setEmail(source.getEmail());
+		if(destination.getWebRole() == null) destination.setWebRole(source.getWebRole());
 		return destination;
 	}
 }

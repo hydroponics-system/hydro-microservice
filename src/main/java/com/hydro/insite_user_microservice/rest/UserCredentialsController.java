@@ -16,6 +16,8 @@ import com.hydro.insite_user_microservice.client.domain.enums.WebRole;
 import com.hydro.insite_user_microservice.openapi.TagUser;
 import com.hydro.insite_user_microservice.service.UserCredentialsService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RequestMapping("/api/user-app/credentials")
 @RestController
 @TagUser
@@ -35,6 +37,7 @@ public class UserCredentialsController {
      * @throws Exception If the user can not be authenticated or it failed to hash
      *                   the new password.
      */
+    @Operation(summary = "Update a current user password.", description = "Takes in a password update object to update the current users password.")
     @PutMapping(path = "/password", produces = APPLICATION_JSON_VALUE)
     public User updateUserPassword(@RequestBody PasswordUpdate passUpdate) throws Exception {
         return service.updateUserPassword(passUpdate);
@@ -44,10 +47,12 @@ public class UserCredentialsController {
      * This will take in a {@link PasswordUpdate} object and a user id that needs
      * the password updated.
      * 
+     * @param id         User id that should be updated.
      * @param passUpdate Object the holds the current password and new user password
      *                   to change it too.
      * @return {@link User} object of the user that was updated.
      */
+    @Operation(summary = "Update a user password by id.", description = "Takes a Password update and user id for updating a user password.")
     @PutMapping(path = "/password/{id}", produces = APPLICATION_JSON_VALUE)
     @HasAccess(WebRole.ADMIN)
     public User updateUserPasswordById(@PathVariable int id, @RequestBody PasswordUpdate passUpdate) throws Exception {
@@ -64,6 +69,7 @@ public class UserCredentialsController {
      * @throws Exception If the user can not be authenticated or it failed to hash
      *                   the new password.
      */
+    @Operation(summary = "Resets a users password.", description = "Endpoint called when updating a users password. JWT token must contain reset password field.")
     @PutMapping(path = "/password/reset", produces = APPLICATION_JSON_VALUE)
     public User resetUserPassword(@RequestBody PasswordUpdate passUpdate) throws Exception {
         return service.resetUserPassword(passUpdate.getNewPassword());

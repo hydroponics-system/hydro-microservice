@@ -14,9 +14,9 @@ import com.hydro.insite_common_microservice.enums.Environment;
  */
 public class PartNumber {
     private static final String PART_NUMBER_FORMAT = "Required format is \"ppppppEssssss\" where:\n"
-            + "- \"pppppp\" is the random six-digit product number\n"
-            + "- \"E\" is the alphanumeric single-char environment (D,P)\n"
-            + "- \"ssssss\" is the six-digit system id (zero-padded)\n";
+                                                     + "- \"pppppp\" is the random six-digit product number\n"
+                                                     + "- \"E\" is the alphanumeric single-char environment (D,P)\n"
+                                                     + "- \"ssssss\" is the six-digit system id (zero-padded)\n";
     private static final Pattern PART_NUMBER_PATTERN = Pattern
             .compile("(?<productnumber>[0-9]{6})(?<environment>[D|P])(?<system>[0-9]{6})");
 
@@ -31,15 +31,15 @@ public class PartNumber {
      * @param partNumber Part Number
      */
     public PartNumber(String partNumber) {
-        if (partNumber == null) {
+        if(partNumber == null) {
             throw new IllegalArgumentException("Part Number must not be null. " + PART_NUMBER_FORMAT);
         }
         this.partNumber = partNumber;
 
         var matcher = PART_NUMBER_PATTERN.matcher(partNumber);
-        if (!matcher.matches()) {
-            throw new IllegalArgumentException(
-                    String.format("Part Number \"%s\" is incorrectly formatted. %s", partNumber, PART_NUMBER_FORMAT));
+        if(!matcher.matches()) {
+            throw new IllegalArgumentException(String.format("Part Number \"%s\" is incorrectly formatted. %s",
+                                                             partNumber, PART_NUMBER_FORMAT));
         }
 
         environment = "P".equals(matcher.group("environment")) ? Environment.PRODUCTION : Environment.DEVELOPMENT;
@@ -66,7 +66,7 @@ public class PartNumber {
 
     @Override
     public boolean equals(Object other) {
-        if (other == null) {
+        if(other == null) {
             return false;
         }
         return partNumber.equals(other.toString());

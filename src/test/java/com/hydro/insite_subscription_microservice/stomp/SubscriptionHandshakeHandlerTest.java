@@ -23,9 +23,9 @@ public class SubscriptionHandshakeHandlerTest {
 
     @Test
     public void testDetermineUser() {
-        Principal u = handler.determineUser(null,null,null);
+        Principal u = handler.determineUser(null, null, null);
 
-        assertNotNull(u.getName(),"Random UUID");
-        verify(logger).info("Client connected to socket with ID '{}'",u.getName());
+        assertNotNull(u.getName(), "Random UUID");
+        verify(logger).info("Client connected to socket with ID '{}'", u.getName());
     }
 }

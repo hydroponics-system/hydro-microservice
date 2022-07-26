@@ -68,8 +68,8 @@ public class ManageUserProfileService {
 	 */
 	public User updateUserProfileById(int id, User user) throws Exception {
 		User updatingUser = dao.getUserById(id);
-		if (id != updatingUser.getId() && jwtHolder.getWebRole().getRank() <= updatingUser.getWebRole().getRank()) {
-			throw new InsufficientPermissionsException(jwtHolder.getWebRole(), updatingUser.getWebRole(), "update");
+		if(id != updatingUser.getId() && jwtHolder.getWebRole().getRank() <= updatingUser.getWebRole().getRank()) {
+			throw new InsufficientPermissionsException(jwtHolder.getWebRole(),updatingUser.getWebRole(),"update");
 		}
 
 		return updateUserProfile(id, user);
@@ -95,8 +95,8 @@ public class ManageUserProfileService {
 	 */
 	public void deleteUser(int id) throws Exception {
 		User deletingUser = dao.getUserById(id);
-		if (id != deletingUser.getId() && jwtHolder.getWebRole().getRank() <= deletingUser.getWebRole().getRank()) {
-			throw new InsufficientPermissionsException(jwtHolder.getWebRole(), deletingUser.getWebRole(), "delete");
+		if(id != deletingUser.getId() && jwtHolder.getWebRole().getRank() <= deletingUser.getWebRole().getRank()) {
+			throw new InsufficientPermissionsException(jwtHolder.getWebRole(),deletingUser.getWebRole(),"delete");
 		}
 		dao.deleteUser(id);
 		LOGGER.info("User successfully deleted with ID: '{}'", id);

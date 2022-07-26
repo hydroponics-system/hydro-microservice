@@ -7,6 +7,12 @@ import com.hydro.insite_subscription_microservice.client.domain.NotificationBody
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+/**
+ * System failure susbcription notification.
+ * 
+ * @author Sam Butler
+ * @since July 28, 2022
+ */
 @Schema(description = "System Failure Subscription for notifications")
 public class SystemFailureNotification implements NotificationBody {
     @Schema(description = "Message information about the system failure.")
