@@ -14,7 +14,7 @@ import com.hydro.factory.annotations.HydroServiceTest;
 import com.hydro.insite_jwt_microservice.utility.JwtHolder;
 import com.hydro.insite_subscription_microservice.client.domain.NotificationAction;
 import com.hydro.insite_subscription_microservice.client.domain.NotificationEnvelope;
-import com.hydro.insite_subscription_microservice.notification.UserSubscription;
+import com.hydro.insite_subscription_microservice.notification.UserNotification;
 
 @HydroServiceTest
 public class SubscriptionServiceTest {
@@ -35,7 +35,7 @@ public class SubscriptionServiceTest {
     public void testPushWithJustBody() {
         when(jwtHolder.getUserId()).thenReturn(12);
 
-        UserSubscription userSub = new UserSubscription();
+        UserNotification userSub = new UserNotification();
         userSub.setName("Test User");
         userSub.setUserId(12);
 
@@ -45,9 +45,9 @@ public class SubscriptionServiceTest {
         verify(webNotifierService).sendNotification(sendNotificationCaptor.capture());
 
         NotificationEnvelope<?> envelope = sendNotificationCaptor.getValue();
-        assertEquals(envelope.getBody().getClass(),UserSubscription.class,"Should be UserSubscription class");
+        assertEquals(envelope.getBody().getClass(),UserNotification.class,"Should be UserSubscription class");
 
-        UserSubscription resultSub = (UserSubscription) envelope.getBody();
+        UserNotification resultSub = (UserNotification) envelope.getBody();
         assertEquals(resultSub.getName(),"Test User","User Name");
         assertEquals(resultSub.getUserId(),12,"User Id");
         assertEquals(NotificationAction.CREATE,envelope.getAction(),"Notification Action");
@@ -59,13 +59,13 @@ public class SubscriptionServiceTest {
     public void testPushWithBodyAndNotificationAction() {
         when(jwtHolder.getUserId()).thenReturn(12);
 
-        service.push(NotificationAction.DELETE,new UserSubscription());
+        service.push(NotificationAction.DELETE,new UserNotification());
 
         verify(jwtHolder).getUserId();
         verify(webNotifierService).sendNotification(sendNotificationCaptor.capture());
 
         NotificationEnvelope<?> envelope = sendNotificationCaptor.getValue();
-        assertEquals(envelope.getBody().getClass(),UserSubscription.class,"Should be UserSubscription class");
+        assertEquals(envelope.getBody().getClass(),UserNotification.class,"Should be UserSubscription class");
         assertEquals(NotificationAction.DELETE,envelope.getAction(),"Notification Action");
         assertEquals("/topic/notification",envelope.getDestination(),"Notification Destination");
         assertEquals(12,envelope.getUserId(),"Notification User ID");

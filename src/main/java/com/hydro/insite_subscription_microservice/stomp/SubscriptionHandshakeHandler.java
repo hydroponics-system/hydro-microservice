@@ -17,9 +17,9 @@ import com.hydro.insite_subscription_microservice.client.domain.UserPrincipal;
  * @author Sam Butler
  * @since March 24, 2022
  */
-public class ClientHandshakeHandler extends DefaultHandshakeHandler {
+public class SubscriptionHandshakeHandler extends DefaultHandshakeHandler {
 
-    private HydroLogger LOGGER = new HydroLogger(ClientHandshakeHandler.class);
+    private HydroLogger LOGGER = new HydroLogger(SubscriptionHandshakeHandler.class);
 
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler,

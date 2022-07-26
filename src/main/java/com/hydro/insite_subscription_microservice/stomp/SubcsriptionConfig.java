@@ -44,7 +44,7 @@ public class SubcsriptionConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         LOGGER.info("Websocket connection opened on uri '/api/subscription'");
-        registry.addEndpoint("/api/subscription").setHandshakeHandler(new ClientHandshakeHandler())
+        registry.addEndpoint("/api/subscription").setHandshakeHandler(new SubscriptionHandshakeHandler())
                 .setAllowedOrigins("*");
     }
 }

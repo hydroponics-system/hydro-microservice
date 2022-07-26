@@ -11,7 +11,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author Sam Butler
  * @since March 24, 2022
  */
-public class UserSubscription implements NotificationBody {
+@Schema(description = "User Subscription for notifications")
+public class UserNotification implements NotificationBody {
     @Schema(description = "The user id of the new user.")
     private int userId;
 
