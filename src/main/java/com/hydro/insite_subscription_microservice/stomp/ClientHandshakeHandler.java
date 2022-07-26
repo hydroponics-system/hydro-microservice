@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.util.Map;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
@@ -20,14 +19,13 @@ import com.hydro.insite_subscription_microservice.client.domain.UserPrincipal;
  */
 public class ClientHandshakeHandler extends DefaultHandshakeHandler {
 
-    @Autowired
-    private HydroLogger LOGGER;
+    private HydroLogger LOGGER = new HydroLogger(ClientHandshakeHandler.class);
 
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler,
             Map<String, Object> attributes) {
         String randomId = UUID.randomUUID().toString();
-        LOGGER.info("Client connected to socket with ID '{}'", randomId);
+        LOGGER.info("Client connected to socket with ID '{}'",randomId);
         return new UserPrincipal(randomId);
     }
 

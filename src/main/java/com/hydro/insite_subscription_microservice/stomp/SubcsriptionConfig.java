@@ -21,7 +21,7 @@ import com.hydro.insite_common_microservice.util.HydroLogger;
  */
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+public class SubcsriptionConfig implements WebSocketMessageBrokerConfigurer {
     private final long DEFAULT_HEARTBEAT = 20000;
 
     @Autowired
@@ -38,12 +38,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.setUserDestinationPrefix("/user").enableSimpleBroker("/topic").setTaskScheduler(taskScheduler())
-                .setHeartbeatValue(new long[] { DEFAULT_HEARTBEAT, DEFAULT_HEARTBEAT });
+                .setHeartbeatValue(new long[] {DEFAULT_HEARTBEAT,DEFAULT_HEARTBEAT});
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        LOGGER.info("Websocket connection opened on uri '/api/websocket'");
-        registry.addEndpoint("/api/websocket").setHandshakeHandler(new ClientHandshakeHandler()).setAllowedOrigins("*");
+        LOGGER.info("Websocket connection opened on uri '/api/subscription'");
+        registry.addEndpoint("/api/subscription").setHandshakeHandler(new ClientHandshakeHandler())
+                .setAllowedOrigins("*");
     }
 }

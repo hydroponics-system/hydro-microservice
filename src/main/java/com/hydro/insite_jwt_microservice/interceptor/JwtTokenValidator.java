@@ -25,10 +25,10 @@ public class JwtTokenValidator {
     private JwtTokenUtil jwtTokenUtil;
 
     /**
-     * Checks to see if the token on the request is valid. If it is not valid then
-     * it wil throw an exception, otherwise it wil continue. It will confirm that
-     * the token is in the right environment, check that it has the correct fields,
-     * that it is not expired, and the token signature is valid.
+     * Checks to see if the token on the request is valid. If it is not valid
+     * then it wil throw an exception, otherwise it wil continue. It will
+     * confirm that the token is in the right environment, check that it has the
+     * correct fields, that it is not expired, and the token signature is valid.
      *
      * @param request - The request that is being made to the endpint
      * @throws IOException If the jwt token is not valid.
@@ -36,16 +36,18 @@ public class JwtTokenValidator {
     public boolean validateRequest(HttpServletRequest request) throws IOException {
         final String tokenHeader = request.getHeader("Authorization");
 
-        if (tokenHeader != null && tokenHeader.startsWith("Bearer: ")) {
+        if(tokenHeader != null && tokenHeader.startsWith("Bearer: ")) {
             String jwtToken = tokenHeader.substring(7).trim();
 
             validateToken(jwtToken);
-            isReauthenticating(request.getRequestURI(), jwtToken);
+            isReauthenticating(request.getRequestURI(),jwtToken);
 
-        } else {
-            if (isWebSocketConnection(request)) {
+        }
+        else {
+            if(isWebSocketConnection(request)) {
                 return validateSocketSession(request.getQueryString());
-            } else {
+            }
+            else {
                 doesTokenExist(tokenHeader);
             }
         }
@@ -53,7 +55,8 @@ public class JwtTokenValidator {
     }
 
     /**
-     * Validates the called socket session to confirm the passed in token is valid.
+     * Validates the called socket session to confirm the passed in token is
+     * valid.
      * 
      * @param token The token to authenticate.
      * @return The status of the session validation.
@@ -62,14 +65,15 @@ public class JwtTokenValidator {
         try {
             validateToken(token);
             return true;
-        } catch (Exception e) {
+        }
+        catch(Exception e) {
             return false;
         }
     }
 
     /**
-     * Will take in a string token, without the bearer tag, and confirm that it is
-     * valid. This will validate the websocket connection.
+     * Will take in a string token, without the bearer tag, and confirm that it
+     * is valid. This will validate the websocket connection.
      * 
      * @param token The token to validate.
      * @return boolean confirming if it was a valid token.
@@ -88,48 +92,49 @@ public class JwtTokenValidator {
      * @throws IOException
      */
     public boolean isWebSocketConnection(HttpServletRequest request) throws IOException {
-        return request.getRequestURI().contains("/api/websocket");
+        return request.getRequestURI().contains("/api/subscription");
     }
 
     /**
-     * This will check if the endpoint that was called was the /reauthenticate. If
-     * it was then we don't care if the token is expired and it will return.
+     * This will check if the endpoint that was called was the /reauthenticate.
+     * If it was then we don't care if the token is expired and it will return.
      * Otherwise check if the token is expired.
      *
      * @param endpoint The endpoint that was called.
-     * @param token    The token to confirm if it is expired if need be.
+     * @param token The token to confirm if it is expired if need be.
      * @throws BaseException Throws exception if the token is expired.
      */
     private void isReauthenticating(String endpoint, String token) throws BaseException {
-        if (!endpoint.equals("/reauthenticate")) {
+        if(!endpoint.equals("/reauthenticate")) {
             isTokenExpired(token);
         }
     }
 
     /**
-     * Checks to see if the token that the request pulled is expired. If it is then
-     * it will throw an exception.
+     * Checks to see if the token that the request pulled is expired. If it is
+     * then it will throw an exception.
      *
      * @param token The token to confirm if it is expired or not.
      * @throws BaseException Throws exception if the token is expired.
      */
     private void isTokenExpired(String token) throws BaseException {
-        if (jwtTokenUtil.isTokenExpired(token)) {
+        if(jwtTokenUtil.isTokenExpired(token)) {
             throw new BaseException("JWT Token is Expired. Please re-authenticate.");
         }
     }
 
     /**
-     * Checks to see if a token exists or if the token does not contain the bearer
-     * keyword.
+     * Checks to see if a token exists or if the token does not contain the
+     * bearer keyword.
      *
      * @param tokenHeader Header to of the token.
      * @throws BaseException Throws exception based on status of token.
      */
     private void doesTokenExist(String tokenHeader) throws BaseException {
-        if (tokenHeader != null) {
+        if(tokenHeader != null) {
             throw new BaseException("JWT Token does not begin with 'Bearer:'");
-        } else {
+        }
+        else {
             throw new BaseException("Missing JWT Token.");
         }
     }
@@ -138,14 +143,15 @@ public class JwtTokenValidator {
      * Checks to see if it has the required fields on the token.
      *
      * @param token - Token to confirm field claims on
-     * @throws IOException Throws exception if it can't read the fields or if it is
-     *                     an invalid token.
+     * @throws IOException Throws exception if it can't read the fields or if it
+     *             is an invalid token.
      */
     private void hasCorrectFields(String token) throws IOException {
         try {
             jwtTokenUtil.getExpirationDateFromToken(token);
             jwtTokenUtil.getAllClaimsFromToken(token);
-        } catch (Exception e) {
+        }
+        catch(Exception e) {
             throw new BaseException("Could not process JWT token. Invalid signature!");
         }
     }
@@ -159,7 +165,7 @@ public class JwtTokenValidator {
     private void isCorrectEnvironment(String token) throws BaseException {
         Environment environment = Environment.valueOf(jwtTokenUtil.getAllClaimsFromToken(token).get("env").toString());
 
-        if (!JwtEnvironment.getEnvironment().equals(environment)) {
+        if(!JwtEnvironment.getEnvironment().equals(environment)) {
             throw new BaseException("JWT token doesn't match accessing environment!");
         }
     }
