@@ -23,7 +23,7 @@ public class NotificationEnvelope<T extends NotificationBody> {
     @Schema(description = "Where the notification should be sent too.")
     private String destination;
 
-    @Schema(description = "Action type of the notification", allowableValues = {"C", "R", "U", "D"})
+    @Schema(description = "Action type of the notification", allowableValues = { "C", "R", "U", "D" })
     private NotificationAction action;
 
     @Schema(description = "When the notification was created.")

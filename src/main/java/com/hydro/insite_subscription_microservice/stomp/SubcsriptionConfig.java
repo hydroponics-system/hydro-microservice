@@ -38,7 +38,7 @@ public class SubcsriptionConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.setUserDestinationPrefix("/user").enableSimpleBroker("/topic").setTaskScheduler(taskScheduler())
-                .setHeartbeatValue(new long[] {DEFAULT_HEARTBEAT, DEFAULT_HEARTBEAT});
+                .setHeartbeatValue(new long[] { DEFAULT_HEARTBEAT, DEFAULT_HEARTBEAT });
     }
 
     @Override

@@ -67,7 +67,7 @@ public class UserProfileDAO extends BaseDao {
 			return getUsers(request).get(0);
 		}
 		catch(Exception e) {
-			throw new NotFoundException("User",id);
+			throw new NotFoundException("User", id);
 		}
 	}
 

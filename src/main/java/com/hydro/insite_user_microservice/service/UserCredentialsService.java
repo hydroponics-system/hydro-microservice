@@ -81,7 +81,7 @@ public class UserCredentialsService {
     public User updateUserPasswordById(int userId, PasswordUpdate passUpdate) throws Exception {
         User updatingUser = userProfileClient.getUserById(userId);
         if(userId != updatingUser.getId() && jwtHolder.getWebRole().getRank() <= updatingUser.getWebRole().getRank()) {
-            throw new InsufficientPermissionsException(jwtHolder.getWebRole(),updatingUser.getWebRole(),"update");
+            throw new InsufficientPermissionsException(jwtHolder.getWebRole(), updatingUser.getWebRole(), "update");
         }
         return passwordUpdate(userId, passUpdate.getNewPassword());
     }
