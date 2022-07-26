@@ -10,7 +10,7 @@ import com.hydro.insite_common_microservice.enums.TextEnum;
  * @since March 24, 2022
  */
 public enum NotificationBodyType implements TextEnum {
-    USER("User");
+    USER("USER");
 
     private String textId;
 
