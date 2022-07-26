@@ -12,9 +12,9 @@ public enum Environment {
     LOCAL;
 
     /**
-     * Will get the environment object enum from the passed in text value. If
-     * the enum is invalid it will return the {@link Environment#LOCAL}
-     * environment by default.
+     * Will get the environment object enum from the passed in text value. If the
+     * enum is invalid it will return the {@link Environment#LOCAL} environment by
+     * default.
      * 
      * @param text The text to process.
      * @return {@link Environment} Object

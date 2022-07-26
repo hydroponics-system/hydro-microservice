@@ -81,7 +81,7 @@ public class DatabaseConnectionBuilder {
      * 
      * @param schema The schema to be set.
      * @return The new {@link DatabaseConnectionBuilder} with the updated schema
-     *         name.
+     *             name.
      */
     public DatabaseConnectionBuilder schema(String schema) {
         this.source.setSchema(schema);
@@ -95,10 +95,10 @@ public class DatabaseConnectionBuilder {
      * @param key   The key of the property.
      * @param value The value to set.
      * @return {@link DatabaseConnectionBuilder} instance updated with the new
-     *         property.
+     *             property.
      */
     public DatabaseConnectionBuilder addProperty(String key, Object value) {
-        if (!dbProperties.contains(key)) {
+        if(!dbProperties.contains(key)) {
             this.dbProperties += String.format("%s=%s&", key, value.toString());
         }
         return this;
@@ -215,7 +215,7 @@ public class DatabaseConnectionBuilder {
      */
     public DriverManagerDataSource buildManagerSource() {
         String lastCharacter = this.dbProperties.substring(this.dbProperties.length() - 1);
-        if ("&".equals(lastCharacter) || "?".equals(lastCharacter)) {
+        if("&".equals(lastCharacter) || "?".equals(lastCharacter)) {
             this.dbProperties = this.dbProperties.substring(0, this.dbProperties.length() - 1);
         }
 

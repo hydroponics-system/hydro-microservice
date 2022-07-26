@@ -54,7 +54,7 @@ public class HasAccessAspectTest {
     public void testHasAccessInsufficentPermissions(WebRole role) throws Throwable {
         when(jwtHolder.getWebRole()).thenReturn(role);
         assertThrows(InsufficientPermissionsException.class,
-                () -> accessAspcect.access(proceedingJoinPoint, getHasAccessAnnotationInstance(WebRole.ADMIN)));
+                     () -> accessAspcect.access(proceedingJoinPoint, getHasAccessAnnotationInstance(WebRole.ADMIN)));
         verify(proceedingJoinPoint, never()).proceed();
     }
 

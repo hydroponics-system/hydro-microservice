@@ -129,7 +129,8 @@ public class JwtHolder {
 	public Object parse(String key, String token) {
 		try {
 			return jwtParser.parseClaimsJws(token).getBody().get(key);
-		} catch (Exception e) {
+		}
+		catch(Exception e) {
 			LOGGER.warn("Could not parse key '{}' from token.", key);
 			return null;
 		}

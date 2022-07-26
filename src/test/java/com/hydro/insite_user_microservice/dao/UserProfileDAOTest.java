@@ -112,7 +112,7 @@ public class UserProfileDAOTest {
         User userProfile = new User();
         userProfile.setEmail("Fake123@mail.com");
         DataIntegrityViolationException e = assertThrows(DataIntegrityViolationException.class,
-                () -> dao.updateUserProfile(1, userProfile));
+                                                         () -> dao.updateUserProfile(1, userProfile));
         assertTrue(e.getMessage().contains("Duplicate entry 'Fake123@mail.com'"));
     }
 }

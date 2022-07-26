@@ -137,10 +137,10 @@ public class HydroSystemServiceTest {
         when(jwtHolder.getWebRole()).thenReturn(WebRole.USER);
 
         InsufficientPermissionsException e = assertThrows(InsufficientPermissionsException.class,
-                () -> service.unregisterSystem(8));
+                                                          () -> service.unregisterSystem(8));
 
         verify(hydroSystemDAO, never()).unregisterSystem(anyInt());
         assertEquals("Insufficient permissions! You can not unregister this system.", e.getMessage(),
-                "Exception Message");
+                     "Exception Message");
     }
 }

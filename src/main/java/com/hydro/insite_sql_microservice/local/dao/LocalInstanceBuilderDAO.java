@@ -37,7 +37,8 @@ public class LocalInstanceBuilderDAO extends BaseDao {
         var params = parameterSource("schemaName", name);
         try {
             return !get(getSql("doesSchemaExist", params), params, String.class).isBlank();
-        } catch (Exception e) {
+        }
+        catch(Exception e) {
             return false;
         }
     }

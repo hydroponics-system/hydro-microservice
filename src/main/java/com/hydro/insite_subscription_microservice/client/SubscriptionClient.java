@@ -22,11 +22,11 @@ public class SubscriptionClient {
     private SubscriptionService service;
 
     /**
-     * Push a web notification. It will perform a
-     * {@link NotificationAction#CREATE} with the passed in notification body.
+     * Push a web notification. It will perform a {@link NotificationAction#CREATE}
+     * with the passed in notification body.
      * 
      * @param action The action to perform.
-     * @param body The body to be sent.
+     * @param body   The body to be sent.
      */
     public void push(NotificationBody body) {
         service.push(body);
@@ -37,9 +37,9 @@ public class SubscriptionClient {
      * passed in notification body.
      * 
      * @param action The action to perform.
-     * @param body The body to be sent.
+     * @param body   The body to be sent.
      */
     public void push(NotificationAction action, NotificationBody body) {
-        service.push(action,body);
+        service.push(action, body);
     }
 }

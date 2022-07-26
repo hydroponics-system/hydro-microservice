@@ -80,7 +80,7 @@ public class UserCredentialsService {
      */
     public User updateUserPasswordById(int userId, PasswordUpdate passUpdate) throws Exception {
         User updatingUser = userProfileClient.getUserById(userId);
-        if (userId != updatingUser.getId() && jwtHolder.getWebRole().getRank() <= updatingUser.getWebRole().getRank()) {
+        if(userId != updatingUser.getId() && jwtHolder.getWebRole().getRank() <= updatingUser.getWebRole().getRank()) {
             throw new InsufficientPermissionsException(jwtHolder.getWebRole(), updatingUser.getWebRole(), "update");
         }
         return passwordUpdate(userId, passUpdate.getNewPassword());
@@ -97,7 +97,7 @@ public class UserCredentialsService {
      *                   not able to hash the new password.
      */
     public User resetUserPassword(String pass) throws Exception {
-        if (!jwtHolder.getResetPassword()) {
+        if(!jwtHolder.getResetPassword()) {
             throw new Exception("Invalid token for reset password!");
         }
         return passwordUpdate(jwtHolder.getUserId(), pass);
@@ -116,7 +116,8 @@ public class UserCredentialsService {
         try {
             dao.updateUserPassword(userId, BCrypt.hashpw(password, BCrypt.gensalt()));
             return userProfileClient.getUserById(userId);
-        } catch (NoSuchAlgorithmException e) {
+        }
+        catch(NoSuchAlgorithmException e) {
             throw new BaseException("Could not update password!");
         }
     }

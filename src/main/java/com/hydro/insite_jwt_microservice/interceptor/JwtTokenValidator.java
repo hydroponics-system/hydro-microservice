@@ -25,10 +25,10 @@ public class JwtTokenValidator {
     private JwtTokenUtil jwtTokenUtil;
 
     /**
-     * Checks to see if the token on the request is valid. If it is not valid
-     * then it wil throw an exception, otherwise it wil continue. It will
-     * confirm that the token is in the right environment, check that it has the
-     * correct fields, that it is not expired, and the token signature is valid.
+     * Checks to see if the token on the request is valid. If it is not valid then
+     * it wil throw an exception, otherwise it wil continue. It will confirm that
+     * the token is in the right environment, check that it has the correct fields,
+     * that it is not expired, and the token signature is valid.
      *
      * @param request - The request that is being made to the endpint
      * @throws IOException If the jwt token is not valid.
@@ -40,7 +40,7 @@ public class JwtTokenValidator {
             String jwtToken = tokenHeader.substring(7).trim();
 
             validateToken(jwtToken);
-            isReauthenticating(request.getRequestURI(),jwtToken);
+            isReauthenticating(request.getRequestURI(), jwtToken);
 
         }
         else {
@@ -55,8 +55,7 @@ public class JwtTokenValidator {
     }
 
     /**
-     * Validates the called socket session to confirm the passed in token is
-     * valid.
+     * Validates the called socket session to confirm the passed in token is valid.
      * 
      * @param token The token to authenticate.
      * @return The status of the session validation.
@@ -72,8 +71,8 @@ public class JwtTokenValidator {
     }
 
     /**
-     * Will take in a string token, without the bearer tag, and confirm that it
-     * is valid. This will validate the websocket connection.
+     * Will take in a string token, without the bearer tag, and confirm that it is
+     * valid. This will validate the websocket connection.
      * 
      * @param token The token to validate.
      * @return boolean confirming if it was a valid token.
@@ -96,12 +95,12 @@ public class JwtTokenValidator {
     }
 
     /**
-     * This will check if the endpoint that was called was the /reauthenticate.
-     * If it was then we don't care if the token is expired and it will return.
+     * This will check if the endpoint that was called was the /reauthenticate. If
+     * it was then we don't care if the token is expired and it will return.
      * Otherwise check if the token is expired.
      *
      * @param endpoint The endpoint that was called.
-     * @param token The token to confirm if it is expired if need be.
+     * @param token    The token to confirm if it is expired if need be.
      * @throws BaseException Throws exception if the token is expired.
      */
     private void isReauthenticating(String endpoint, String token) throws BaseException {
@@ -111,8 +110,8 @@ public class JwtTokenValidator {
     }
 
     /**
-     * Checks to see if the token that the request pulled is expired. If it is
-     * then it will throw an exception.
+     * Checks to see if the token that the request pulled is expired. If it is then
+     * it will throw an exception.
      *
      * @param token The token to confirm if it is expired or not.
      * @throws BaseException Throws exception if the token is expired.
@@ -124,8 +123,8 @@ public class JwtTokenValidator {
     }
 
     /**
-     * Checks to see if a token exists or if the token does not contain the
-     * bearer keyword.
+     * Checks to see if a token exists or if the token does not contain the bearer
+     * keyword.
      *
      * @param tokenHeader Header to of the token.
      * @throws BaseException Throws exception based on status of token.
@@ -143,8 +142,8 @@ public class JwtTokenValidator {
      * Checks to see if it has the required fields on the token.
      *
      * @param token - Token to confirm field claims on
-     * @throws IOException Throws exception if it can't read the fields or if it
-     *             is an invalid token.
+     * @throws IOException Throws exception if it can't read the fields or if it is
+     *                     an invalid token.
      */
     private void hasCorrectFields(String token) throws IOException {
         try {

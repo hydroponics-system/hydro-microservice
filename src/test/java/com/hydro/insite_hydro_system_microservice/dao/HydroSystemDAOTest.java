@@ -42,7 +42,8 @@ public class HydroSystemDAOTest {
         try {
             dao.registerSystem(sys);
             actualResult = "VALID";
-        } catch (Exception e) {
+        }
+        catch(Exception e) {
             actualResult = "ERROR";
             System.out.println(e.getMessage() + "\n");
         }
@@ -99,6 +100,6 @@ public class HydroSystemDAOTest {
         t5.setInsertUserId(100);
 
         return Stream.of(Arguments.of(t1, "VALID"), Arguments.of(t2, "ERROR"), Arguments.of(t3, "ERROR"),
-                Arguments.of(t4, "VALID"), Arguments.of(t5, "ERROR"));
+                         Arguments.of(t4, "VALID"), Arguments.of(t5, "ERROR"));
     }
 }

@@ -2,9 +2,9 @@ package com.hydro.factory.resolver;
 
 import java.util.Map;
 
-import com.hydro.factory.globals.GlobalsTest;
-
 import org.springframework.test.context.ActiveProfilesResolver;
+
+import com.hydro.factory.globals.GlobalsTest;
 
 /**
  * Resolver method that decides what property file to use when running test.

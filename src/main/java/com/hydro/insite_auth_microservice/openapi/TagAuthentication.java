@@ -21,5 +21,4 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Target({ TYPE, METHOD, ANNOTATION_TYPE })
 @Inherited
 @Tag(name = "Authentication")
-public @interface TagAuthentication {
-}
+public @interface TagAuthentication {}

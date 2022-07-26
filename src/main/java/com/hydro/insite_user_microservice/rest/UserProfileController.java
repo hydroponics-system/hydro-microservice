@@ -23,7 +23,7 @@ import com.hydro.insite_user_microservice.openapi.TagUser;
 import com.hydro.insite_user_microservice.service.ManageUserProfileService;
 import com.hydro.insite_user_microservice.service.UserProfileService;
 
-import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RequestMapping("/api/user-app/profile")
 @RestController
@@ -43,6 +43,7 @@ public class UserProfileController {
 	 * @return list of user objects
 	 * @throws Exception
 	 */
+	@Operation(summary = "Get a list of users.", description = "Given a User Get Request, it will return a list of users that match the request.")
 	@GetMapping(produces = APPLICATION_JSON_VALUE)
 	@HasAccess(WebRole.ADMIN)
 	public List<User> getUsers(UserGetRequest request) throws Exception {
@@ -55,6 +56,7 @@ public class UserProfileController {
 	 * @return The user currently logged in.
 	 * @throws Exception
 	 */
+	@Operation(summary = "Gets current user of the session call.", description = "Will return the current user based on the active session jwt holder.")
 	@GetMapping(path = "/current-user", produces = APPLICATION_JSON_VALUE)
 	public User getCurrentUser() throws Exception {
 		return userProfileService.getCurrentUser();
@@ -67,10 +69,10 @@ public class UserProfileController {
 	 * @return user associated to that id
 	 * @throws Exception
 	 */
+	@Operation(summary = "Gets a user by id.", description = "For the given id value, it will return the corresponding user.")
 	@GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
 	@HasAccess(WebRole.ADMIN)
-	public User getUserById(@Parameter(description = "Id of a user", required = true) @PathVariable int id)
-			throws Exception {
+	public User getUserById(@PathVariable int id) throws Exception {
 		return userProfileService.getUserById(id);
 	}
 
@@ -82,6 +84,7 @@ public class UserProfileController {
 	 * @return {@link Boolean} to see if the email exists
 	 * @throws Exception
 	 */
+	@Operation(summary = "Checks to see if email exist.", description = "Takes in a email to check to see if it exists in the database.")
 	@GetMapping("/check-email")
 	public boolean doesEmailExist(@RequestParam String email) throws Exception {
 		return userProfileService.doesEmailExist(email);
@@ -94,6 +97,7 @@ public class UserProfileController {
 	 * @return {@link User} object of the users data.
 	 * @throws Exception
 	 */
+	@Operation(summary = "Create a new user.", description = "Takes in a user object and will insert them into the database.")
 	@PostMapping(produces = APPLICATION_JSON_VALUE)
 	public User createUser(@RequestBody User user) throws Exception {
 		return manageUserProfileService.createUser(user);
@@ -107,6 +111,7 @@ public class UserProfileController {
 	 * @return user associated to that id with the updated information
 	 * @throws Exception
 	 */
+	@Operation(summary = "Updates a user information.", description = "Takes in a user object and updates the current user information.")
 	@PutMapping(produces = APPLICATION_JSON_VALUE)
 	public User updateUserProfile(@RequestBody User user) throws Exception {
 		return manageUserProfileService.updateUserProfile(user);
@@ -119,11 +124,10 @@ public class UserProfileController {
 	 * @return user associated to that id with the updated information
 	 * @throws Exception
 	 */
+	@Operation(summary = "Updates a user information by id.", description = "Updates a user information by given user id. Admin only endpoint.")
 	@PutMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
 	@HasAccess(WebRole.ADMIN)
-	public User updateUserProfileById(
-			@Parameter(description = "User Request to filter on.", required = true) @PathVariable int id,
-			@RequestBody User user) throws Exception {
+	public User updateUserProfileById(@PathVariable int id, @RequestBody User user) throws Exception {
 		return manageUserProfileService.updateUserProfileById(id, user);
 	}
 
@@ -133,10 +137,10 @@ public class UserProfileController {
 	 * @param id The id of the user being deleted
 	 * @throws Exception
 	 */
+	@Operation(summary = "Delete a user by id.", description = "Delete a user for the given user id. Admin only endpoint.")
 	@DeleteMapping("/{id}")
 	@HasAccess(WebRole.ADMIN)
-	public void deleteUser(@Parameter(description = "User Request to filter on.", required = true) @PathVariable int id)
-			throws Exception {
+	public void deleteUser(@PathVariable int id) throws Exception {
 		manageUserProfileService.deleteUser(id);
 	}
 }

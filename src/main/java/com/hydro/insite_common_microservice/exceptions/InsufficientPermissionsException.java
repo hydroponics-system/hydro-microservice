@@ -40,6 +40,6 @@ public class InsufficientPermissionsException extends BaseException {
      */
     public InsufficientPermissionsException(WebRole insufficentWebRole, WebRole changingWebRole, String action) {
         super(String.format("Your role of '%s' can not %s a user of role '%s'", insufficentWebRole, action,
-                changingWebRole));
+                            changingWebRole));
     }
 }

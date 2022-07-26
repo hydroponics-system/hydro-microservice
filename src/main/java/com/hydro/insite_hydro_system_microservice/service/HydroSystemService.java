@@ -104,7 +104,7 @@ public class HydroSystemService {
     public void unregisterSystem(int id) {
         HydroSystem sys = getSystemById(id);
 
-        if (jwtHolder.getUserId() != sys.getInsertUserId() && !jwtHolder.getWebRole().equals(WebRole.ADMIN)) {
+        if(jwtHolder.getUserId() != sys.getInsertUserId() && !jwtHolder.getWebRole().equals(WebRole.ADMIN)) {
             throw new InsufficientPermissionsException("Insufficient permissions! You can not unregister this system.");
         }
 
@@ -122,8 +122,8 @@ public class HydroSystemService {
         HydroSystem sys = new HydroSystem();
 
         String env = JwtEnvironment.getEnvironment().equals(Environment.PRODUCTION) ? "P" : "D";
-        PartNumber partNumber = new PartNumber(
-                String.format("%06d%s%06d", CommonUtil.generateRandomNumber(6), env, systemId));
+        PartNumber partNumber = new PartNumber(String.format("%06d%s%06d", CommonUtil.generateRandomNumber(6), env,
+                                                             systemId));
         UUID systemUUID = UUID.nameUUIDFromBytes(partNumber.toString().getBytes());
 
         sys.setName(name);

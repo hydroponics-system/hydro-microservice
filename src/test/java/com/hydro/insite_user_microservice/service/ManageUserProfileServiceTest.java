@@ -85,7 +85,7 @@ public class ManageUserProfileServiceTest {
         when(jwtHolder.getWebRole()).thenReturn(WebRole.ADMIN);
 
         InsufficientPermissionsException e = assertThrows(InsufficientPermissionsException.class,
-                () -> service.updateUserProfileById(5, userToUpdate));
+                                                          () -> service.updateUserProfileById(5, userToUpdate));
 
         verify(dao, never()).updateUserProfile(anyInt(), any());
         assertEquals("Your role of 'ADMIN' can not update a user of role 'ADMIN'", e.getMessage(), "Exception Message");
@@ -126,7 +126,7 @@ public class ManageUserProfileServiceTest {
         when(jwtHolder.getWebRole()).thenReturn(WebRole.ADMIN);
 
         InsufficientPermissionsException e = assertThrows(InsufficientPermissionsException.class,
-                () -> service.deleteUser(5));
+                                                          () -> service.deleteUser(5));
 
         verify(dao, never()).deleteUser(anyInt());
         assertEquals("Your role of 'ADMIN' can not delete a user of role 'ADMIN'", e.getMessage(), "Exception Message");

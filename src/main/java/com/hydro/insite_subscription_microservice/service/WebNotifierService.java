@@ -31,8 +31,8 @@ public class WebNotifierService {
      * @param envelope {@link NotificationEnvelope} to be sent.
      */
     public <T extends NotificationBody> void sendNotification(NotificationEnvelope<T> envelope) {
-        LOGGER.info("Sending Web Notification to '{}' with type '{}'",envelope.getDestination(),
+        LOGGER.info("Sending Web Notification to '{}' with type '{}'", envelope.getDestination(),
                     envelope.getBody().getBodyType());
-        template.convertAndSend(envelope.getDestination(),envelope);
+        template.convertAndSend(envelope.getDestination(), envelope);
     }
 }

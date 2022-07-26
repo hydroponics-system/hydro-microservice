@@ -45,29 +45,29 @@ public class SubscriptionServiceTest {
         verify(webNotifierService).sendNotification(sendNotificationCaptor.capture());
 
         NotificationEnvelope<?> envelope = sendNotificationCaptor.getValue();
-        assertEquals(envelope.getBody().getClass(),UserNotification.class,"Should be UserSubscription class");
+        assertEquals(envelope.getBody().getClass(), UserNotification.class, "Should be UserSubscription class");
 
         UserNotification resultSub = (UserNotification) envelope.getBody();
-        assertEquals(resultSub.getName(),"Test User","User Name");
-        assertEquals(resultSub.getUserId(),12,"User Id");
-        assertEquals(NotificationAction.CREATE,envelope.getAction(),"Notification Action");
-        assertEquals("/topic/notification",envelope.getDestination(),"Notification Destination");
-        assertEquals(12,envelope.getUserId(),"Notification User ID");
+        assertEquals(resultSub.getName(), "Test User", "User Name");
+        assertEquals(resultSub.getUserId(), 12, "User Id");
+        assertEquals(NotificationAction.CREATE, envelope.getAction(), "Notification Action");
+        assertEquals("/topic/notification", envelope.getDestination(), "Notification Destination");
+        assertEquals(12, envelope.getUserId(), "Notification User ID");
     }
 
     @Test
     public void testPushWithBodyAndNotificationAction() {
         when(jwtHolder.getUserId()).thenReturn(12);
 
-        service.push(NotificationAction.DELETE,new UserNotification());
+        service.push(NotificationAction.DELETE, new UserNotification());
 
         verify(jwtHolder).getUserId();
         verify(webNotifierService).sendNotification(sendNotificationCaptor.capture());
 
         NotificationEnvelope<?> envelope = sendNotificationCaptor.getValue();
-        assertEquals(envelope.getBody().getClass(),UserNotification.class,"Should be UserSubscription class");
-        assertEquals(NotificationAction.DELETE,envelope.getAction(),"Notification Action");
-        assertEquals("/topic/notification",envelope.getDestination(),"Notification Destination");
-        assertEquals(12,envelope.getUserId(),"Notification User ID");
+        assertEquals(envelope.getBody().getClass(), UserNotification.class, "Should be UserSubscription class");
+        assertEquals(NotificationAction.DELETE, envelope.getAction(), "Notification Action");
+        assertEquals("/topic/notification", envelope.getDestination(), "Notification Destination");
+        assertEquals(12, envelope.getUserId(), "Notification User ID");
     }
 }

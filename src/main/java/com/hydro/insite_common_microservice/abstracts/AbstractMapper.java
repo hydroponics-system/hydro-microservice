@@ -8,6 +8,4 @@ import org.springframework.jdbc.core.RowMapper;
  * @author Sam Butler
  * @since April 21, 2022
  */
-public abstract class AbstractMapper<T> extends AbstractSqlGlobals implements RowMapper<T> {
-
-}
+public abstract class AbstractMapper<T> extends AbstractSqlGlobals implements RowMapper<T> {}

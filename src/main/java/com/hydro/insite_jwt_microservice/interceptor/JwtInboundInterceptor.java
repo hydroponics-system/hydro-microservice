@@ -35,7 +35,7 @@ public class JwtInboundInterceptor extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
             throws ServletException, IOException {
 
-        if (JWTValidator.validateRequest(req)) {
+        if(JWTValidator.validateRequest(req)) {
             chain.doFilter(req, res);
         }
     }

@@ -22,9 +22,10 @@ public class SqlParamBuilder {
     private MapSqlParameterSource sqlParams;
 
     private SqlParamBuilder(MapSqlParameterSource sqlParams) {
-        if (sqlParams == null) {
+        if(sqlParams == null) {
             this.sqlParams = new MapSqlParameterSource();
-        } else {
+        }
+        else {
             this.sqlParams = sqlParams;
         }
     }
@@ -106,7 +107,7 @@ public class SqlParamBuilder {
      */
     public <T> SqlParamBuilder withParamTextEnumCollection(String name, Collection<? extends TextEnum> values) {
         return withParam(name,
-                values == null ? null : values.stream().map(TextEnum::getTextId).collect(Collectors.toList()));
+                         values == null ? null : values.stream().map(TextEnum::getTextId).collect(Collectors.toList()));
     }
 
     /**

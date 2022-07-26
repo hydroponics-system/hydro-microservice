@@ -22,4 +22,5 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Inherited
 @Tag(name = "Hydro System")
 public @interface TagHydroSystem {
+
 }

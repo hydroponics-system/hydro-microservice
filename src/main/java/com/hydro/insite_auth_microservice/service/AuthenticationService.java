@@ -78,10 +78,11 @@ public class AuthenticationService {
      * @throws Exception Throw an exception if the credentials do not match.
      */
     private User verifyUser(String email, String password) throws Exception {
-        if (BCrypt.checkpw(password, dao.getUserAuthPassword(email))) {
+        if(BCrypt.checkpw(password, dao.getUserAuthPassword(email))) {
             User authUser = getAuthenticatedUser(email);
             return userProfileClient.updateUserLastLoginToNow(authUser.getId());
-        } else {
+        }
+        else {
             throw new InvalidCredentialsException(email);
         }
     }

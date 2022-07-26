@@ -82,7 +82,7 @@ public class AuthenticationServiceTest {
                 .thenReturn("$2a$10$KusdNWjdceySzNAG3EH8a.5HuIOMWH4hl4Ke64Daqaeqivy1y0Rd.");
 
         InvalidCredentialsException e = assertThrows(InvalidCredentialsException.class,
-                () -> service.authenticate(authRequest));
+                                                     () -> service.authenticate(authRequest));
 
         assertEquals("Invalid Credentials for user email: 'fake@mail.com'", e.getMessage(), "Exception Message");
         verify(authenticationDAO).getUserAuthPassword(anyString());
