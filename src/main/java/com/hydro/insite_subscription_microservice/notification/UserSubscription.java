@@ -1,4 +1,4 @@
-package com.hydro.insite_subscription_microservice.client.notification;
+package com.hydro.insite_subscription_microservice.notification;
 
 import com.hydro.insite_subscription_microservice.client.domain.NotificationBody;
 import com.hydro.insite_subscription_microservice.client.domain.NotificationBodyType;
