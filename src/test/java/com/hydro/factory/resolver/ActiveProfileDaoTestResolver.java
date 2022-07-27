@@ -12,11 +12,14 @@ import com.hydro.factory.globals.GlobalsTest;
  * @author Sam Butler
  * @since April 25, 2022
  */
-public class ActiveProfileTestResolver implements ActiveProfilesResolver {
+public class ActiveProfileDaoTestResolver implements ActiveProfilesResolver {
+
+    private static final String DAO_TEST_PROFILE = "test-dao";
 
     @Override
     public String[] resolve(Class<?> testClass) {
         Map<String, String> env = System.getenv();
-        return new String[] { env.containsKey("TEST_ENV") ? GlobalsTest.PRODUCTION_TEST : GlobalsTest.LOCAL_TEST };
+        return new String[] { env.containsKey("TEST_ENV") ? GlobalsTest.PRODUCTION_TEST : GlobalsTest.LOCAL_TEST,
+                              DAO_TEST_PROFILE };
     }
 }

@@ -39,10 +39,10 @@ public abstract class RequestTestUtil {
      * @param count      The count of entities in the array
      * @return Consumer to verify the response
      */
-    public static <T> Consumer<ResponseEntity<T[]>> serializedList(HttpStatus httpStatus, int count) {
+    public static <T> Consumer<ResponseEntity<T[]>> serializedList(HttpStatus httpStatus) {
         return serialized(httpStatus, body -> {
             assertNotNull(body, "Returned");
-            assertEquals(body.length, count, "Length of List");
+            assertEquals(body.length, 1, "Length of List");
         });
     }
 

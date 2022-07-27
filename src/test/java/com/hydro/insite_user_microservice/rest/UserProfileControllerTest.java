@@ -1,40 +1,38 @@
 package com.hydro.insite_user_microservice.rest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.hydro.factory.abstracts.BaseControllerTest;
 import com.hydro.factory.annotations.HydroRestTest;
 import com.hydro.insite_common_microservice.annotations.interfaces.ControllerJwt;
 import com.hydro.insite_user_microservice.client.domain.User;
-import com.hydro.insite_user_microservice.client.domain.enums.WebRole;
+import com.hydro.insite_user_microservice.client.domain.request.UserGetRequest;
+import com.hydro.insite_user_microservice.service.UserProfileService;
 
 @HydroRestTest
-@Sql("/scripts/user/userProfileRest/init.sql")
 @ControllerJwt
 public class UserProfileControllerTest extends BaseControllerTest {
 
+    @MockBean
+    private UserProfileService service;
+
     @Test
-    public void testGetListOfUsers() {
-        check(get("/api/user-app/profile", User[].class), serializedList(HttpStatus.OK, 3));
+    public void testGetListOfUsers() throws Exception {
+        when(service.getUsers(any(UserGetRequest.class))).thenReturn(Arrays.asList(new User()));
+        check(get("/api/user-app/profile", User[].class), serializedList(HttpStatus.OK));
     }
 
     @Test
-    public void testGetUserById() {
-        check(get("/api/user-app/profile/3", User.class), serialized(HttpStatus.OK, body -> {
-            assertEquals(3, body.getId(), "User Id");
-            assertEquals("Fake", body.getFirstName(), "First Name");
-            assertEquals("User", body.getLastName(), "Last Name");
-            assertEquals("Fake123@mail.com", body.getEmail(), "Email");
-            assertEquals(WebRole.DEVELOPER, body.getWebRole(), "Webrole");
-        }));
-    }
-
-    @Test
-    public void testGetUserByIdNotFound() {
-        check(get("/api/user-app/profile/100"), error(HttpStatus.BAD_REQUEST, "User not found for id: '100'"));
+    public void testGetUserById() throws Exception {
+        when(service.getUserById(anyInt())).thenReturn(new User());
+        check(get("/api/user-app/profile/3", User.class), serializedNonNull(HttpStatus.OK));
     }
 }

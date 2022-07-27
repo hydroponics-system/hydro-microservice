@@ -9,7 +9,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.hydro.factory.config.DataSourceTestConfiguration;
-import com.hydro.factory.resolver.ActiveProfileTestResolver;
+import com.hydro.factory.resolver.ActiveProfileDaoTestResolver;
 
 /**
  * Annotation id for test that deal with dao classes.
@@ -20,5 +20,5 @@ import com.hydro.factory.resolver.ActiveProfileTestResolver;
 @Retention(RetentionPolicy.RUNTIME)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = { DataSourceTestConfiguration.class })
-@ActiveProfiles(resolver = ActiveProfileTestResolver.class)
+@ActiveProfiles(resolver = ActiveProfileDaoTestResolver.class)
 public @interface HydroDaoTest {}
