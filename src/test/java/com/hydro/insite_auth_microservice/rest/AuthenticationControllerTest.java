@@ -23,7 +23,8 @@ public class AuthenticationControllerTest extends BaseControllerTest {
     @Test
     public void testAuthenticateInvalidCredentials() {
         AuthenticationRequest request = new AuthenticationRequest("test@mail.com", "WrongPassword");
-        check(postError("/authenticate", request), httpStatusEquals(HttpStatus.INTERNAL_SERVER_ERROR));
+        check(post("/authenticate", request),
+              error(HttpStatus.UNAUTHORIZED, "Invalid Credentials for user email: 'test@mail.com'"));
     }
 
     @Test
@@ -34,6 +35,6 @@ public class AuthenticationControllerTest extends BaseControllerTest {
 
     @Test
     public void testReAuthenticateNoToken() {
-        check(postError("/reauthenticate"), httpStatusEquals(HttpStatus.INTERNAL_SERVER_ERROR));
+        check(post("/reauthenticate"), error(HttpStatus.UNAUTHORIZED, "Missing JWT Token."));
     }
 }

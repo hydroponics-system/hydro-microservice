@@ -1,6 +1,5 @@
 package com.hydro.insite_jwt_microservice.interceptor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
 import com.hydro.insite_common_microservice.enums.Environment;
-import com.hydro.insite_common_microservice.exceptions.BaseException;
+import com.hydro.insite_common_microservice.exceptions.JwtTokenException;
 import com.hydro.insite_jwt_microservice.utility.JwtEnvironment;
 import com.hydro.insite_jwt_microservice.utility.JwtTokenUtil;
 
@@ -35,10 +34,10 @@ public class JwtTokenValidator {
      * that it is not expired, and the token signature is valid.
      *
      * @param request - The request that is being made to the endpint
-     * @throws IOException      If the jwt token is not valid.
-     * @throws ServletException If the server request is invalid.
+     * @throws JwtTokenException If the jwt token is not valid.
+     * @throws ServletException  If the server request is invalid.
      */
-    public boolean validateRequest(HttpServletRequest request) throws IOException, ServletException {
+    public boolean validateRequest(HttpServletRequest request) throws JwtTokenException, ServletException {
         if(shouldNotFilter(request)) {
             return true;
         }
@@ -93,9 +92,9 @@ public class JwtTokenValidator {
      * 
      * @param token The token to validate.
      * @return boolean confirming if it was a valid token.
-     * @throws IOException
+     * @throws JwtTokenException
      */
-    public void validateToken(String token) throws IOException {
+    public void validateToken(String token) throws JwtTokenException {
         isCorrectEnvironment(token);
         hasCorrectFields(token);
         isTokenExpired(token);
@@ -106,9 +105,9 @@ public class JwtTokenValidator {
      * 
      * @param token The token to be validated.
      * @return Boolean of the validation status.
-     * @throws IOException
+     * @throws JwtTokenException
      */
-    public boolean isWebSocketConnection(HttpServletRequest request) throws IOException {
+    public boolean isWebSocketConnection(HttpServletRequest request) throws JwtTokenException {
         return request.getRequestURI().contains("/api/subscription");
     }
 
@@ -117,14 +116,14 @@ public class JwtTokenValidator {
      * keyword.
      *
      * @param tokenHeader Header to of the token.
-     * @throws BaseException Throws exception based on status of token.
+     * @throws JwtTokenException Throws exception based on status of token.
      */
-    private void doesTokenExist(String tokenHeader) throws BaseException {
+    private void doesTokenExist(String tokenHeader) throws JwtTokenException {
         if(tokenHeader != null) {
-            throw new BaseException("JWT Token does not begin with 'Bearer:'");
+            throw new JwtTokenException("JWT Token does not begin with 'Bearer:'");
         }
         else {
-            throw new BaseException("Missing JWT Token.");
+            throw new JwtTokenException("Missing JWT Token.");
         }
     }
 
@@ -132,16 +131,16 @@ public class JwtTokenValidator {
      * Checks to see if it has the required fields on the token.
      *
      * @param token - Token to confirm field claims on
-     * @throws IOException Throws exception if it can't read the fields or if it is
-     *                     an invalid token.
+     * @throws JwtTokenException Throws exception if it can't read the fields or if
+     *                           it is an invalid token.
      */
-    private void hasCorrectFields(String token) throws IOException {
+    private void hasCorrectFields(String token) throws JwtTokenException {
         try {
             jwtTokenUtil.getExpirationDateFromToken(token);
             jwtTokenUtil.getAllClaimsFromToken(token);
         }
         catch(Exception e) {
-            throw new BaseException("Could not process JWT token. Invalid signature!");
+            throw new JwtTokenException("Could not process JWT token. Invalid signature!");
         }
     }
 
@@ -149,13 +148,13 @@ public class JwtTokenValidator {
      * Validates that the environemnt is correct.
      *
      * @param token to be parsed
-     * @throws BaseException
+     * @throws JwtTokenException
      */
-    private void isCorrectEnvironment(String token) throws BaseException {
+    private void isCorrectEnvironment(String token) throws JwtTokenException {
         Environment environment = Environment.valueOf(jwtTokenUtil.getAllClaimsFromToken(token).get("env").toString());
 
         if(!JwtEnvironment.getEnvironment().equals(environment)) {
-            throw new BaseException("JWT token doesn't match accessing environment!");
+            throw new JwtTokenException("JWT token doesn't match accessing environment!");
         }
     }
 
@@ -166,7 +165,7 @@ public class JwtTokenValidator {
      */
     private void isTokenExpired(String token) {
         if(jwtTokenUtil.isTokenExpired(token)) {
-            throw new BaseException("JWT Token is expired! Please re-authenticate.");
+            throw new JwtTokenException("JWT Token is expired! Please re-authenticate.");
         }
     }
 

@@ -8,6 +8,9 @@ import java.util.function.Consumer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hydro.insite_common_microservice.exceptions.helper.ExceptionError;
+
 /**
  * Request Test Util for common test functionality.
  * 
@@ -51,6 +54,23 @@ public abstract class RequestTestUtil {
     }
 
     /**
+     * Verify the ResponseEntity was provided with the httpStatus provided and the
+     * corresponding error message was thrown.
+     * 
+     * @param <T>        type of object from ResponseEntity
+     * @param httpStatus Expected HttpStatus
+     * @param errorMsg   The message to expect
+     * @return Consumer to verify the response
+     */
+    public static <T> Consumer<ResponseEntity<T>> error(HttpStatus httpStatus, String errorMsg) {
+        return serialized(body -> {
+            ExceptionError e = new ObjectMapper().convertValue(body, ExceptionError.class);
+            assertEquals(errorMsg, e.getMessage());
+            assertEquals(httpStatus, e.getStatus());
+        });
+    }
+
+    /**
      * Verify the ResponseEntity was provided with the httpStatus provided and pass
      * the body to the consumer provided in the body parameter.
      * 
@@ -65,6 +85,18 @@ public abstract class RequestTestUtil {
             assertHttpStatus(httpStatus, responseEntity);
             body.accept(responseEntity.getBody());
         };
+    }
+
+    /**
+     * Verify the passed the body to the consumer provided in the body parameter.
+     * 
+     * @param <T>  type of object from ResponseEntity
+     * @param body consumer that is provided the body from the ResponseEntity
+     *             provided
+     * @return Consumer to verify the response
+     */
+    public static <T> Consumer<ResponseEntity<T>> serialized(Consumer<T> body) {
+        return responseEntity -> body.accept(responseEntity.getBody());
     }
 
     /**
