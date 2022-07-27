@@ -23,7 +23,7 @@ public class AuthenticationControllerTest extends BaseControllerTest {
     @Test
     public void testAuthenticateInvalidCredentials() {
         AuthenticationRequest request = new AuthenticationRequest("test@mail.com", "WrongPassword");
-        check(post("/authenticate", request, AuthToken.class), httpStatusEquals(HttpStatus.INTERNAL_SERVER_ERROR));
+        check(postError("/authenticate", request), httpStatusEquals(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     @Test
@@ -34,6 +34,6 @@ public class AuthenticationControllerTest extends BaseControllerTest {
 
     @Test
     public void testReAuthenticateNoToken() {
-        check(post("/reauthenticate", AuthToken.class), httpStatusEquals(HttpStatus.INTERNAL_SERVER_ERROR));
+        check(postError("/reauthenticate"), httpStatusEquals(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 }

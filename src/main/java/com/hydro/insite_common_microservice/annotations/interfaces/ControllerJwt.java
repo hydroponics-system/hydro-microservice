@@ -24,5 +24,5 @@ public @interface ControllerJwt {
 
     String email() default "test@user.com";
 
-    WebRole webRole() default WebRole.USER;
+    WebRole webRole() default WebRole.ADMIN;
 }

@@ -1,6 +1,6 @@
 package com.hydro.insite_auth_microservice.service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -52,7 +52,7 @@ public class AuthenticationService {
         User user = verifyUser(request.getEmail(), request.getPassword());
 
         String token = jwtTokenUtil.generateToken(user);
-        return new AuthToken(token, new Date(), jwtTokenUtil.getExpirationDateFromToken(token), user);
+        return new AuthToken(token, LocalDateTime.now(), jwtTokenUtil.getExpirationDateFromToken(token), user);
     }
 
     /**
@@ -67,7 +67,7 @@ public class AuthenticationService {
         userProfileClient.updateUserLastLoginToNow(u.getId());
 
         String token = jwtTokenUtil.generateToken(u);
-        return new AuthToken(token, new Date(), jwtTokenUtil.getExpirationDateFromToken(token), u);
+        return new AuthToken(token, LocalDateTime.now(), jwtTokenUtil.getExpirationDateFromToken(token), u);
     }
 
     /**

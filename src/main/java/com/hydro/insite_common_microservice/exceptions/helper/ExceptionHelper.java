@@ -25,21 +25,21 @@ public class ExceptionHelper {
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<ExceptionError> handleInvalidCredentialsException(Exception ex) {
         LOGGER.error(ex.getMessage());
-        return new ResponseEntity<ExceptionError>(new ExceptionError(ex.getMessage(), HttpStatus.UNAUTHORIZED),
+        return new ResponseEntity<ExceptionError>(new ExceptionError(ex.getMessage()),
                                                   HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<ExceptionError> handleBaseException(Exception ex) {
         LOGGER.error(ex.getMessage());
-        return new ResponseEntity<ExceptionError>(new ExceptionError(ex.getMessage(), HttpStatus.BAD_REQUEST),
+        return new ResponseEntity<ExceptionError>(new ExceptionError(ex.getMessage()),
                                                   HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionError> handleException(Exception ex) {
         LOGGER.error(ex.getMessage());
-        return new ResponseEntity<ExceptionError>(new ExceptionError(ex.getMessage(), HttpStatus.FORBIDDEN),
+        return new ResponseEntity<ExceptionError>(new ExceptionError(ex.getMessage()),
                                                   HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

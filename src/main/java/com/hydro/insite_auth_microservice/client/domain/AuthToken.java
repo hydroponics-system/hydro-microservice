@@ -1,6 +1,6 @@
 package com.hydro.insite_auth_microservice.client.domain;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.hydro.insite_user_microservice.client.domain.User;
 
@@ -19,17 +19,17 @@ public class AuthToken {
     private String token;
 
     @Schema(description = "When the token was created.")
-    private Date createDate;
+    private LocalDateTime createDate;
 
     @Schema(description = "When the token expires.")
-    private Date expireDate;
+    private LocalDateTime expireDate;
 
     @Schema(description = "Authenticated User.")
     private User user;
 
     public AuthToken() {}
 
-    public AuthToken(String t, Date creation, Date expire, User u) {
+    public AuthToken(String t, LocalDateTime creation, LocalDateTime expire, User u) {
         token = t;
         expireDate = expire;
         createDate = creation;
@@ -44,19 +44,19 @@ public class AuthToken {
         this.token = token;
     }
 
-    public Date getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 
-    public Date getExpireDate() {
+    public LocalDateTime getExpireDate() {
         return expireDate;
     }
 
-    public void setExpireDate(Date expireDate) {
+    public void setExpireDate(LocalDateTime expireDate) {
         this.expireDate = expireDate;
     }
 

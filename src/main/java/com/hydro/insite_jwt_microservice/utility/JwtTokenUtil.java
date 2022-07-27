@@ -1,6 +1,8 @@
 package com.hydro.insite_jwt_microservice.utility;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,8 +40,9 @@ public class JwtTokenUtil implements Serializable {
      * @param token - The token being inspected
      * @return A Date object
      */
-    public Date getExpirationDateFromToken(String token) {
-        return getClaimFromToken(token, Claims::getExpiration);
+    public LocalDateTime getExpirationDateFromToken(String token) {
+        return getClaimFromToken(token, Claims::getExpiration).toInstant().atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
     }
 
     /**
@@ -72,8 +75,8 @@ public class JwtTokenUtil implements Serializable {
      * @return Returns a boolean object of true, false, or null
      */
     public Boolean isTokenExpired(String token) {
-        final Date expiration = getExpirationDateFromToken(token);
-        return expiration.before(new Date());
+        final LocalDateTime expiration = getExpirationDateFromToken(token);
+        return expiration.isBefore(LocalDateTime.now());
     }
 
     /**

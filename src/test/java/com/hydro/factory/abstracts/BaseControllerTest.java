@@ -71,6 +71,19 @@ public abstract class BaseControllerTest extends RequestTestUtil {
     }
 
     /**
+     * Perform a get call on the given api and expect an error.
+     * 
+     * @param <T>          The response type of the call.
+     * @param api          The endpoint to consume.
+     * @param responseType What the object return should be cast as.
+     * @return Response entity of the returned data.
+     */
+    protected ResponseEntity<Object> getError(String api) {
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+        return exchange(api, HttpMethod.GET, requestEntity, Object.class);
+    }
+
+    /**
      * Perform a post call on the given api.
      * 
      * @param <T>          The response type of the call.
@@ -95,6 +108,31 @@ public abstract class BaseControllerTest extends RequestTestUtil {
     protected <T> ResponseEntity<T> post(String api, Object request, Class<T> responseType) {
         HttpEntity<Object> requestEntity = new HttpEntity<Object>(request, headers);
         return exchange(api, HttpMethod.POST, requestEntity, responseType);
+    }
+
+    /**
+     * Perform a post call on the given api and expect an error in return.
+     * 
+     * @param <T>     The response type of the call.
+     * @param api     The endpoint to consume.
+     * @param request The request to send with the post.
+     * @return Response entity of the returned data.
+     */
+    protected ResponseEntity<Object> postError(String api, Object request) {
+        HttpEntity<Object> requestEntity = new HttpEntity<Object>(request, headers);
+        return exchange(api, HttpMethod.POST, requestEntity, Object.class);
+    }
+
+    /**
+     * Perform a post call on the given api and expect an error in return.
+     * 
+     * @param <T> The response type of the call.
+     * @param api The endpoint to consume.
+     * @return Response entity of the returned data.
+     */
+    protected ResponseEntity<Object> postError(String api) {
+        HttpEntity<Object> requestEntity = new HttpEntity<Object>(headers);
+        return exchange(api, HttpMethod.POST, requestEntity, Object.class);
     }
 
     /**
@@ -136,5 +174,6 @@ public abstract class BaseControllerTest extends RequestTestUtil {
 
         String token = jwtTokenUtil.generateToken(u);
         headers.set("Authorization", "Bearer: " + token);
+        headers.set("Content-Type", "application/json");
     }
 }

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -65,9 +66,9 @@ public class JwtTokenUtilTest {
     @Test
     public void testGetExpirationDateFromToken() {
         String token = Jwts.builder().setClaims(new HashMap<>()).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(18000000)).signWith(SignatureAlgorithm.HS512, "local-key").compact();
-        Date tokenDate = jwtTokenUtil.getExpirationDateFromToken(token);
+                .setExpiration(new Date(180000000)).signWith(SignatureAlgorithm.HS512, "local-key").compact();
+        LocalDateTime tokenDate = jwtTokenUtil.getExpirationDateFromToken(token);
 
-        assertEquals(18000000, tokenDate.getTime(), "Token Expiration Time");
+        assertEquals(21, tokenDate.getHour(), "Token Expiration Time");
     }
 }
