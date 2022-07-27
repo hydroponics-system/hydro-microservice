@@ -98,6 +98,7 @@ public class JwtTokenValidator {
     public void validateToken(String token) throws IOException {
         isCorrectEnvironment(token);
         hasCorrectFields(token);
+        isTokenExpired(token);
     }
 
     /**
@@ -155,6 +156,17 @@ public class JwtTokenValidator {
 
         if(!JwtEnvironment.getEnvironment().equals(environment)) {
             throw new BaseException("JWT token doesn't match accessing environment!");
+        }
+    }
+
+    /**
+     * Checks to see if the users token is expired.
+     * 
+     * @param token The token to validate.
+     */
+    private void isTokenExpired(String token) {
+        if(jwtTokenUtil.isTokenExpired(token)) {
+            throw new BaseException("JWT Token is expired! Please re-authenticate.");
         }
     }
 
