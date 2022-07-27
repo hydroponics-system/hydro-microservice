@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.hydro.insite_common_microservice.exceptions.BaseException;
 import com.hydro.insite_common_microservice.exceptions.InvalidCredentialsException;
 import com.hydro.insite_common_microservice.util.HydroLogger;
 
@@ -25,6 +26,13 @@ public class ExceptionHelper {
     public ResponseEntity<ExceptionError> handleInvalidCredentialsException(Exception ex) {
         LOGGER.error(ex.getMessage());
         return new ResponseEntity<ExceptionError>(new ExceptionError(ex.getMessage(), HttpStatus.UNAUTHORIZED),
+                                                  HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<ExceptionError> handleBaseException(Exception ex) {
+        LOGGER.error(ex.getMessage());
+        return new ResponseEntity<ExceptionError>(new ExceptionError(ex.getMessage(), HttpStatus.BAD_REQUEST),
                                                   HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

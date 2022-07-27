@@ -1,10 +1,14 @@
 package com.hydro.insite_jwt_microservice.interceptor;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
 import com.hydro.insite_common_microservice.enums.Environment;
@@ -31,17 +35,19 @@ public class JwtTokenValidator {
      * that it is not expired, and the token signature is valid.
      *
      * @param request - The request that is being made to the endpint
-     * @throws IOException If the jwt token is not valid.
+     * @throws IOException      If the jwt token is not valid.
+     * @throws ServletException If the server request is invalid.
      */
-    public boolean validateRequest(HttpServletRequest request) throws IOException {
+    public boolean validateRequest(HttpServletRequest request) throws IOException, ServletException {
+        if(shouldNotFilter(request)) {
+            return true;
+        }
+
         final String tokenHeader = request.getHeader("Authorization");
 
         if(tokenHeader != null && tokenHeader.startsWith("Bearer: ")) {
             String jwtToken = tokenHeader.substring(7).trim();
-
             validateToken(jwtToken);
-            isReauthenticating(request.getRequestURI(), jwtToken);
-
         }
         else {
             if(isWebSocketConnection(request)) {
@@ -52,6 +58,17 @@ public class JwtTokenValidator {
             }
         }
         return true; // No errors and not websocket connection.
+    }
+
+    /**
+     * Boolean method that determines if a request should be filtered or not. It
+     * will process the antmatchers and determine the result.
+     * 
+     * @param request The request to validate
+     * @return {@link Boolean} of the filter status.
+     */
+    private boolean shouldNotFilter(HttpServletRequest request) {
+        return excludedMatchers().stream().anyMatch(matcher -> matcher.matches(request));
     }
 
     /**
@@ -92,34 +109,6 @@ public class JwtTokenValidator {
      */
     public boolean isWebSocketConnection(HttpServletRequest request) throws IOException {
         return request.getRequestURI().contains("/api/subscription");
-    }
-
-    /**
-     * This will check if the endpoint that was called was the /reauthenticate. If
-     * it was then we don't care if the token is expired and it will return.
-     * Otherwise check if the token is expired.
-     *
-     * @param endpoint The endpoint that was called.
-     * @param token    The token to confirm if it is expired if need be.
-     * @throws BaseException Throws exception if the token is expired.
-     */
-    private void isReauthenticating(String endpoint, String token) throws BaseException {
-        if(!endpoint.equals("/reauthenticate")) {
-            isTokenExpired(token);
-        }
-    }
-
-    /**
-     * Checks to see if the token that the request pulled is expired. If it is then
-     * it will throw an exception.
-     *
-     * @param token The token to confirm if it is expired or not.
-     * @throws BaseException Throws exception if the token is expired.
-     */
-    private void isTokenExpired(String token) throws BaseException {
-        if(jwtTokenUtil.isTokenExpired(token)) {
-            throw new BaseException("JWT Token is Expired. Please re-authenticate.");
-        }
     }
 
     /**
@@ -167,5 +156,20 @@ public class JwtTokenValidator {
         if(!JwtEnvironment.getEnvironment().equals(environment)) {
             throw new BaseException("JWT token doesn't match accessing environment!");
         }
+    }
+
+    /**
+     * Defined filtered matchers that do not need authentication.
+     * 
+     * @return List of {@link AntPathRequestMatcher} matchers.
+     */
+    private List<AntPathRequestMatcher> excludedMatchers() {
+        List<AntPathRequestMatcher> matchers = new ArrayList<>();
+        matchers.add(new AntPathRequestMatcher("/authenticate", "POST"));
+        matchers.add(new AntPathRequestMatcher("/api/user-app/profile/check-email", "GET"));
+        matchers.add(new AntPathRequestMatcher("/api/user-app/profile", "POST"));
+        matchers.add(new AntPathRequestMatcher("/v3/api-docs/**"));
+        matchers.add(new AntPathRequestMatcher("/swagger-ui/**"));
+        return matchers;
     }
 }
