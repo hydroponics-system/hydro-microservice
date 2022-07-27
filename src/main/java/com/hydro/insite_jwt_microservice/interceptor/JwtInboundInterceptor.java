@@ -1,11 +1,8 @@
 package com.hydro.insite_jwt_microservice.interceptor;
 
-import static com.hydro.insite_jwt_microservice.interceptor.JwtGlobals.VOID_ENDPOINTS;
-
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -13,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -28,13 +25,13 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 @Component
 public class JwtInboundInterceptor extends OncePerRequestFilter {
+
     @Autowired
     private JwtTokenValidator JWTValidator;
 
     @Override
     public void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
             throws ServletException, IOException {
-
         if(JWTValidator.validateRequest(req)) {
             chain.doFilter(req, res);
         }
@@ -42,24 +39,22 @@ public class JwtInboundInterceptor extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        List<HttpMethod> voidList = getVoidEnpoint(request.getRequestURI());
-        HttpMethod requestMethodType = HttpMethod.valueOf(request.getMethod());
-
-        return voidList.size() > 0 && voidList.contains(requestMethodType);
+        return excludedMatchers().stream().anyMatch(matcher -> matcher.matches(request));
     }
 
     /**
-     * Helper method for getting the void endpoint for the given uri. If the URI
-     * does not match any of the void endpoints then it will return an empty list
-     * and the request will be run through the request filter.
+     * Defined filtered matchers that do not need authentication. This will be
+     * filtered out from the {@link JWTValidator}.
      * 
-     * @param uri The uri to validate as a void endpoint.
-     * @return List {@link HttpMethod} of the methods that are allowed through.
+     * @return List of {@link AntPathRequestMatcher} matchers.
      */
-    private List<HttpMethod> getVoidEnpoint(String uri) {
-        Stream<List<HttpMethod>> opList = VOID_ENDPOINTS.entrySet().stream().filter(res -> uri.contains(res.getKey()))
-                .map(res -> res.getValue());
-        return opList.findFirst().orElse(Collections.emptyList());
+    private List<AntPathRequestMatcher> excludedMatchers() {
+        List<AntPathRequestMatcher> matchers = new ArrayList<>();
+        matchers.add(new AntPathRequestMatcher("/authenticate", "POST"));
+        matchers.add(new AntPathRequestMatcher("/api/user-app/profile/check-email", "GET"));
+        matchers.add(new AntPathRequestMatcher("/api/user-app/profile", "POST"));
+        matchers.add(new AntPathRequestMatcher("/v3/api-docs/**"));
+        matchers.add(new AntPathRequestMatcher("/swagger-ui/**"));
+        return matchers;
     }
-
 }
