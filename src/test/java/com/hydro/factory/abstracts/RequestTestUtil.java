@@ -31,6 +31,22 @@ public abstract class RequestTestUtil {
     }
 
     /**
+     * Verify a ResponseEntity is of type list and that the provided length is
+     * correct.
+     * 
+     * @param <T>        type of object from ResponseEntity
+     * @param httpStatus Expected HttpStatus
+     * @param count      The count of entities in the array
+     * @return Consumer to verify the response
+     */
+    public static <T> Consumer<ResponseEntity<T[]>> serializedList(HttpStatus httpStatus, int count) {
+        return serialized(httpStatus, body -> {
+            assertNotNull(body, "Returned");
+            assertEquals(body.length, count, "Length of List");
+        });
+    }
+
+    /**
      * Verify a ResponseEntity was provided where the HttpStatus was OK and the body
      * was not null.
      * 

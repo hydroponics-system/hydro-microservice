@@ -19,8 +19,7 @@ public class UserProfileControllerTest extends BaseControllerTest {
 
     @Test
     public void testGetListOfUsers() {
-        check(get("/api/user-app/profile", User[].class),
-              serialized(HttpStatus.OK, body -> assertEquals(3, body.length, "Length should be 3")));
+        check(get("/api/user-app/profile", User[].class), serializedList(HttpStatus.OK, 3));
     }
 
     @Test
