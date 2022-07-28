@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.hydro.insite_common_microservice.exceptions.BaseException;
+import com.hydro.insite_common_microservice.exceptions.InsufficientPermissionsException;
 import com.hydro.insite_common_microservice.exceptions.InvalidCredentialsException;
 import com.hydro.insite_common_microservice.exceptions.JwtTokenException;
 import com.hydro.insite_common_microservice.exceptions.NotFoundException;
@@ -42,6 +43,13 @@ public class ExceptionHelper {
     public ResponseEntity<ExceptionError> handleJwtTokenException(Exception ex) {
         LOGGER.error(ex.getMessage());
         return new ResponseEntity<ExceptionError>(new ExceptionError(ex.getMessage(), HttpStatus.UNAUTHORIZED),
+                                                  HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(InsufficientPermissionsException.class)
+    public ResponseEntity<ExceptionError> handleInsufficientPermissionsException(Exception ex) {
+        LOGGER.error(ex.getMessage());
+        return new ResponseEntity<ExceptionError>(new ExceptionError(ex.getMessage(), HttpStatus.FORBIDDEN),
                                                   HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

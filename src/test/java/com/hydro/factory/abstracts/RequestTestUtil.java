@@ -70,6 +70,20 @@ public abstract class RequestTestUtil {
     }
 
     /**
+     * Verify the ResponseEntity was provided with the httpStatus provided.
+     * 
+     * @param <T>        type of object from ResponseEntity
+     * @param httpStatus Expected HttpStatus
+     * @return Consumer to verify the response
+     */
+    public static <T> Consumer<ResponseEntity<T>> error(HttpStatus httpStatus) {
+        return serialized(body -> {
+            ExceptionError e = new ObjectMapper().convertValue(body, ExceptionError.class);
+            assertEquals(httpStatus, e.getStatus());
+        });
+    }
+
+    /**
      * Verify the ResponseEntity was provided with the httpStatus provided and the
      * corresponding error message was thrown.
      * 

@@ -58,7 +58,7 @@ public abstract class BaseControllerTest extends RequestTestUtil {
     }
 
     /**
-     * Perform a get call on the given api and expect an error.
+     * Perform a GET call on the given api and expect an error.
      * 
      * @param <T>          The response type of the call.
      * @param api          The endpoint to consume.
@@ -70,7 +70,7 @@ public abstract class BaseControllerTest extends RequestTestUtil {
     }
 
     /**
-     * Perform a get call on the given api.
+     * Perform a GET call on the given api.
      * 
      * @param <T>          The response type of the call.
      * @param api          The endpoint to consume.
@@ -83,9 +83,8 @@ public abstract class BaseControllerTest extends RequestTestUtil {
     }
 
     /**
-     * Perform a post call on the given api.
+     * Perform a POST call on the given api.
      * 
-     * @param <T> The response type of the call.
      * @param api The endpoint to consume.
      * @return Response entity of the returned data.
      */
@@ -94,9 +93,8 @@ public abstract class BaseControllerTest extends RequestTestUtil {
     }
 
     /**
-     * Perform a post call on the given api.
+     * Perform a POST call on the given api.
      * 
-     * @param <T>     The response type of the call.
      * @param api     The endpoint to consume.
      * @param request The request to send with the post.
      * @return Response entity of the returned data.
@@ -106,7 +104,7 @@ public abstract class BaseControllerTest extends RequestTestUtil {
     }
 
     /**
-     * Perform a post call on the given api.
+     * Perform a POST call on the given api.
      * 
      * @param <T>          The response type of the call.
      * @param api          The endpoint to consume.
@@ -118,7 +116,7 @@ public abstract class BaseControllerTest extends RequestTestUtil {
     }
 
     /**
-     * Perform a post call on the given api.
+     * Perform a POST call on the given api.
      * 
      * @param <T>          The response type of the call.
      * @param api          The endpoint to consume.
@@ -129,6 +127,64 @@ public abstract class BaseControllerTest extends RequestTestUtil {
     protected <T> ResponseEntity<T> post(String api, Object request, Class<T> responseType) {
         HttpEntity<Object> requestEntity = new HttpEntity<Object>(request, headers);
         return exchange(api, HttpMethod.POST, requestEntity, responseType);
+    }
+
+    /**
+     * Perform a PUT call on the given api.
+     * 
+     * @param api The endpoint to consume.
+     * @return Response entity of the returned data.
+     */
+    protected ResponseEntity<Object> put(String api) {
+        return put(api, Object.class);
+    }
+
+    /**
+     * Perform a PUT call on the given api.
+     * 
+     * @param api     The endpoint to consume.
+     * @param request The request to send with the post.
+     * @return Response entity of the returned data.
+     */
+    protected ResponseEntity<Object> put(String api, Object request) {
+        return put(api, request, Object.class);
+    }
+
+    /**
+     * Perform a PUT call on the given api.
+     * 
+     * @param <T>          The response type of the call.
+     * @param api          The endpoint to consume.
+     * @param responseType What the object return should be cast as.
+     * @return Response entity of the returned data.
+     */
+    protected <T> ResponseEntity<T> put(String api, Class<T> responseType) {
+        return put(api, null, responseType);
+    }
+
+    /**
+     * Perform a PUT call on the given api.
+     * 
+     * @param <T>          The response type of the call.
+     * @param api          The endpoint to consume.
+     * @param request      The request to send with the post.
+     * @param responseType What the object return should be cast as.
+     * @return Response entity of the returned data.
+     */
+    protected <T> ResponseEntity<T> put(String api, Object request, Class<T> responseType) {
+        HttpEntity<Object> requestEntity = new HttpEntity<Object>(request, headers);
+        return exchange(api, HttpMethod.PUT, requestEntity, responseType);
+    }
+
+    /**
+     * Perform a DELETE call on the given api.
+     * 
+     * @param api The endpoint to consume.
+     * @return Response entity of the returned data.
+     */
+    protected ResponseEntity<Object> delete(String api) {
+        HttpEntity<Object> requestEntity = new HttpEntity<Object>(headers);
+        return exchange(api, HttpMethod.DELETE, requestEntity, Object.class);
     }
 
     /**
