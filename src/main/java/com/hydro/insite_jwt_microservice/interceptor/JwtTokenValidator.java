@@ -181,6 +181,7 @@ public class JwtTokenValidator {
         matchers.add(new AntPathRequestMatcher("/api/user-app/profile", "POST"));
         matchers.add(new AntPathRequestMatcher("/v3/api-docs/**"));
         matchers.add(new AntPathRequestMatcher("/swagger-ui/**"));
+        matchers.add(new AntPathRequestMatcher("/**", "OPTIONS"));
         return matchers;
     }
 }

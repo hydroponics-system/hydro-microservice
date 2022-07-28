@@ -12,10 +12,6 @@ spring:
     password: ${MYSQL_PASSWORD}
     url: ${MYSQL_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
-  security:
-    user:
-      name: ${SECURITY_NAME}
-      password: ${SECURITY_PASSWORD}
 
   main:
     allow-circular-references: "true"

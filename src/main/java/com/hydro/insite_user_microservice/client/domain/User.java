@@ -2,6 +2,8 @@ package com.hydro.insite_user_microservice.client.domain;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.hydro.insite_user_microservice.client.domain.enums.WebRole;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @since June 25, 2020
  */
 @Schema(description = "User object for holding user details.")
+@JsonInclude(Include.NON_NULL)
 public class User {
 
 	@Schema(description = "User identifier")
