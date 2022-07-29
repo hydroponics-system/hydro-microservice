@@ -3,10 +3,8 @@ package com.hydro.factory.annotations;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.hydro.factory.config.DataSourceTestConfiguration;
 import com.hydro.factory.resolver.ActiveProfileDaoTestResolver;
@@ -18,7 +16,6 @@ import com.hydro.factory.resolver.ActiveProfileDaoTestResolver;
  * @since July 31, 2021
  */
 @Retention(RetentionPolicy.RUNTIME)
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = { DataSourceTestConfiguration.class })
 @ActiveProfiles(resolver = ActiveProfileDaoTestResolver.class)
 public @interface HydroDaoTest {}
