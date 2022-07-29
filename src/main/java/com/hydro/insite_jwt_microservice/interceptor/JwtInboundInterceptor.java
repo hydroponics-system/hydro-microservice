@@ -39,9 +39,15 @@ public class JwtInboundInterceptor implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {
+        HttpServletResponse response = (HttpServletResponse) res;
+        HttpServletRequest request = (HttpServletRequest) req;
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "*");
+        response.setHeader("Access-Control-Allow-Headers", "*");
+
         try {
-            if(JWTValidator.validateRequest((HttpServletRequest) req)) {
-                chain.doFilter(req, res);
+            if(JWTValidator.validateRequest(request)) {
+                chain.doFilter(request, response);
             }
         }
         catch(JwtTokenException e) {

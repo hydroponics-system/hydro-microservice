@@ -9,6 +9,7 @@ import com.hydro.insite_common_microservice.util.HydroLogger;
 import com.hydro.insite_jwt_microservice.utility.JwtHolder;
 import com.hydro.insite_user_microservice.client.UserCredentialsClient;
 import com.hydro.insite_user_microservice.client.domain.User;
+import com.hydro.insite_user_microservice.client.domain.enums.WebRole;
 import com.hydro.insite_user_microservice.dao.UserProfileDAO;
 
 /**
@@ -42,6 +43,7 @@ public class ManageUserProfileService {
 	 */
 	public User createUser(User user) throws Exception {
 		LOGGER.info("Creating new user...");
+		user.setWebRole(WebRole.USER);
 		int newUserId = dao.insertUser(user);
 		userCredentialsClient.insertUserPassword(newUserId, user.getPassword());
 		LOGGER.info("New User created with ID: '{}'", newUserId);
