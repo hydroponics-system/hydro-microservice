@@ -158,7 +158,7 @@ build
 !/**/src/**/build
 
 ### Other ###
-config/application-local.properties
-config/application-test-local.properties
+application-local.yml
+application-test-local.yml
 
 # End of https://www.toptal.com/developers/gitignore/api/java,gradle,intellij
