@@ -3,3 +3,7 @@ spring:
     username: root
     password:
     url: jdbc:mysql://localhost:3307
+
+security:
+  allowed:
+    domains: "*"

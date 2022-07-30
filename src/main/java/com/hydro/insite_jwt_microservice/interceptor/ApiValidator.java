@@ -22,7 +22,7 @@ import com.hydro.insite_jwt_microservice.utility.JwtTokenUtil;
  * @since Dec 5, 2020
  */
 @Component
-public class JwtTokenValidator {
+public class ApiValidator {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -50,7 +50,7 @@ public class JwtTokenValidator {
         }
         else {
             if(isWebSocketConnection(request)) {
-                return validateSocketSession(request.getQueryString());
+                validateSocketSession(request.getQueryString());
             }
             else {
                 doesTokenExist(tokenHeader);
