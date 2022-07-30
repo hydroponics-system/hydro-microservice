@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.hydro.factory.resolver.ActiveProfileRestTestResolver;
+
 /**
  * Annotation id for test that deal with dao classes.
  * 
@@ -18,5 +20,5 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @Retention(RetentionPolicy.RUNTIME)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@ActiveProfiles(profiles = { "test-local" })
+@ActiveProfiles(resolver = ActiveProfileRestTestResolver.class)
 public @interface HydroRestTest {}

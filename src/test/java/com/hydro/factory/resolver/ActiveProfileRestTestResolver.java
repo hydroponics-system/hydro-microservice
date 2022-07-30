@@ -8,19 +8,16 @@ import com.hydro.factory.globals.GlobalsTest;
 
 /**
  * Resolver method that decides what property file to use when running test for
- * DAO classes.
+ * REST classes.
  * 
  * @author Sam Butler
  * @since April 25, 2022
  */
-public class ActiveProfileDaoTestResolver implements ActiveProfilesResolver {
-
-    private static final String DAO_TEST_PROFILE = "test-dao";
+public class ActiveProfileRestTestResolver implements ActiveProfilesResolver {
 
     @Override
     public String[] resolve(Class<?> testClass) {
         Map<String, String> env = System.getenv();
-        return new String[] { env.containsKey("TEST_ENV") ? GlobalsTest.PRODUCTION_TEST : GlobalsTest.LOCAL_TEST,
-                              DAO_TEST_PROFILE };
+        return new String[] { env.containsKey("TEST_ENV") ? GlobalsTest.PRODUCTION_TEST : GlobalsTest.LOCAL_TEST };
     }
 }
