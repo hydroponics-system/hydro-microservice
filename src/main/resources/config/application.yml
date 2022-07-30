@@ -22,6 +22,10 @@ spring:
   profiles:
     default: "local"
 
+security:
+  allowed:
+    domains: ${ALLOWED_DOMAINS}
+
 info:
   name: Hydroponics REST Api
   license:
@@ -33,7 +37,3 @@ info:
     email: sambutler1017@icloud.com
     url: https://github.com/hydroponics-system/hydro-microservice
   description: Restful API's for managing a hydroponic system.
-
-security:
-  allowed:
-    domains: ${ALLOWED_DOMAINS}

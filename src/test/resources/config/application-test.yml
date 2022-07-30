@@ -4,3 +4,7 @@ spring:
     username: ${MYSQL_TEST_USERNAME}
     password: ${MYSQL_TEST_PASSWORD}
     url: ${MYSQL_TEST_URL}
+
+security:
+  allowed:
+    domains: "*"
