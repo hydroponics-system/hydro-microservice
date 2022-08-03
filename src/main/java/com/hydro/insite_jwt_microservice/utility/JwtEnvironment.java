@@ -13,7 +13,7 @@ import com.hydro.insite_common_microservice.enums.Environment;
 @Service
 public class JwtEnvironment {
 
-    private static final String ACTIVE_PROFILE = "spring.profiles.active";
+    private static final String ACTIVE_PROFILE = "APP_ENVIRONMENT";
     private static final String SIGNING_KEY = "JWT_SIGNING_KEY";
     private static final String DEFAULT_KEY = "local-key";
 
@@ -23,7 +23,6 @@ public class JwtEnvironment {
      * @return string of the environment currently running
      */
     public static Environment getEnvironment() {
-        System.out.println("Profile: " + System.getProperty(ACTIVE_PROFILE));
         return Environment.get(System.getProperty(ACTIVE_PROFILE));
     }
 
