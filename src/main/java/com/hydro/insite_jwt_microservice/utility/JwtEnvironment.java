@@ -26,7 +26,9 @@ public class JwtEnvironment {
      * @return string of the environment currently running
      */
     public static Environment getEnvironment() {
-        LOGGER.info("PRofile: " + Environment.get(System.getProperty(ACTIVE_PROFILE)));
+        LOGGER.info("Profile: '{}','{}','{}', '{}'", System.getProperty("spring.profiles.active"),
+                    System.getProperty(ACTIVE_PROFILE), System.getenv(ACTIVE_PROFILE),
+                    System.getenv("spring.profiles.active"));
         return Environment.get(System.getProperty(ACTIVE_PROFILE));
     }
 
