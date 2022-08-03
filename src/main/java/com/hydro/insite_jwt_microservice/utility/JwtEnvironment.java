@@ -23,6 +23,7 @@ public class JwtEnvironment {
      * @return string of the environment currently running
      */
     public static Environment getEnvironment() {
+        System.out.println("Profile: " + System.getProperty(ACTIVE_PROFILE));
         return Environment.get(System.getProperty(ACTIVE_PROFILE));
     }
 
