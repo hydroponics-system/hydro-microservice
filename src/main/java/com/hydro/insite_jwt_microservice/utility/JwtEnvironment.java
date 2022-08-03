@@ -3,7 +3,6 @@ package com.hydro.insite_jwt_microservice.utility;
 import org.springframework.stereotype.Service;
 
 import com.hydro.insite_common_microservice.enums.Environment;
-import com.hydro.insite_common_microservice.util.HydroLogger;
 
 /**
  * Information about the sessions environment information from the jwt instance.
@@ -18,18 +17,13 @@ public class JwtEnvironment {
     private static final String SIGNING_KEY = "JWT_SIGNING_KEY";
     private static final String DEFAULT_KEY = "local-key";
 
-    private static HydroLogger LOGGER = new HydroLogger(JwtEnvironment.class);
-
     /**
      * Gets the current active profile environment.
      *
      * @return string of the environment currently running
      */
     public static Environment getEnvironment() {
-        LOGGER.info("Profile: '{}','{}','{}', '{}'", System.getProperty("spring.profiles.active"),
-                    System.getProperty(ACTIVE_PROFILE), System.getenv(ACTIVE_PROFILE),
-                    System.getenv("spring.profiles.active"));
-        return Environment.get(System.getProperty(ACTIVE_PROFILE));
+        return Environment.get(System.getenv(ACTIVE_PROFILE));
     }
 
     /**
